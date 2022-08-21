@@ -6,7 +6,7 @@
 - Author: Eivind Hobrad Naasen
 - Date: Aug 21st, 2022
 - IDE: Microsoft Visual Studio 2019, Version 16.11
-- Framework: Microsoft .NET
+- Framework: Microsoft .NET Framework 4.8
 - Language: C#
 
 ## Preview
