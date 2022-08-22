@@ -1,9 +1,0 @@
-C:\Visual Studio Projects\Aural Voice\Aural-Voice\Aural Voice\bin\Debug\Aural Voice.exe.config
-C:\Visual Studio Projects\Aural Voice\Aural-Voice\Aural Voice\bin\Debug\Aural Voice.exe
-C:\Visual Studio Projects\Aural Voice\Aural-Voice\Aural Voice\bin\Debug\Aural Voice.pdb
-C:\Visual Studio Projects\Aural Voice\Aural-Voice\Aural Voice\obj\Debug\Aural Voice.csproj.AssemblyReference.cache
-C:\Visual Studio Projects\Aural Voice\Aural-Voice\Aural Voice\obj\Debug\Aural_Voice.Properties.Resources.resources
-C:\Visual Studio Projects\Aural Voice\Aural-Voice\Aural Voice\obj\Debug\Aural Voice.csproj.GenerateResource.cache
-C:\Visual Studio Projects\Aural Voice\Aural-Voice\Aural Voice\obj\Debug\Aural Voice.csproj.CoreCompileInputs.cache
-C:\Visual Studio Projects\Aural Voice\Aural-Voice\Aural Voice\obj\Debug\Aural Voice.exe
-C:\Visual Studio Projects\Aural Voice\Aural-Voice\Aural Voice\obj\Debug\Aural Voice.pdb
