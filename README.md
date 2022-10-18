@@ -1,6 +1,6 @@
 ## Description
-- Aural Voice is an ear training application.
-- Through repetition, improve your relative pitch, or develop true pitch.
+- Aural Voice is an audio application used to train your hearing.
+- Through repetition, learn how to distinguish notes from one another.
 
 ## Technical Data
 - Author: Eivind Hobrad Naasen
