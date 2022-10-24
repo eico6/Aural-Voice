@@ -14,4 +14,19 @@
     
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Update="resources\PianoAudio.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>PianoAudio.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="resources\PianoAudio.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>PianoAudio.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
 </Project>
