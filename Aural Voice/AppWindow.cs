@@ -4,7 +4,7 @@ using System.Reflection;
 namespace AuralVoice;
 
 
-internal partial class AppWindow : Form
+public partial class AppWindow : Form
 {
     // Notes:
     // - AppWindow size should be (840, 390)
@@ -44,5 +44,6 @@ internal partial class AppWindow : Form
             MessageBox.Show($"You hit the note C5. \n\nREWARD: {_audioPath}");
         }
 
+        
     }
 }
