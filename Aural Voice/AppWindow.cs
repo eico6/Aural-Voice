@@ -33,7 +33,9 @@ public partial class AppWindow : Form
         // https://learn.microsoft.com/en-us/dotnet/desktop/winforms/controls/how-to-load-a-sound-asynchronously-within-a-windows-form?view=netframeworkdesktop-4.8
 
         // TODO: figure out how to properly get the audio path so that it works at release version through a shortcut.
-        _audioPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location); 
+        //_audioPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location); 
+        _audioPath = @"C:\Visual Studio Projects\Aural-Voice\Aural Voice\resources\audio\C5.wav";
+
 
         // Hardcode the path until '_audioPath' is figured out.
         _soundPlayer = new SoundPlayer(@"C:\Visual Studio Projects\Aural-Voice\Aural Voice\resources\audio\C5.wav");
@@ -41,7 +43,7 @@ public partial class AppWindow : Form
         if (_soundPlayer != null && _audioPath != null)
         {
             _soundPlayer.Play();
-            MessageBox.Show($"You hit the note C5. \n\nREWARD: {_audioPath}");
+            MessageBox.Show($"You hit the note C5. \n\nNow playing audio from: {_audioPath}");
         }
 
         
