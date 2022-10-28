@@ -23,11 +23,6 @@ public partial class AppWindow : MaterialForm
         materialSkinManager.ColorScheme = new ColorScheme(Primary.BlueGrey800, Primary.BlueGrey900, Primary.BlueGrey500, Accent.LightBlue200, TextShade.WHITE);
     }
 
-    private void AppWindow_Load(object sender, EventArgs e)
-    {
-
-    }
-
     // Load
     // TODO: show splashscreen for 2 sec
 
