@@ -15,6 +15,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MaterialSkin.2" Version="2.3.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="resources\PianoAudio.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

@@ -39,6 +39,12 @@
       "frameworks": {
         "net6.0-windows10.0.22621": {
           "targetAlias": "net6.0-windows10.0.22621.0",
+          "dependencies": {
+            "MaterialSkin.2": {
+              "target": "Package",
+              "version": "[2.3.1, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
