@@ -11,13 +11,15 @@ public partial class AppWindow : MaterialForm
     // - https://learn.microsoft.com/en-us/dotnet/desktop/winforms/controls/multithreading-in-windows-forms-controls?view=netframeworkdesktop-4.8
     // - https://learn.microsoft.com/en-us/dotnet/desktop/winforms/controls/how-to-load-a-sound-asynchronously-within-a-windows-form?view=netframeworkdesktop-4.8
 
+    private MaterialSkinManager? materialSkinManager;
+
     internal AppWindow()
     {
         InitializeComponent();
 
-        var materialSkinManager = MaterialSkinManager.Instance;
+        materialSkinManager = MaterialSkinManager.Instance;
         materialSkinManager.AddFormToManage(this);
-        materialSkinManager.Theme = MaterialSkinManager.Themes.LIGHT;
+        materialSkinManager.Theme = MaterialSkinManager.Themes.DARK;
         materialSkinManager.ColorScheme = new ColorScheme(Primary.BlueGrey800, Primary.BlueGrey900, Primary.BlueGrey500, Accent.LightBlue200, TextShade.WHITE);
     }
 
