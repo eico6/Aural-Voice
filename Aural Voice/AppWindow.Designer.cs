@@ -49,7 +49,7 @@ partial class AppWindow
             this.tabController.Name = "tabController";
             this.tabController.Padding = new System.Drawing.Point(0, 0);
             this.tabController.SelectedIndex = 0;
-            this.tabController.Size = new System.Drawing.Size(834, 323);
+            this.tabController.Size = new System.Drawing.Size(834, 383);
             this.tabController.TabIndex = 0;
             // 
             // pianoTab
@@ -57,7 +57,7 @@ partial class AppWindow
             this.pianoTab.Location = new System.Drawing.Point(4, 4);
             this.pianoTab.Margin = new System.Windows.Forms.Padding(0);
             this.pianoTab.Name = "pianoTab";
-            this.pianoTab.Size = new System.Drawing.Size(825, 315);
+            this.pianoTab.Size = new System.Drawing.Size(825, 375);
             this.pianoTab.TabIndex = 0;
             this.pianoTab.Text = "Piano";
             this.pianoTab.UseVisualStyleBackColor = true;
@@ -67,7 +67,7 @@ partial class AppWindow
             this.optionsTab.Location = new System.Drawing.Point(4, 4);
             this.optionsTab.Margin = new System.Windows.Forms.Padding(0);
             this.optionsTab.Name = "optionsTab";
-            this.optionsTab.Size = new System.Drawing.Size(825, 315);
+            this.optionsTab.Size = new System.Drawing.Size(825, 375);
             this.optionsTab.TabIndex = 1;
             this.optionsTab.Text = "Options";
             this.optionsTab.UseVisualStyleBackColor = true;
@@ -88,19 +88,21 @@ partial class AppWindow
             // 
             // AppWindow
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(840, 390);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.AutoScroll = true;
+            this.ClientSize = new System.Drawing.Size(840, 450);
             this.Controls.Add(this.tabSelector);
             this.Controls.Add(this.tabController);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(840, 390);
-            this.MinimumSize = new System.Drawing.Size(840, 390);
+            this.MaximumSize = new System.Drawing.Size(840, 450);
+            this.MinimumSize = new System.Drawing.Size(840, 450);
             this.Name = "AppWindow";
+            this.Sizable = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Aural Voice";
+            this.Load += new System.EventHandler(this.AppWindow_Load);
             this.tabController.ResumeLayout(false);
             this.ResumeLayout(false);
 
