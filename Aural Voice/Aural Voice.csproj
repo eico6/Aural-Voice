@@ -19,6 +19,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="ProjectResources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ProjectResources.resx</DependentUpon>
+    </Compile>
     <Compile Update="resources\PianoAudio.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -27,10 +32,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="ProjectResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ProjectResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Update="resources\PianoAudio.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>PianoAudio.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Resources\" />
   </ItemGroup>
 
 </Project>

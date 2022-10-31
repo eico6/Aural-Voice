@@ -31,8 +31,10 @@ partial class AppWindow
             this.pianoCard = new MaterialSkin.Controls.MaterialCard();
             this.optionsTab = new System.Windows.Forms.TabPage();
             this.tabSelector = new MaterialSkin.Controls.MaterialTabSelector();
+            this.testButton = new MaterialSkin.Controls.MaterialButton();
             this.tabController.SuspendLayout();
             this.pianoTab.SuspendLayout();
+            this.pianoCard.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabController
@@ -68,6 +70,7 @@ partial class AppWindow
             // pianoCard
             // 
             this.pianoCard.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.pianoCard.Controls.Add(this.testButton);
             this.pianoCard.Depth = 0;
             this.pianoCard.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.pianoCard.Location = new System.Drawing.Point(35, 246);
@@ -102,6 +105,26 @@ partial class AppWindow
             this.tabSelector.TabIndex = 0;
             this.tabSelector.Text = "tabSelector";
             // 
+            // testButton
+            // 
+            this.testButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.testButton.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.testButton.Depth = 0;
+            this.testButton.HighEmphasis = true;
+            this.testButton.Icon = null;
+            this.testButton.Location = new System.Drawing.Point(351, 33);
+            this.testButton.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.testButton.MouseState = MaterialSkin.MouseState.HOVER;
+            this.testButton.Name = "testButton";
+            this.testButton.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.testButton.Size = new System.Drawing.Size(96, 36);
+            this.testButton.TabIndex = 0;
+            this.testButton.Text = "Play test";
+            this.testButton.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.testButton.UseAccentColor = false;
+            this.testButton.UseVisualStyleBackColor = true;
+            this.testButton.Click += new System.EventHandler(this.testButton_Click);
+            // 
             // AppWindow
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -120,6 +143,8 @@ partial class AppWindow
             this.Text = "Aural Voice";
             this.tabController.ResumeLayout(false);
             this.pianoTab.ResumeLayout(false);
+            this.pianoCard.ResumeLayout(false);
+            this.pianoCard.PerformLayout();
             this.ResumeLayout(false);
 
     }
@@ -131,4 +156,5 @@ partial class AppWindow
     private TabPage optionsTab;
     private MaterialSkin.Controls.MaterialTabSelector tabSelector;
     private MaterialSkin.Controls.MaterialCard pianoCard;
+    private MaterialSkin.Controls.MaterialButton testButton;
 }

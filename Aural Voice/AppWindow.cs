@@ -23,6 +23,12 @@ public partial class AppWindow : MaterialForm
         materialSkinManager.ColorScheme = new ColorScheme(Primary.BlueGrey800, Primary.BlueGrey900, Primary.BlueGrey500, Accent.LightBlue200, TextShade.WHITE);
     }
 
+    private void testButton_Click(object sender, EventArgs e)
+    {
+        SoundPlayer soundPlayer2 = new SoundPlayer(ProjectResources.my_song);
+        soundPlayer2.Play();
+    }
+
     // Load
     // TODO: show splashscreen for 2 sec
 
