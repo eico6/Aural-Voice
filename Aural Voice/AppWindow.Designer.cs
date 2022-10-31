@@ -28,9 +28,11 @@ partial class AppWindow
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AppWindow));
             this.tabController = new MaterialSkin.Controls.MaterialTabControl();
             this.pianoTab = new System.Windows.Forms.TabPage();
+            this.pianoCard = new MaterialSkin.Controls.MaterialCard();
             this.optionsTab = new System.Windows.Forms.TabPage();
             this.tabSelector = new MaterialSkin.Controls.MaterialTabSelector();
             this.tabController.SuspendLayout();
+            this.pianoTab.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabController
@@ -49,25 +51,39 @@ partial class AppWindow
             this.tabController.Name = "tabController";
             this.tabController.Padding = new System.Drawing.Point(0, 0);
             this.tabController.SelectedIndex = 0;
-            this.tabController.Size = new System.Drawing.Size(834, 383);
+            this.tabController.Size = new System.Drawing.Size(874, 383);
             this.tabController.TabIndex = 0;
             // 
             // pianoTab
             // 
+            this.pianoTab.Controls.Add(this.pianoCard);
             this.pianoTab.Location = new System.Drawing.Point(4, 4);
             this.pianoTab.Margin = new System.Windows.Forms.Padding(0);
             this.pianoTab.Name = "pianoTab";
-            this.pianoTab.Size = new System.Drawing.Size(825, 375);
+            this.pianoTab.Size = new System.Drawing.Size(865, 375);
             this.pianoTab.TabIndex = 0;
             this.pianoTab.Text = "Piano";
             this.pianoTab.UseVisualStyleBackColor = true;
+            // 
+            // pianoCard
+            // 
+            this.pianoCard.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.pianoCard.Depth = 0;
+            this.pianoCard.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.pianoCard.Location = new System.Drawing.Point(35, 246);
+            this.pianoCard.Margin = new System.Windows.Forms.Padding(14);
+            this.pianoCard.MouseState = MaterialSkin.MouseState.HOVER;
+            this.pianoCard.Name = "pianoCard";
+            this.pianoCard.Padding = new System.Windows.Forms.Padding(14);
+            this.pianoCard.Size = new System.Drawing.Size(805, 115);
+            this.pianoCard.TabIndex = 0;
             // 
             // optionsTab
             // 
             this.optionsTab.Location = new System.Drawing.Point(4, 4);
             this.optionsTab.Margin = new System.Windows.Forms.Padding(0);
             this.optionsTab.Name = "optionsTab";
-            this.optionsTab.Size = new System.Drawing.Size(825, 375);
+            this.optionsTab.Size = new System.Drawing.Size(865, 375);
             this.optionsTab.TabIndex = 1;
             this.optionsTab.Text = "Options";
             this.optionsTab.UseVisualStyleBackColor = true;
@@ -90,19 +106,20 @@ partial class AppWindow
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(840, 450);
+            this.ClientSize = new System.Drawing.Size(880, 450);
             this.Controls.Add(this.tabSelector);
             this.Controls.Add(this.tabController);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(840, 450);
-            this.MinimumSize = new System.Drawing.Size(840, 450);
+            this.MaximumSize = new System.Drawing.Size(880, 450);
+            this.MinimumSize = new System.Drawing.Size(880, 450);
             this.Name = "AppWindow";
             this.Sizable = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Aural Voice";
             this.tabController.ResumeLayout(false);
+            this.pianoTab.ResumeLayout(false);
             this.ResumeLayout(false);
 
     }
@@ -113,4 +130,5 @@ partial class AppWindow
     private TabPage pianoTab;
     private TabPage optionsTab;
     private MaterialSkin.Controls.MaterialTabSelector tabSelector;
+    private MaterialSkin.Controls.MaterialCard pianoCard;
 }
