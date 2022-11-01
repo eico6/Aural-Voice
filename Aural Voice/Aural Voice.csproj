@@ -7,9 +7,6 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
-
-    <ApplicationDefaultFont>Microsoft Sans Serif, 8.25pt</ApplicationDefaultFont>
-
     <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
     
   </PropertyGroup>
@@ -24,11 +21,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>ProjectResources.resx</DependentUpon>
     </Compile>
-    <Compile Update="resources\PianoAudio.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>PianoAudio.resx</DependentUpon>
-    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -36,14 +28,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ProjectResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="resources\PianoAudio.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>PianoAudio.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Resources\" />
   </ItemGroup>
 
 </Project>
