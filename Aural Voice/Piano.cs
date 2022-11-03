@@ -10,15 +10,13 @@ internal class Piano
 {
     internal Piano()
     {
-        // TODO: replace List<T> with Dictionary<T> for readability
-        tangents = new List<Tangent>();
-        tangents.Capacity = 88;
+        tangents = new Dictionary<Tangent, string>();
     }
 
-    internal List<Tangent>? tangents;
+    internal Dictionary<Tangent, string>? tangents;
 
     internal void PlayRandomTangent()
     {
-        // tangents[random].Play();
+        // Lookup: Dictionary.ElementAt<TSource>(IEnumerable<TSource>, Index)
     }
 }

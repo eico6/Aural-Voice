@@ -86,7 +86,7 @@ partial class AppWindow
             // 
             this.noteA0.Location = new System.Drawing.Point(208, 17);
             this.noteA0.Name = "noteA0";
-            this.noteA0.Size = new System.Drawing.Size(37, 81);
+            this.noteA0.Size = new System.Drawing.Size(131, 81);
             this.noteA0.TabIndex = 0;
             this.noteA0.TabStop = false;
             this.noteA0.Click += new System.EventHandler(this.noteA0_Click);

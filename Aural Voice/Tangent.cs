@@ -9,7 +9,7 @@ namespace AuralVoice;
 
 internal class Tangent : PictureBox
 {
-    Tangent(PictureBox visualTangent)
+    internal Tangent()
     {
         // temp audio for debugging
         _noteAudio = ProjectResources.my_song;

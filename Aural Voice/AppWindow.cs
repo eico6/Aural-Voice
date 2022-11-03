@@ -19,6 +19,7 @@ public partial class AppWindow : MaterialForm
         InitializeComponent();
 
         piano = new Piano();
+
         materialSkinManager = MaterialSkinManager.Instance;
         materialSkinManager.AddFormToManage(this);
         materialSkinManager.Theme = MaterialSkinManager.Themes.DARK;
@@ -47,20 +48,34 @@ public partial class AppWindow : MaterialForm
     // (Edit: hmmmm maybe not needed to have two sets of tangets, noticed that I
     // can set visual tangent's access modifier to protected in the designer)
 
+
+    // - If downcasting becomes a problem, then you could also just fill up
+    //   the dictionary with 88 tangents with proper string key and note audio
+    //   in its constructor. Then just let these events call the respective dictionary element. 
+    // - Make PictureBox notes private instead of protected, and run a void
+    //   function in AppWindow() that simply references each tangent with a note (maybe
+    //   do the dictionary "filling up" here instead of in the constructor so that everything
+    //   that has to do with "all elements operations" is located at the same place.
+    // - This is possiblty a cleaner solution as well. 
+    // - Will look something like this:
+    // private void noteA0_Click(object sender, EventArgs e)
+    // {
+    //     piano.tangents["A0"].Play()
+    // }
     #region PictureBox notes - Click events
     private void noteA0_Click(object sender, EventArgs e)
     {
-        // piano.tangents[A0].Play()
+        // ...
     }
     #endregion
 
     #region PictureBox notes - MouseEnter events
-    // visualTangent1_MouseEnter(...)
+    // private void noteA0_MouseEnter(...)
     // ...
     #endregion
 
     #region PictureBox notes - MouseLeave events
-    // visualTangent1_MouseLeave(...)
+    // private void noteA0_MouseLeave(...)
     // ...
     #endregion
 
