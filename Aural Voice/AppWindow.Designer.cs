@@ -29,10 +29,13 @@ partial class AppWindow
             this.tabController = new MaterialSkin.Controls.MaterialTabControl();
             this.pianoTab = new System.Windows.Forms.TabPage();
             this.pianoCard = new MaterialSkin.Controls.MaterialCard();
+            this.noteA0 = new System.Windows.Forms.PictureBox();
             this.optionsTab = new System.Windows.Forms.TabPage();
             this.tabSelector = new MaterialSkin.Controls.MaterialTabSelector();
             this.tabController.SuspendLayout();
             this.pianoTab.SuspendLayout();
+            this.pianoCard.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.noteA0)).BeginInit();
             this.SuspendLayout();
             // 
             // tabController
@@ -68,6 +71,7 @@ partial class AppWindow
             // pianoCard
             // 
             this.pianoCard.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.pianoCard.Controls.Add(this.noteA0);
             this.pianoCard.Depth = 0;
             this.pianoCard.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.pianoCard.Location = new System.Drawing.Point(35, 246);
@@ -77,6 +81,15 @@ partial class AppWindow
             this.pianoCard.Padding = new System.Windows.Forms.Padding(14);
             this.pianoCard.Size = new System.Drawing.Size(805, 115);
             this.pianoCard.TabIndex = 0;
+            // 
+            // noteA0
+            // 
+            this.noteA0.Location = new System.Drawing.Point(208, 17);
+            this.noteA0.Name = "noteA0";
+            this.noteA0.Size = new System.Drawing.Size(37, 81);
+            this.noteA0.TabIndex = 0;
+            this.noteA0.TabStop = false;
+            this.noteA0.Click += new System.EventHandler(this.noteA0_Click);
             // 
             // optionsTab
             // 
@@ -121,6 +134,8 @@ partial class AppWindow
             this.Load += new System.EventHandler(this.AppWindow_Load);
             this.tabController.ResumeLayout(false);
             this.pianoTab.ResumeLayout(false);
+            this.pianoCard.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.noteA0)).EndInit();
             this.ResumeLayout(false);
 
     }
@@ -132,4 +147,5 @@ partial class AppWindow
     private TabPage optionsTab;
     private MaterialSkin.Controls.MaterialTabSelector tabSelector;
     private MaterialSkin.Controls.MaterialCard pianoCard;
+    protected PictureBox noteA0;
 }
