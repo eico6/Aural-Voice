@@ -11,6 +11,10 @@ public partial class AppWindow : MaterialForm
     // - https://learn.microsoft.com/en-us/dotnet/desktop/winforms/controls/multithreading-in-windows-forms-controls?view=netframeworkdesktop-4.8
     // - https://learn.microsoft.com/en-us/dotnet/desktop/winforms/controls/how-to-load-a-sound-asynchronously-within-a-windows-form?view=netframeworkdesktop-4.8
 
+    // Play audio from 'SoundPlayer' class
+    //SoundPlayer soundPlayer2 = new SoundPlayer(ProjectResources.my_song);
+    //soundPlayer2.Play();
+
     private MaterialSkinManager? materialSkinManager;
 
     internal AppWindow()
@@ -23,19 +27,14 @@ public partial class AppWindow : MaterialForm
         materialSkinManager.ColorScheme = new ColorScheme(Primary.BlueGrey800, Primary.BlueGrey900, Primary.BlueGrey500, Accent.LightBlue200, TextShade.WHITE);
     }
 
-    private void testButton_Click(object sender, EventArgs e)
+    private void AppWindow_Load(object sender, EventArgs e)
     {
-        SoundPlayer soundPlayer2 = new SoundPlayer(ProjectResources.my_song);
-        soundPlayer2.Play();
+        // TODO: show splashscreen for 2 sec
     }
 
-    // Load
-    // TODO: show splashscreen for 2 sec
+    #region Button Region
 
-    // Button
-    //// 'SoundPlayer' class does not support playing multiple sounds simultaneously.
-    //SoundPlayer soundPlayer = new SoundPlayer(resources.PianoAudio.test);
-    //SoundPlayer soundPlayer2 = new SoundPlayer(resources.PianoAudio.C5);
-    //soundPlayer2.Play();
-    //soundPlayer.Play();
+    #endregion
+
+
 }
