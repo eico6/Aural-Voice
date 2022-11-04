@@ -14,11 +14,9 @@ public partial class AppWindow : MaterialForm
     private Piano? piano;
     private MaterialSkinManager? materialSkinManager;
 
-    internal AppWindow()
+    public AppWindow()
     {
         InitializeComponent();
-
-        piano = new Piano();
 
         materialSkinManager = MaterialSkinManager.Instance;
         materialSkinManager.AddFormToManage(this);
@@ -28,55 +26,26 @@ public partial class AppWindow : MaterialForm
 
     private void AppWindow_Load(object sender, EventArgs e)
     {
-        // TODO: show splashscreen for 2 sec
+        // TODO: show splashscreen for min 2 sec while piano is initialized
 
-        // Connect PictureBox.notes to the appropriate Piano.tangents
-        // - Cast all 'ImageBox' notes into 'ImageBox.Tangent' tangents.
-        // - Then add them to the 'Piano.Tangents' list as references.
+        // - Initialize 'piano' with correct values and references. Associate each key with a note.
+        // InitializePiano(piano);
     }
 
-    // There are two sets of tangents:
-    //     Visual Tangents
-    //     - Class: Forms.PictureBox
-    //     - The visual representation of tangents in the application.
-    //     - Mostly managed by Windows Forms through the designer.
-    //
-    //     Tangents
-    //     - Class: Forms.PictureBox.Tangent
-    //     - The 
-    //
-    // (Edit: hmmmm maybe not needed to have two sets of tangets, noticed that I
-    // can set visual tangent's access modifier to protected in the designer)
+    // All communication with 'piano' should happen here.
+    // These events should call their respective dictionary element. 
+    // VENT EIVIND, du kan flytta disse!?
 
+    #region PictureBox keys - Click events
 
-    // - If downcasting becomes a problem, then you could also just fill up
-    //   the dictionary with 88 tangents with proper string key and note audio
-    //   in its constructor. Then just let these events call the respective dictionary element. 
-    // - Make PictureBox notes private instead of protected, and run a void
-    //   function in AppWindow() that simply references each tangent with a note (maybe
-    //   do the dictionary "filling up" here instead of in the constructor so that everything
-    //   that has to do with "all elements operations" is located at the same place.
-    // - This is possiblty a cleaner solution as well. 
-    // - Will look something like this:
-    // private void noteA0_Click(object sender, EventArgs e)
-    // {
-    //     piano.tangents["A0"].Play()
-    // }
-    #region PictureBox notes - Click events
-    private void noteA0_Click(object sender, EventArgs e)
-    {
-        // ...
-    }
     #endregion
 
-    #region PictureBox notes - MouseEnter events
-    // private void noteA0_MouseEnter(...)
-    // ...
+    #region PictureBox keys - MouseEnter events
+   
     #endregion
 
-    #region PictureBox notes - MouseLeave events
-    // private void noteA0_MouseLeave(...)
-    // ...
+    #region PictureBox keys - MouseLeave events
+    
     #endregion
 
 }

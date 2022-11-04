@@ -8,14 +8,14 @@ namespace AuralVoice;
 
 internal class Piano
 {
+    internal Dictionary<Note, string>? notes;
+
     internal Piano()
     {
-        tangents = new Dictionary<Tangent, string>();
+        notes = new Dictionary<Note, string>();
     }
 
-    internal Dictionary<Tangent, string>? tangents;
-
-    internal void PlayRandomTangent()
+    internal void PlayRandomNote()
     {
         // Lookup: Dictionary.ElementAt<TSource>(IEnumerable<TSource>, Index)
     }
