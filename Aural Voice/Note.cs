@@ -5,16 +5,17 @@ using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AuralVoice;
+namespace AuralVoice.Audio;
 
 internal class Note
 {
     private Stream _noteAudio;
-    private readonly PictureBox _keyReference;
+    private readonly PictureBox _associatedKey;
 
-    internal Note(PictureBox keyReference)
+    internal Note(ref PictureBox associatedKey)
     {
-        _keyReference = keyReference;
+        // Reference to the appropriate 'PictureBox.key'
+        _associatedKey = associatedKey;
 
         // temp audio for debugging
         _noteAudio = ProjectResources.my_song;

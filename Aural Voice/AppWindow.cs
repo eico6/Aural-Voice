@@ -1,6 +1,7 @@
 using MaterialSkin;
 using MaterialSkin.Controls;
 using System.Media;
+using AuralVoice.Audio;
 
 namespace AuralVoice;
 
@@ -26,26 +27,9 @@ public partial class AppWindow : MaterialForm
 
     private void AppWindow_Load(object sender, EventArgs e)
     {
-        // TODO: show splashscreen for min 2 sec while piano is initialized
+        // TODO: show splashscreen for min 2 sec while piano is getting initialized.
 
-        // - Initialize 'piano' with correct values and references. Associate each key with a note.
-        // InitializePiano(piano);
+        // - Initialize 'piano' with correct values and references.
+        InitializePiano();
     }
-
-    // All communication with 'piano' should happen here.
-    // These events should call their respective dictionary element. 
-    // VENT EIVIND, du kan flytta disse!?
-
-    #region PictureBox keys - Click events
-
-    #endregion
-
-    #region PictureBox keys - MouseEnter events
-   
-    #endregion
-
-    #region PictureBox keys - MouseLeave events
-    
-    #endregion
-
 }

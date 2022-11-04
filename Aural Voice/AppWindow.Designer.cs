@@ -84,11 +84,14 @@ partial class AppWindow
             // 
             // keyA0
             // 
-            this.keyA0.Location = new System.Drawing.Point(208, 17);
+            this.keyA0.Location = new System.Drawing.Point(189, 17);
             this.keyA0.Name = "keyA0";
             this.keyA0.Size = new System.Drawing.Size(131, 81);
             this.keyA0.TabIndex = 0;
             this.keyA0.TabStop = false;
+            this.keyA0.Click += new System.EventHandler(this.keyA0_Click);
+            this.keyA0.MouseEnter += new System.EventHandler(this.keyA0_MouseEnter);
+            this.keyA0.MouseLeave += new System.EventHandler(this.keyA0_MouseLeave);
             // 
             // optionsTab
             // 

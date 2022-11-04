@@ -4,6 +4,9 @@
     <Compile Update="AppWindow.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Events.cs">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Update="AppWindow.resx">

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AuralVoice;
+namespace AuralVoice.Audio;
 
 internal class Piano
 {
@@ -12,6 +12,7 @@ internal class Piano
 
     internal Piano()
     {
+        // There should be 88 notes
         notes = new Dictionary<Note, string>();
     }
 
