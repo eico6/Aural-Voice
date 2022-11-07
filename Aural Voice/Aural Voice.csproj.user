@@ -4,7 +4,10 @@
     <Compile Update="AppWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Events.cs">
+    <Compile Update="PianoEvents.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="PianoInit.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>

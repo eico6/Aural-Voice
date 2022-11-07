@@ -14,7 +14,7 @@ internal class Note
 
     internal Note(ref PictureBox associatedKey)
     {
-        // Reference to the appropriate 'PictureBox.key'
+        // Reference to the appropriate "key"
         _associatedKey = associatedKey;
 
         // temp audio for debugging
@@ -29,7 +29,7 @@ internal class Note
 
     internal void Play()
     {
-        // Play the appropriate note audio.
+        // Play the sound of the note.
         SoundPlayer soundPlayer = new SoundPlayer(_noteAudio);
         soundPlayer.Play();
     }

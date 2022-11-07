@@ -32,7 +32,7 @@ partial class AppWindow
         AssignNotes();
     }
 
-    // Assigns a one-to-one reference between each "note" and each "key".
+    // Assigns a unique reference between each "note" and each "key".
     private void AssignNotes()
     {
         // ...

@@ -29,13 +29,17 @@ partial class AppWindow
             this.tabController = new MaterialSkin.Controls.MaterialTabControl();
             this.pianoTab = new System.Windows.Forms.TabPage();
             this.pianoCard = new MaterialSkin.Controls.MaterialCard();
+            this.keyBb0 = new System.Windows.Forms.PictureBox();
             this.keyA0 = new System.Windows.Forms.PictureBox();
+            this.keysLayout = new System.Windows.Forms.PictureBox();
             this.optionsTab = new System.Windows.Forms.TabPage();
             this.tabSelector = new MaterialSkin.Controls.MaterialTabSelector();
             this.tabController.SuspendLayout();
             this.pianoTab.SuspendLayout();
             this.pianoCard.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.keyBb0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.keyA0)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.keysLayout)).BeginInit();
             this.SuspendLayout();
             // 
             // tabController
@@ -71,6 +75,8 @@ partial class AppWindow
             // pianoCard
             // 
             this.pianoCard.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.pianoCard.Controls.Add(this.keyBb0);
+            this.pianoCard.Controls.Add(this.keysLayout);
             this.pianoCard.Controls.Add(this.keyA0);
             this.pianoCard.Depth = 0;
             this.pianoCard.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
@@ -82,16 +88,38 @@ partial class AppWindow
             this.pianoCard.Size = new System.Drawing.Size(805, 115);
             this.pianoCard.TabIndex = 0;
             // 
+            // keyBb0
+            // 
+            this.keyBb0.Image = global::AuralVoice.ProjectResources.key_black_idle;
+            this.keyBb0.Location = new System.Drawing.Point(98, 19);
+            this.keyBb0.Margin = new System.Windows.Forms.Padding(0);
+            this.keyBb0.Name = "keyBb0";
+            this.keyBb0.Size = new System.Drawing.Size(8, 45);
+            this.keyBb0.TabIndex = 1;
+            this.keyBb0.TabStop = false;
+            // 
             // keyA0
             // 
-            this.keyA0.Location = new System.Drawing.Point(189, 17);
+            this.keyA0.Image = global::AuralVoice.ProjectResources.key_white_idle;
+            this.keyA0.Location = new System.Drawing.Point(88, 19);
+            this.keyA0.Margin = new System.Windows.Forms.Padding(0);
             this.keyA0.Name = "keyA0";
-            this.keyA0.Size = new System.Drawing.Size(131, 81);
+            this.keyA0.Size = new System.Drawing.Size(13, 73);
             this.keyA0.TabIndex = 0;
             this.keyA0.TabStop = false;
             this.keyA0.Click += new System.EventHandler(this.keyA0_Click);
             this.keyA0.MouseEnter += new System.EventHandler(this.keyA0_MouseEnter);
             this.keyA0.MouseLeave += new System.EventHandler(this.keyA0_MouseLeave);
+            // 
+            // keysLayout
+            // 
+            this.keysLayout.Image = global::AuralVoice.ProjectResources.keys_layout;
+            this.keysLayout.Location = new System.Drawing.Point(12, 18);
+            this.keysLayout.Margin = new System.Windows.Forms.Padding(0);
+            this.keysLayout.Name = "keysLayout";
+            this.keysLayout.Size = new System.Drawing.Size(780, 75);
+            this.keysLayout.TabIndex = 0;
+            this.keysLayout.TabStop = false;
             // 
             // optionsTab
             // 
@@ -137,7 +165,9 @@ partial class AppWindow
             this.tabController.ResumeLayout(false);
             this.pianoTab.ResumeLayout(false);
             this.pianoCard.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.keyBb0)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.keyA0)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.keysLayout)).EndInit();
             this.ResumeLayout(false);
 
     }
@@ -150,4 +180,6 @@ partial class AppWindow
     private MaterialSkin.Controls.MaterialTabSelector tabSelector;
     private MaterialSkin.Controls.MaterialCard pianoCard;
     private PictureBox keyA0;
+    private PictureBox keysLayout;
+    private PictureBox keyBb0;
 }

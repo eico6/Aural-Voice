@@ -11,7 +11,7 @@ partial class AppWindow
 {
     // PianoEvents
     // - These events are called via user input.
-    // - Events are associated with keys, where keys call their respective note.
+    // - Events are associated with "keys", where they call their respective "note".
     
     #region PictureBox keys - Click events
     private void keyA0_Click(object sender, EventArgs e)
