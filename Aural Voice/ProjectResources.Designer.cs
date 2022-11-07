@@ -63,6 +63,16 @@ namespace AuralVoice {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap key_black_hover {
+            get {
+                object obj = ResourceManager.GetObject("key_black_hover", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap key_black_idle {
             get {
                 object obj = ResourceManager.GetObject("key_black_idle", resourceCulture);
@@ -73,9 +83,39 @@ namespace AuralVoice {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap key_black_press {
+            get {
+                object obj = ResourceManager.GetObject("key_black_press", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap key_white_hover {
+            get {
+                object obj = ResourceManager.GetObject("key_white_hover", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap key_white_idle {
             get {
                 object obj = ResourceManager.GetObject("key_white_idle", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap key_white_press {
+            get {
+                object obj = ResourceManager.GetObject("key_white_press", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

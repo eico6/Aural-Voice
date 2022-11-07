@@ -76,8 +76,8 @@ partial class AppWindow
             // 
             this.pianoCard.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.pianoCard.Controls.Add(this.keyBb0);
-            this.pianoCard.Controls.Add(this.keysLayout);
             this.pianoCard.Controls.Add(this.keyA0);
+            this.pianoCard.Controls.Add(this.keysLayout);
             this.pianoCard.Depth = 0;
             this.pianoCard.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.pianoCard.Location = new System.Drawing.Point(35, 246);
@@ -91,35 +91,41 @@ partial class AppWindow
             // keyBb0
             // 
             this.keyBb0.Image = global::AuralVoice.ProjectResources.key_black_idle;
-            this.keyBb0.Location = new System.Drawing.Point(98, 19);
+            this.keyBb0.Location = new System.Drawing.Point(23, 18);
             this.keyBb0.Margin = new System.Windows.Forms.Padding(0);
             this.keyBb0.Name = "keyBb0";
-            this.keyBb0.Size = new System.Drawing.Size(8, 45);
+            this.keyBb0.Size = new System.Drawing.Size(10, 47);
             this.keyBb0.TabIndex = 1;
             this.keyBb0.TabStop = false;
+            this.keyBb0.MouseDown += new System.Windows.Forms.MouseEventHandler(this.keyBb0_MouseDown);
+            this.keyBb0.MouseEnter += new System.EventHandler(this.keyBb0_MouseEnter);
+            this.keyBb0.MouseLeave += new System.EventHandler(this.keyBb0_MouseLeave);
+            this.keyBb0.MouseUp += new System.Windows.Forms.MouseEventHandler(this.keyBb0_MouseUp);
             // 
             // keyA0
             // 
             this.keyA0.Image = global::AuralVoice.ProjectResources.key_white_idle;
-            this.keyA0.Location = new System.Drawing.Point(88, 19);
+            this.keyA0.Location = new System.Drawing.Point(13, 18);
             this.keyA0.Margin = new System.Windows.Forms.Padding(0);
             this.keyA0.Name = "keyA0";
-            this.keyA0.Size = new System.Drawing.Size(13, 73);
+            this.keyA0.Size = new System.Drawing.Size(15, 75);
             this.keyA0.TabIndex = 0;
             this.keyA0.TabStop = false;
-            this.keyA0.Click += new System.EventHandler(this.keyA0_Click);
+            this.keyA0.MouseDown += new System.Windows.Forms.MouseEventHandler(this.keyA0_MouseDown);
             this.keyA0.MouseEnter += new System.EventHandler(this.keyA0_MouseEnter);
             this.keyA0.MouseLeave += new System.EventHandler(this.keyA0_MouseLeave);
+            this.keyA0.MouseUp += new System.Windows.Forms.MouseEventHandler(this.keyA0_MouseUp);
             // 
             // keysLayout
             // 
             this.keysLayout.Image = global::AuralVoice.ProjectResources.keys_layout;
-            this.keysLayout.Location = new System.Drawing.Point(12, 18);
+            this.keysLayout.Location = new System.Drawing.Point(13, 18);
             this.keysLayout.Margin = new System.Windows.Forms.Padding(0);
             this.keysLayout.Name = "keysLayout";
             this.keysLayout.Size = new System.Drawing.Size(780, 75);
             this.keysLayout.TabIndex = 0;
             this.keysLayout.TabStop = false;
+            this.keysLayout.Visible = false;
             // 
             // optionsTab
             // 

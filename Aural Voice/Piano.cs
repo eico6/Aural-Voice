@@ -8,12 +8,12 @@ namespace AuralVoice.Audio;
 
 internal class Piano
 {
-    internal Dictionary<Note, string>? notes;
+    internal Dictionary<String, Note>? notes;
 
     internal Piano()
     {
         // There should be 88 notes
-        notes = new Dictionary<Note, string>();
+        notes = new Dictionary<String, Note>();
     }
 
     internal void PlayRandomNote()
