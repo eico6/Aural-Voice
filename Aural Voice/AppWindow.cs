@@ -2,17 +2,15 @@ using MaterialSkin;
 using MaterialSkin.Controls;
 using System.Media;
 using AuralVoice.Audio;
+using Windows.Devices.Midi;
 
 namespace AuralVoice;
 
 
 public partial class AppWindow : MaterialForm
 {
-    // Use multi-threading for more responsive feedback
-    // - https://learn.microsoft.com/en-us/dotnet/desktop/winforms/controls/multithreading-in-windows-forms-controls?view=netframeworkdesktop-4.8
-    // - https://learn.microsoft.com/en-us/dotnet/desktop/winforms/controls/how-to-load-a-sound-asynchronously-within-a-windows-form?view=netframeworkdesktop-4.8
-
     private Piano? piano;
+    private MidiSynthesizer? midiSynth;
     private MaterialSkinManager? materialSkinManager;
 
     public AppWindow()
@@ -29,7 +27,7 @@ public partial class AppWindow : MaterialForm
     {
         // TODO: show splashscreen for a minimum of 2 sec while piano is getting initialized.
 
-        // - Initialize 'piano' with correct values and references.
         InitializePiano();
+        InitializeMidiSynth();
     }
 }
