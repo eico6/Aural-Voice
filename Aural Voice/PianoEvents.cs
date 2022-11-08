@@ -13,10 +13,8 @@ partial class AppWindow
     // - These events are called via user input.
     // - Events are associated with "keys", where they call their respective "note".
 
-    // TODO: Move non-events to Note class.
     private readonly Dictionary<String, Bitmap> _keyImages = new Dictionary<String, Bitmap>()
     {
-        // TODO: Make expections
         { "idle_white", ProjectResources.key_white_idle },
         { "idle_black", ProjectResources.key_black_idle },
         { "hover_white", ProjectResources.key_white_hover },
@@ -28,12 +26,11 @@ partial class AppWindow
     private void setToIdle(PictureBox key)
     {
         // TODO: Maybe abstract condition with macro(?)
-        // TODO: Make expections
         // Sets the displayed image of the key to its "idle" state.
         key.Image = (!key.Name.Contains("b")) ? _keyImages["idle_white"] : _keyImages["idle_black"];
     }
 
-    // TODO: keybinds
+    // TODO: keybinds and lookup windows midi library 
     #region PictureBox keys - MouseEnter events
     private void keyA0_MouseEnter(object sender, EventArgs e)
     {
