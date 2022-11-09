@@ -4,43 +4,77 @@ using System.Linq;
 using System.Media;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+using Windows.Devices.Midi;
 
 namespace AuralVoice.Audio;
 
-internal class Note
+internal class Note : Piano
 {
-    private Stream _noteAudio;
     private readonly PictureBox _associatedKey;
+    private readonly bool _isBlack;
 
     internal Note(ref PictureBox associatedKey)
     {
         // Reference to the appropriate "key"
         _associatedKey = associatedKey;
 
-        // temp audio for debugging
-        _noteAudio = ProjectResources.my_song;
+        // Boolean to determine whether the note is black or white.
+        _isBlack = _associatedKey.Name.Contains('b') ? true : false;
     }
 
-    internal Stream noteAudio
+    internal void PlayNote()
     {
-        get => _noteAudio;
-        set => _noteAudio = value;
+        // Temp play note
+        IMidiMessage onMessage = new MidiNoteOnMessage(1, 70, 80);
+        midiSynth.SendMessage(onMessage);
     }
 
-    internal void Play()
+    internal void StopNote()
     {
-        // Play the sound of the note.
-        SoundPlayer soundPlayer = new SoundPlayer(_noteAudio);
-        soundPlayer.Play();
+        // Temp stop note
+        IMidiMessage offMessage = new MidiNoteOffMessage(1, 70, 80);
+        midiSynth.SendMessage(offMessage);
+    }
+
+    internal void MouseDown()
+    {
+        SetKeyImage(KeyStatus.PRESS);
+        PlayNote();
+    }
+
+    internal void MouseUp()
+    {
+        SetKeyImage(KeyStatus.HOVER);
+        StopNote();
     }
 
     internal void MouseEnter()
     {
-        // Change color of '_keyReference' to a light blue color.
+        SetKeyImage(KeyStatus.HOVER);
     }
 
     internal void MouseLeave()
     {
-        // Change color of '_keyReference' to its default color.
+        SetKeyImage(KeyStatus.IDLE);
+    }
+
+    // Sets the displayed image of the associated key to its corresponding KeyStatus.
+    private void SetKeyImage(KeyStatus keyStatus)
+    {
+        switch (keyStatus)
+        {
+            case KeyStatus.IDLE:
+                _associatedKey.Image = _isBlack ? _keyImages["idle_black"] : _keyImages["idle_white"];
+                break;
+            case KeyStatus.HOVER:
+                _associatedKey.Image = _isBlack ? _keyImages["hover_black"] : _keyImages["hover_white"];
+                break;
+            case KeyStatus.PRESS:
+                _associatedKey.Image = _isBlack ? _keyImages["press_black"] : _keyImages["press_white"];
+                break;
+            default:
+                break;
+        }
     }
 }
