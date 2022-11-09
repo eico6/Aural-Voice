@@ -129,14 +129,5 @@ namespace AuralVoice {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
-        /// </summary>
-        internal static System.IO.UnmanagedMemoryStream my_song {
-            get {
-                return ResourceManager.GetStream("my_song", resourceCulture);
-            }
-        }
     }
 }

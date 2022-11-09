@@ -11,12 +11,17 @@ namespace AuralVoice.Audio;
 internal class Piano
 {
     /// <summary>
-    ///  @ midiSynth - Reference to a MIDI device. Initialized with the "Microsoft GS Wavetable Synth";
+    ///  @ midiDevice - Reference to a MIDI device. Initialized with the "Microsoft GS Wavetable Synth";
     ///                a virtual MIDI synth bundled with Windows releases. Handles audio I/O.
     /// </summary>
 
-    protected IMidiOutPort? midiSynth;
+    protected IMidiOutPort? midiDevice;
     internal Dictionary<String, Note>? notes;
+
+    private const byte _defaultChannel = 0;
+    private const byte _maxVelocity = 127;
+    protected byte defaultChannel { get => _defaultChannel; }
+    protected byte maxVelocity    { get => _maxVelocity; }
 
     // References to each piano key image in 'ProjectResources.resx'.
     protected readonly Dictionary<String, Bitmap> _keyImages = new Dictionary<String, Bitmap>()
@@ -32,19 +37,51 @@ internal class Piano
     internal Piano()
     {
         notes = new Dictionary<String, Note>();
-        InitializeMidiSynth();
+        AssignMidiDevice();
     }
 
-    protected enum KeyStatus
+    protected enum KeyStatus : Byte
     {
         IDLE = 0,
         HOVER = 1,
         PRESS = 2
     }
 
-    private async void InitializeMidiSynth()
+    protected byte GetNoteIndex(string keyName)
     {
-        // midiSynth = "Microsoft GS Wavetable Synth"
-        midiSynth = await MidiSynthesizer.CreateAsync();
+        // TODO
+        // - Function is called from notes, where they pass "associatedKey.Name".
+        // - This function is going to calculate 'NOTE' in midi message calls:
+        //   MidiNoteOnMessage(byte channel, byte NOTE, byte velocity);
+        // - Maps each key name to its note index.
+        // - Index range (0 - 127)
+        // - lowest note (21 = A0)
+        // - highest note (108 = C8)
+
+        // Reads 'keyName' and splits it into chars, excluding "key" string from each name.
+        // So "keyA0" = ['A', '0'] and "keyBb0" = ['B', 'b', '0'] and so on.
+        // Then return: 12 + (sum of each char), where their values are the following:
+        // '0' = 0     'C' = 0    
+        // '1' = 12    'D' = 2    
+        // '2' = 24    'E' = 4    
+        // '3' = 36    'F' = 5    
+        // '4' = 48    'G' = 7    
+        // '5' = 60    'A' = 9
+        // '6' = 72    'B' = 11   
+        // '7' = 84    'b' = -1
+        // '8' = 96
+        // So "keyEb4" would be equal to 12 + 4 + (-1) + 48 = 63
+
+        return 0;
+    }
+
+    private async void AssignMidiDevice()
+    {
+        // midiDevice = "Microsoft GS Wavetable Synth"
+        midiDevice = await MidiSynthesizer.CreateAsync();
+
+        // Sets the assigned synth to program 0 ("Acoustic Grand Piano")
+        IMidiMessage programChange = new MidiProgramChangeMessage(defaultChannel, 0);
+        midiDevice.SendMessage(programChange);
     }
 }

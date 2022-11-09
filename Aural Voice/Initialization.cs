@@ -20,7 +20,7 @@ partial class AppWindow
         /// </summary> 
         
         piano = new Piano();
-
+        
         if (piano.notes != null)
         {
             piano.notes.Add("A0",  new Note(ref keyA0));

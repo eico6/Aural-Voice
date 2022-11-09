@@ -11,30 +11,35 @@ namespace AuralVoice.Audio;
 
 internal class Note : Piano
 {
-    private readonly PictureBox _associatedKey;
-    private readonly bool _isBlack;
+    private readonly PictureBox associatedKey;
+    private readonly bool isBlack;
+    private IMidiMessage? midiMessage;
 
-    internal Note(ref PictureBox associatedKey)
+
+    internal Note(ref PictureBox inAssociatedKey)
     {
         // Reference to the appropriate "key"
-        _associatedKey = associatedKey;
+        associatedKey = inAssociatedKey;
 
         // Boolean to determine whether the note is black or white.
-        _isBlack = _associatedKey.Name.Contains('b') ? true : false;
+        isBlack = associatedKey.Name.Contains('b') ? true : false;
     }
 
     internal void PlayNote()
     {
-        // Temp play note
-        IMidiMessage onMessage = new MidiNoteOnMessage(1, 70, 80);
-        midiSynth.SendMessage(onMessage);
+        // Temp play note - check Piano.GetNoteIndex() for further plan
+        midiMessage = new MidiNoteOnMessage(defaultChannel, 21, maxVelocity);
+        midiDevice.SendMessage(midiMessage);
     }
 
     internal void StopNote()
     {
-        // Temp stop note
-        IMidiMessage offMessage = new MidiNoteOffMessage(1, 70, 80);
-        midiSynth.SendMessage(offMessage);
+        // Temp stop note - check Piano.GetNoteIndex() for further plan
+        midiMessage = new MidiNoteOffMessage(defaultChannel, 21, maxVelocity);
+        midiDevice.SendMessage(midiMessage);
+
+        // For debugging
+        MessageBox.Show(associatedKey.Name);
     }
 
     internal void MouseDown()
@@ -65,13 +70,13 @@ internal class Note : Piano
         switch (keyStatus)
         {
             case KeyStatus.IDLE:
-                _associatedKey.Image = _isBlack ? _keyImages["idle_black"] : _keyImages["idle_white"];
+                associatedKey.Image = isBlack ? _keyImages["idle_black"] : _keyImages["idle_white"];
                 break;
             case KeyStatus.HOVER:
-                _associatedKey.Image = _isBlack ? _keyImages["hover_black"] : _keyImages["hover_white"];
+                associatedKey.Image = isBlack ? _keyImages["hover_black"] : _keyImages["hover_white"];
                 break;
             case KeyStatus.PRESS:
-                _associatedKey.Image = _isBlack ? _keyImages["press_black"] : _keyImages["press_white"];
+                associatedKey.Image = isBlack ? _keyImages["press_black"] : _keyImages["press_white"];
                 break;
             default:
                 break;
