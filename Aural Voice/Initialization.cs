@@ -1,5 +1,4 @@
-﻿using AuralVoice.Audio;
-using MaterialSkin;
+﻿using MaterialSkin;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,12 +20,11 @@ partial class AppWindow
     {
         piano = new Piano();
         
-        if (piano.notes != null)
-        {
-            piano.AddNote("A0", keyA0);
-            piano.AddNote("Bb0", keyBb0);
-            // ...
-        }
+        piano.AddNote("A0", keyA0);
+        piano.AddNote("Bb0", keyBb0);
+        // ...
+
+        // TODO: at the end, throw exception unless '_notes.count()' == 88
     }
 
     /// <summary>

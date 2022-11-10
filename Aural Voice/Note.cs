@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Windows.Devices.Midi;
 
-namespace AuralVoice.Audio;
+namespace AuralVoice;
 
 internal class Note : Piano
 {
@@ -30,14 +30,22 @@ internal class Note : Piano
     {
         // Temp play note - check Piano.GetNoteIndex() for further plan
         midiMessage = new MidiNoteOnMessage(defaultChannel, 21, maxVelocity);
-        midiDevice.SendMessage(midiMessage);
+
+        if (midiDevice != null)
+        {
+            midiDevice.SendMessage(midiMessage);
+        }
     }
 
     internal void StopNote()
     {
         // Temp stop note - check Piano.GetNoteIndex() for further plan
         midiMessage = new MidiNoteOffMessage(defaultChannel, 21, maxVelocity);
-        midiDevice.SendMessage(midiMessage);
+
+        if (midiDevice != null)
+        {
+            midiDevice.SendMessage(midiMessage);
+        }
 
         // For debugging
         MessageBox.Show(associatedKey.Name);
@@ -98,4 +106,19 @@ internal class Note : Piano
                 break;
         }
     }
+}
+
+/// <summary>
+///  ... 
+/// </summary>
+internal static class NoteID
+{
+    internal static byte GetMidiIndex(String noteID)
+    {
+        return 0;
+    }
+
+    internal const String A0 = "A0";
+    internal const String Bb0 = "Bb0";
+    // ...
 }

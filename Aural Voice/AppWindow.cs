@@ -1,7 +1,6 @@
 using MaterialSkin;
 using MaterialSkin.Controls;
 using System.Media;
-using AuralVoice.Audio;
 using Windows.Devices.Midi;
 
 namespace AuralVoice;

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Windows.Devices.Midi;
 using Windows.UI.Core;
 
-namespace AuralVoice.Audio;
+namespace AuralVoice;
 
 internal class Piano
 {
@@ -17,7 +17,7 @@ internal class Piano
     /// </summary>
 
     protected IMidiOutPort? midiDevice;
-    internal Dictionary<String, Note>? notes;
+    private Dictionary<String, Note>? _notes;
 
     private const byte _defaultChannel = 0;
     private const byte _maxVelocity = 127;
@@ -36,12 +36,12 @@ internal class Piano
 
     internal Piano()
     {
-        notes = new Dictionary<String, Note>();
+        _notes = new Dictionary<String, Note>();
         AssignMidiDevice();
     }
 
     /// <summary>
-    ///  Retrieves key input from the user, either via mouse events, or the use of hotkeys.
+    ///  All user input related to the keys, either via mouse events, or the use of hotkeys.
     /// </summary>
     internal enum KeyAction : Byte
     {
@@ -63,16 +63,34 @@ internal class Piano
 
     /// <summary>
     ///  Adds a single note to the piano.
-    ///  TODO: add noteID class
     /// </summary>
     internal void AddNote(String noteID, PictureBox keyRef)
     {
-        if (notes != null)
+        if (_notes != null)
         {
-            notes.Add(noteID, new Note(ref keyRef));
+            _notes.Add(noteID, new Note(ref keyRef));
         }
+
+        // TODO: Check if note already exists.
+        // TODO: Check if '_notes' count == 88
+
+        //throw new NullReferenceException("Tried to add an element to '_notes' when '_notes' == null.");
     }
 
+    internal Note GetNote(String noteID)
+    {
+        if (_notes != null)
+        {
+            return _notes[noteID];
+        }
+
+        // TEMP CODE FOR COMPILATION
+        PictureBox tempBox = new PictureBox();
+        return new Note(ref tempBox);
+        //throw new NullReferenceException("Tried to get an element from '_notes' when '_notes' == null.");
+    }
+
+    // Move this to 'Note' class (?) 
     protected byte GetNoteIndex(String keyName)
     {
         // TODO
@@ -101,6 +119,7 @@ internal class Piano
         return 0;
     }
 
+    // TODO: 'async' or 'await' makes it seem like the assigning happens ca. 1 sec after app starts (?)
     private async void AssignMidiDevice()
     {
         // midiDevice = "Microsoft GS Wavetable Synth"
