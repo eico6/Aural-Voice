@@ -11,8 +11,9 @@ namespace AuralVoice.Audio;
 internal class Piano
 {
     /// <summary>
-    ///  @ midiDevice - Reference to a MIDI device. Initialized with the "Microsoft GS Wavetable Synth";
-    ///                a virtual MIDI synth bundled with Windows releases. Handles audio I/O.
+    ///  @midiDevice  - Reference to a MIDI device. Initialized with the "Microsoft GS Wavetable Synth";
+    ///                 a virtual MIDI synth bundled with Windows releases. Handles audio I/O.
+    ///  @_keyImages  - Holds references to each piano key image in 'ProjectResources.resx'.
     /// </summary>
 
     protected IMidiOutPort? midiDevice;
@@ -23,7 +24,6 @@ internal class Piano
     protected byte defaultChannel { get => _defaultChannel; }
     protected byte maxVelocity    { get => _maxVelocity; }
 
-    // References to each piano key image in 'ProjectResources.resx'.
     protected readonly Dictionary<String, Bitmap> _keyImages = new Dictionary<String, Bitmap>()
     {
         { "idle_white", ProjectResources.key_white_idle },
@@ -40,6 +40,20 @@ internal class Piano
         AssignMidiDevice();
     }
 
+    /// <summary>
+    ///  Retrieves key input from the user, either via mouse events, or the use of hotkeys.
+    /// </summary>
+    internal enum KeyAction : Byte
+    {
+        ENTER = 0,
+        LEAVE = 1,
+        DOWN = 2,
+        UP = 3
+    }
+
+    /// <summary>
+    ///  Determines which one of the three possible key images should be displayed. 
+    /// </summary>
     protected enum KeyStatus : Byte
     {
         IDLE = 0,
@@ -47,7 +61,19 @@ internal class Piano
         PRESS = 2
     }
 
-    protected byte GetNoteIndex(string keyName)
+    /// <summary>
+    ///  Adds a single note to the piano.
+    ///  TODO: add noteID class
+    /// </summary>
+    internal void AddNote(String noteID, PictureBox keyRef)
+    {
+        if (notes != null)
+        {
+            notes.Add(noteID, new Note(ref keyRef));
+        }
+    }
+
+    protected byte GetNoteIndex(String keyName)
     {
         // TODO
         // - Function is called from notes, where they pass "associatedKey.Name".

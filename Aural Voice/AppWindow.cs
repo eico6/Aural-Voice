@@ -26,18 +26,13 @@ public partial class AppWindow : MaterialForm
 
     public AppWindow()
     {
+        // TODO: show splashscreen while initializing variables. Use another winfows form
+        // and show "Loading {components, material, piano} ...", whichever one is being
+        // initialized. Then show "Complete!" and start a 1 sec fixed timer which ends with
+        // app being fully displayed. GitHub link and author can also be displayed.
+
         InitializeComponent();
-
-        materialSkinManager = MaterialSkinManager.Instance;
-        materialSkinManager.AddFormToManage(this);
-        materialSkinManager.Theme = MaterialSkinManager.Themes.DARK;
-        materialSkinManager.ColorScheme = new ColorScheme(Primary.BlueGrey700, Primary.BlueGrey900, Primary.BlueGrey500, Accent.LightBlue200, TextShade.WHITE);
-    }
-
-    private void AppWindow_Load(object sender, EventArgs e)
-    {
-        // TODO: show splashscreen for a minimum of 2 sec while initializing variables.
-
         InitializePiano();
+        InitializeMaterialSkin();
     }
 }

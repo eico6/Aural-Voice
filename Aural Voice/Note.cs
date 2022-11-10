@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing.Text;
 using System.Linq;
 using System.Media;
 using System.Text;
@@ -42,30 +43,45 @@ internal class Note : Piano
         MessageBox.Show(associatedKey.Name);
     }
 
-    internal void MouseDown()
+    /// <summary>
+    ///  Handles visual and audio output of a key/note based on <paramref name="keyAction"/>.
+    /// </summary>
+    internal void KeyInput(in KeyAction keyAction)
     {
-        SetKeyImage(KeyStatus.PRESS);
-        PlayNote();
+        KeyStatus keyStatus;
+
+        // Visual output
+        switch (keyAction)
+        {
+            case KeyAction.ENTER:
+                keyStatus = KeyStatus.HOVER;
+                break;
+            case KeyAction.LEAVE:
+                keyStatus = KeyStatus.IDLE;
+                break;
+            case KeyAction.DOWN:
+                keyStatus = KeyStatus.PRESS;
+                break;
+            case KeyAction.UP:
+                keyStatus = KeyStatus.HOVER;
+                break;
+            default:
+                // exception
+                keyStatus=KeyStatus.IDLE;
+                break;
+        }
+
+        SetKeyImage(keyStatus);
+
+        // Audio output
+        if (keyAction == KeyAction.DOWN) PlayNote();
+        if (keyAction == KeyAction.UP) StopNote();
     }
 
-    internal void MouseUp()
-    {
-        SetKeyImage(KeyStatus.HOVER);
-        StopNote();
-    }
-
-    internal void MouseEnter()
-    {
-        SetKeyImage(KeyStatus.HOVER);
-    }
-
-    internal void MouseLeave()
-    {
-        SetKeyImage(KeyStatus.IDLE);
-    }
-
-    // Sets the displayed image of the associated key to its corresponding KeyStatus.
-    private void SetKeyImage(KeyStatus keyStatus)
+    /// <summary>
+    ///  Sets the displayed image of the associated key to its corresponding <paramref name="keyStatus"/>..
+    /// </summary>
+    private void SetKeyImage(in KeyStatus keyStatus)
     {
         switch (keyStatus)
         {

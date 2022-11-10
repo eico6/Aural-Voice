@@ -167,7 +167,6 @@ partial class AppWindow
             this.Sizable = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Aural Voice";
-            this.Load += new System.EventHandler(this.AppWindow_Load);
             this.tabController.ResumeLayout(false);
             this.pianoTab.ResumeLayout(false);
             this.pianoCard.ResumeLayout(false);
