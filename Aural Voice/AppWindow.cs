@@ -2,6 +2,8 @@ using MaterialSkin;
 using MaterialSkin.Controls;
 using System.Media;
 using Windows.Devices.Midi;
+using Windows.UI.Notifications;
+using Windows.UI.WindowManagement;
 
 namespace AuralVoice;
 

@@ -7,48 +7,47 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Windows.Devices.Midi;
+using Windows.UI.Notifications;
 
 namespace AuralVoice;
 
+/// <summary>
+///  Contained in Piano and recieves input from the associated key.
+/// </summary>
 internal class Note : Piano
 {
-    private readonly PictureBox associatedKey;
-    private readonly bool isBlack;
-    private IMidiMessage? midiMessage;
+    private readonly String? _name;
+    private readonly PictureBox _associatedKey;
+    private readonly byte _midiIndex;
+    private readonly bool _isBlack;
+    private IMidiMessage? _midiMessage;
 
-
-    internal Note(ref PictureBox inAssociatedKey)
+    internal Note(in String noteName, ref PictureBox keyRef)
     {
-        // Reference to the appropriate "key"
-        associatedKey = inAssociatedKey;
-
-        // Boolean to determine whether the note is black or white.
-        isBlack = associatedKey.Name.Contains('b') ? true : false;
+        _name = noteName;
+        _associatedKey = keyRef;
+        _midiIndex = GetMidiIndex();
+        _isBlack = _associatedKey.Name.Contains('b') ? true : false;
     }
 
     internal void PlayNote()
     {
-        // Temp play note - check Piano.GetNoteIndex() for further plan
-        midiMessage = new MidiNoteOnMessage(defaultChannel, 21, maxVelocity);
+        _midiMessage = new MidiNoteOnMessage(defaultChannel, _midiIndex, maxVelocity);
 
         if (midiDevice != null)
         {
-            midiDevice.SendMessage(midiMessage);
+            midiDevice.SendMessage(_midiMessage);
         }
     }
 
     internal void StopNote()
     {
-        // Temp stop note - check Piano.GetNoteIndex() for further plan
-        midiMessage = new MidiNoteOffMessage(defaultChannel, 21, maxVelocity);
+        _midiMessage = new MidiNoteOffMessage(defaultChannel, _midiIndex, maxVelocity);
 
         if (midiDevice != null)
         {
-            midiDevice.SendMessage(midiMessage);
+            midiDevice.SendMessage(_midiMessage);
         }
-
-        // For debugging
-        MessageBox.Show(associatedKey.Name);
     }
 
     /// <summary>
@@ -94,31 +93,61 @@ internal class Note : Piano
         switch (keyStatus)
         {
             case KeyStatus.IDLE:
-                associatedKey.Image = isBlack ? _keyImages["idle_black"] : _keyImages["idle_white"];
+                _associatedKey.Image = _isBlack ? _keyImages["idle_black"] : _keyImages["idle_white"];
                 break;
             case KeyStatus.HOVER:
-                associatedKey.Image = isBlack ? _keyImages["hover_black"] : _keyImages["hover_white"];
+                _associatedKey.Image = _isBlack ? _keyImages["hover_black"] : _keyImages["hover_white"];
                 break;
             case KeyStatus.PRESS:
-                associatedKey.Image = isBlack ? _keyImages["press_black"] : _keyImages["press_white"];
+                _associatedKey.Image = _isBlack ? _keyImages["press_black"] : _keyImages["press_white"];
                 break;
             default:
                 break;
         }
     }
-}
 
-/// <summary>
-///  ... 
-/// </summary>
-internal static class NoteID
-{
-    internal static byte GetMidiIndex(String noteID)
+    /// <summary>
+    ///  Calculates and returns the correct 'note' value in midi message calls: 
+    ///  MidiNoteOnMessage(byte channel, byte note, byte velocity);
+    /// </summary>
+    private byte GetMidiIndex()
     {
+        // Maps each note name to its corresponding note index for midi input.
+        // - Index range (0 - 127)
+        // - lowest note (21 = A0)
+        // - highest note (108 = C8)
+
+        if (this._name != null)
+        {
+            switch (this._name)
+            {
+                case AppWindow.NoteName.A0:
+                    return 21;
+                case AppWindow.NoteName.Bb0:
+                    return 22;
+                // ...
+                default:
+                    // Unvalid Note._name
+                    break;
+            }
+        }
+
+        // Alternatively:
+        // Read 'Note._name' and split the String into an array of chars.
+        // So "A0" = ['A', '0'] and "Bb0" = ['B', 'b', '0'] and so on.
+        // Then return: 12 + (sum of each char), where their values are the following:
+        // '0' = 0     'C' = 0    
+        // '1' = 12    'D' = 2    
+        // '2' = 24    'E' = 4    
+        // '3' = 36    'F' = 5    
+        // '4' = 48    'G' = 7    
+        // '5' = 60    'A' = 9
+        // '6' = 72    'B' = 11   
+        // '7' = 84    'b' = -1
+        // '8' = 96
+        // So "Eb4" would be equal to 12 + 4 + (-1) + 48 = 63
+
+        // Exception: this_name == null
         return 0;
     }
-
-    internal const String A0 = "A0";
-    internal const String Bb0 = "Bb0";
-    // ...
 }

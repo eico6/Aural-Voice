@@ -13,6 +13,16 @@ namespace AuralVoice;
 partial class AppWindow
 {
     /// <summary>
+    ///  Used as an alias to keep note names consistent and fail-safe.
+    /// </summary>
+    internal static class NoteName
+    {
+        internal const String A0 = "A0";
+        internal const String Bb0 = "Bb0";
+        // ...
+    }
+
+    /// <summary>
     ///  Adds 88 notes to the piano, and assigns a unique reference 
     ///  between each "note" and its corresponding "key".
     /// </summary> 
@@ -20,8 +30,8 @@ partial class AppWindow
     {
         piano = new Piano();
         
-        piano.AddNote("A0", keyA0);
-        piano.AddNote("Bb0", keyBb0);
+        piano.AddNote(NoteName.A0, keyA0);
+        piano.AddNote(NoteName.Bb0, keyBb0);
         // ...
 
         // TODO: at the end, throw exception unless '_notes.count()' == 88
