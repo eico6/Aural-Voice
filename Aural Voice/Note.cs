@@ -57,7 +57,6 @@ internal class Note : Piano
     {
         KeyStatus keyStatus;
 
-        // Visual output
         switch (keyAction)
         {
             case KeyAction.ENTER:
@@ -68,9 +67,11 @@ internal class Note : Piano
                 break;
             case KeyAction.DOWN:
                 keyStatus = KeyStatus.PRESS;
+                PlayNote();
                 break;
             case KeyAction.UP:
                 keyStatus = KeyStatus.HOVER;
+                StopNote();
                 break;
             default:
                 // exception
@@ -79,10 +80,6 @@ internal class Note : Piano
         }
 
         SetKeyImage(keyStatus);
-
-        // Audio output
-        if (keyAction == KeyAction.DOWN) PlayNote();
-        if (keyAction == KeyAction.UP) StopNote();
     }
 
     /// <summary>
@@ -130,7 +127,7 @@ internal class Note : Piano
         ///  Example: _name = "Eb4" would be equal to (12 + 4 + (-1) + 48) = 63
         /// </Summary>
 
-        if (this._name != null)
+        if (_name != null)
         {
             byte calculatedIndex = 12;
 

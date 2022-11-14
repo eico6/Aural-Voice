@@ -20,7 +20,8 @@ internal class Piano
     protected IMidiOutPort? midiDevice;
 
     /// <summary>
-    ///  Holds references to each piano key image in 'ProjectResources.resx'.
+    ///  Collection containing the notes of the piano.
+    ///  Hash key should be passed as a 'AppWindow.NoteName' string.
     /// </summary>
     private Dictionary<String, Note>? _notes;
 
@@ -29,6 +30,9 @@ internal class Piano
     protected byte defaultChannel { get => _defaultChannel; }
     protected byte maxVelocity    { get => _maxVelocity; }
 
+    /// <summary>
+    ///  Holds references to each piano key image in 'ProjectResources.resx'.
+    /// </summary>
     protected readonly Dictionary<String, Bitmap> _keyImages = new Dictionary<String, Bitmap>()
     {
         { "idle_white", ProjectResources.key_white_idle },
