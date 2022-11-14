@@ -107,45 +107,96 @@ internal class Note : Piano
     }
 
     /// <summary>
-    ///  Calculates and returns the correct 'note' value in midi message calls: 
-    ///  MidiNoteOnMessage(byte channel, byte note, byte velocity);
+    ///  Calculates and returns a midi message note index based on 'Note._name'.
     /// </summary>
     private byte GetMidiIndex()
     {
-        // Maps each note name to its corresponding note index for midi input.
-        // - Index range (0 - 127)
-        // - lowest note (21 = A0)
-        // - highest note (108 = C8)
+        /// <Summary>
+        /// Midi message note index:
+        /// - Index range  (0 - 127)
+        /// - Lowest note  (21 = A0)
+        /// - Highest note (108 = C8)
+        /// 
+        ///  Return: 12 + (sum of each char in 'this._name'), where their values are the following:
+        ///  '0' = 0     'C' = 0    
+        ///  '1' = 12    'D' = 2    
+        ///  '2' = 24    'E' = 4    
+        ///  '3' = 36    'F' = 5    
+        ///  '4' = 48    'G' = 7    
+        ///  '5' = 60    'A' = 9
+        ///  '6' = 72    'B' = 11   
+        ///  '7' = 84    'b' = -1
+        ///  '8' = 96
+        ///  Example: _name = "Eb4" would be equal to (12 + 4 + (-1) + 48) = 63
+        /// </Summary>
 
         if (this._name != null)
         {
-            switch (this._name)
-            {
-                case AppWindow.NoteName.A0:
-                    return 21;
-                case AppWindow.NoteName.Bb0:
-                    return 22;
-                // ...
-                default:
-                    // Unvalid Note._name
-                    break;
-            }
-        }
+            byte calculatedIndex = 12;
 
-        // Alternatively:
-        // Read 'Note._name' and split the String into an array of chars.
-        // So "A0" = ['A', '0'] and "Bb0" = ['B', 'b', '0'] and so on.
-        // Then return: 12 + (sum of each char), where their values are the following:
-        // '0' = 0     'C' = 0    
-        // '1' = 12    'D' = 2    
-        // '2' = 24    'E' = 4    
-        // '3' = 36    'F' = 5    
-        // '4' = 48    'G' = 7    
-        // '5' = 60    'A' = 9
-        // '6' = 72    'B' = 11   
-        // '7' = 84    'b' = -1
-        // '8' = 96
-        // So "Eb4" would be equal to 12 + 4 + (-1) + 48 = 63
+            for (int i = 0; i < _name.Length; i++)
+            {
+                switch (_name[i])
+                {
+                    case 'C':
+                        calculatedIndex += 0;
+                        break;
+                    case 'D':
+                        calculatedIndex += 2;
+                        break;
+                    case 'E':
+                        calculatedIndex += 4;
+                        break;
+                    case 'F':
+                        calculatedIndex += 5;
+                        break;
+                    case 'G':
+                        calculatedIndex += 7;
+                        break;
+                    case 'A':
+                        calculatedIndex += 9;
+                        break;
+                    case 'B':
+                        calculatedIndex += 11;
+                        break;
+                    case 'b':
+                        calculatedIndex -= 1;
+                        break;
+                    case '0':
+                        calculatedIndex += 0;
+                        break;
+                    case '1':
+                        calculatedIndex += 12;
+                        break;
+                    case '2':
+                        calculatedIndex += 24;
+                        break;
+                    case '3':
+                        calculatedIndex += 36;
+                        break;
+                    case '4':
+                        calculatedIndex += 48;
+                        break;
+                    case '5':
+                        calculatedIndex += 60;
+                        break;
+                    case '6':
+                        calculatedIndex += 72;
+                        break;
+                    case '7':
+                        calculatedIndex += 84;
+                        break;
+                    case '8':
+                        calculatedIndex += 96;
+                        break;
+                    default:
+                        // Exception: invalid note name! Char '_name[i]' is not accounted for.
+                        break;
+                }
+            }
+
+            return calculatedIndex;
+        }
 
         // Exception: this_name == null
         return 0;

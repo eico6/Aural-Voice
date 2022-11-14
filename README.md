@@ -10,9 +10,3 @@
 
 ## Preview
 (TODO: place .gif of application)
-
-## (Development Notes)
-- (TODO: add aural voice image at the top of "desctription".)
-- (TODO: add .gitignore file to exclude .vs folder https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files, your template should be visual studio: https://github.com/github/gitignore/blob/main/VisualStudio.gitignore)
-- (TODO: make a GitHub Release of the project, and add topic tags: WinForms-Application, Desktop-App, Audio, Piano, ...)
-- (TODO: add LICENSE in root directory https://github.com/uiters/restaurant-management/blob/master/LICENSE)
