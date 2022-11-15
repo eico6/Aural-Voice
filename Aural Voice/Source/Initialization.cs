@@ -135,8 +135,6 @@ partial class AppWindow
         piano.AddNote(NoteName.A0, keyA0);
         piano.AddNote(NoteName.Bb0, keyBb0);
         // ...
-
-        // TODO: at the end, throw exception unless '_notes.count()' == 88
     }
 
     /// <summary>

@@ -78,15 +78,28 @@ internal class Piano
         if (_notes != null)
         {
             var newNote = new Note(noteName, ref keyRef);
+
+            if (_notes.ContainsKey(noteName))
+            {
+                throw new ArgumentException($"Note '{noteName}' already exists.");
+            }
+
+            if (_notes.Count == 88)
+            {
+                throw new ArgumentException($"Tried to add a note when '{this}._notes' is full.");
+            }
+
             _notes.Add(noteName, newNote);
         }
-
-        // TODO: Check if note already exists.
-        // TODO: Check if '_notes' count == 88
-
-        //throw new NullReferenceException("Tried to add an element to '_notes' when '_notes' == null.");
+        else
+        {
+            throw new NullReferenceException($"{this}._notes == null");
+        }
     }
 
+    /// <summary>
+    ///  Gets a single note from the piano.
+    /// </summary>
     internal Note GetNote(in String noteName)
     {
         if (_notes != null)
@@ -94,13 +107,9 @@ internal class Piano
             return _notes[noteName];
         }
 
-        // TEMP CODE FOR COMPILATION
-        PictureBox tempBox = new PictureBox();
-        return new Note("temp", ref tempBox);
-        //throw new NullReferenceException("Tried to get an element from '_notes' when '_notes' == null.");
+        throw new NullReferenceException($"{this}._notes == null");
     }
 
-    // TODO: 'async' or 'await' makes it seem like the assigning happens ca. 1 sec after app starts (?)
     private async void AssignMidiDevice()
     {
         // midiDevice = "Microsoft GS Wavetable Synth"

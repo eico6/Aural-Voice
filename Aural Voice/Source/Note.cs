@@ -30,24 +30,28 @@ internal class Note : Piano
         _isBlack = _associatedKey.Name.Contains('b') ? true : false;
     }
 
+    /// <summary>
+    ///  Send a midi signal to start playing this note.
+    /// </summary>
     internal void PlayNote()
     {
-        _midiMessage = new MidiNoteOnMessage(defaultChannel, _midiIndex, maxVelocity);
-
         if (midiDevice != null)
         {
+            _midiMessage = new MidiNoteOnMessage(defaultChannel, _midiIndex, maxVelocity);
             midiDevice.SendMessage(_midiMessage);
-        }
+        } else { throw new NullReferenceException($"{this}.midiDevice == null"); }
     }
 
+    /// <summary>
+    ///  Send a midi signal to stop playing this note.
+    /// </summary>
     internal void StopNote()
     {
-        _midiMessage = new MidiNoteOffMessage(defaultChannel, _midiIndex, maxVelocity);
-
         if (midiDevice != null)
         {
+            _midiMessage = new MidiNoteOffMessage(defaultChannel, _midiIndex, maxVelocity);
             midiDevice.SendMessage(_midiMessage);
-        }
+        } else { throw new NullReferenceException($"{this}.midiDevice == null"); }
     }
 
     /// <summary>
@@ -74,9 +78,7 @@ internal class Note : Piano
                 StopNote();
                 break;
             default:
-                // exception
-                keyStatus=KeyStatus.IDLE;
-                break;
+                throw new ArgumentOutOfRangeException($"Enum KeyAction '{keyAction}' is not accounted for.");
         }
 
         SetKeyImage(keyStatus);
@@ -99,7 +101,7 @@ internal class Note : Piano
                 _associatedKey.Image = _isBlack ? _keyImages["press_black"] : _keyImages["press_white"];
                 break;
             default:
-                break;
+                throw new ArgumentOutOfRangeException($"Enum KeyStatus '{keyStatus}' is not accounted for.");
         }
     }
 
@@ -187,15 +189,15 @@ internal class Note : Piano
                         calculatedIndex += 96;
                         break;
                     default:
-                        // Exception: invalid note name! Char '_name[i]' is not accounted for.
-                        break;
+                        throw new ArgumentOutOfRangeException($"Char '{_name[i]}' is not accounted for.");
                 }
             }
 
             return calculatedIndex;
+        } 
+        else
+        {
+            throw new NullReferenceException($"{this}._name == null");
         }
-
-        // Exception: this_name == null
-        return 0;
     }
 }
