@@ -86,7 +86,7 @@ internal class Piano
 
             if (_notes.Count == 88)
             {
-                throw new ArgumentException($"Tried to add a note when '{this}._notes' is full.");
+                throw new ArgumentException($"Tried to add note '{noteName}' to '{this}._notes' when full.");
             }
 
             _notes.Add(noteName, newNote);
