@@ -21,9 +21,10 @@ internal class Note : Piano
     private readonly byte _midiIndex;
     private readonly bool _isBlack;
     private IMidiMessage? _midiMessage;
+    private KeyStatus? _keyStatus;
 
     /// <summary>
-    ///  Handles user input logic.
+    ///  Handles user input logic for overlapping calls.
     /// </summary>
     private bool _isPlayingNote = false;
     private ActionCaller? _prevCaller;
@@ -33,7 +34,7 @@ internal class Note : Piano
         _name = noteName;
         _associatedKey = keyRef;
         _midiIndex = GetMidiIndex();
-        _isBlack = _associatedKey.Name.Contains('b') ? true : false;
+        _isBlack = _name.Contains('b') ? true : false;
     }
 
     /// <summary>
@@ -69,78 +70,89 @@ internal class Note : Piano
     }
 
     /// <summary>
-    ///  Handles visual and audio output of a key/note, 
-    ///  based on <paramref name="keyAction"/> and <paramref name="actionCaller"/>.
+    ///  Handles output of key/note based on <paramref name="keyAction"/> and <paramref name="actionCaller"/>.
     /// </summary>
-    internal void KeyInput(in KeyAction keyAction, in ActionCaller actionCaller = ActionCaller.MOUSE)
+    internal void ActionInput(in KeyAction keyAction, in ActionCaller actionCaller = ActionCaller.MOUSE)
     {
-        // Mouse input
+        // If input was made via mouse.
         if (actionCaller == ActionCaller.MOUSE)
         {
             // Don't run if the note is already playing and if that call was made via keyboard.
             if (!(_isPlayingNote && _prevCaller == ActionCaller.KEYBOARD))
             {
-                KeyStatus keyStatus;
+                MouseInput(keyAction);
                 _prevCaller = ActionCaller.MOUSE;
-
-                switch (keyAction)
-                {
-                    case KeyAction.ENTER:
-                        keyStatus = KeyStatus.HOVER;
-                        break;
-                    case KeyAction.LEAVE:
-                        keyStatus = KeyStatus.IDLE;
-                        break;
-                    case KeyAction.DOWN:
-                        keyStatus = KeyStatus.PRESS;
-                        PlayNote();
-                        break;
-                    case KeyAction.UP:
-                        keyStatus = KeyStatus.HOVER;
-                        StopNote();
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException($"Enum KeyAction '{keyAction}' is not accounted for.");
-                }
-
-                SetKeyImage(keyStatus);
             }
         }
 
-        // Keyboard input
+        // If input was made via keyboard.
         if (actionCaller == ActionCaller.KEYBOARD)
         {
             // Don't run if the note is already playing and if that call was made via mouse.
             if (!(_isPlayingNote && _prevCaller == ActionCaller.MOUSE))
             {
-                KeyStatus keyStatus;
+                KeyboardInput(keyAction);
                 _prevCaller = ActionCaller.KEYBOARD;
-
-                switch (keyAction)
-                {
-                    case KeyAction.DOWN:
-                        keyStatus = KeyStatus.PRESS;
-                        PlayNote();
-                        break;
-                    case KeyAction.UP:
-                        keyStatus = KeyStatus.IDLE;
-                        StopNote();
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException($"Enum KeyAction '{keyAction}' is not accounted for.");
-                }
-                
-                SetKeyImage(keyStatus);
             }
         }
     }
 
     /// <summary>
-    ///  Sets the displayed image of the associated key to its corresponding <paramref name="keyStatus"/>..
+    ///  Performs visual and audio output of key/note, from mouse input. 
     /// </summary>
-    private void SetKeyImage(in KeyStatus keyStatus)
+    private void MouseInput(in KeyAction keyAction)
     {
-        switch (keyStatus)
+        switch (keyAction)
+        {
+            case KeyAction.ENTER:
+                _keyStatus = KeyStatus.HOVER;
+                break;
+            case KeyAction.LEAVE:
+                _keyStatus = KeyStatus.IDLE;
+                break;
+            case KeyAction.DOWN:
+                _keyStatus = KeyStatus.PRESS;
+                PlayNote();
+                break;
+            case KeyAction.UP:
+                _keyStatus = KeyStatus.HOVER;
+                StopNote();
+                break;
+            default:
+                throw new ArgumentOutOfRangeException($"Enum KeyAction '{keyAction}' is not accounted for.");
+        }
+
+        UpdateKeyImage();
+    }
+
+    /// <summary>
+    ///  Performs visual and audio output of key/note, from keyboard input. 
+    /// </summary>
+    private void KeyboardInput(in KeyAction keyAction)
+    {
+        switch (keyAction)
+        {
+            case KeyAction.DOWN:
+                _keyStatus = KeyStatus.PRESS;
+                PlayNote();
+                break;
+            case KeyAction.UP:
+                _keyStatus = KeyStatus.IDLE;
+                StopNote();
+                break;
+            default:
+                throw new ArgumentOutOfRangeException($"Enum KeyAction '{keyAction}' is not accounted for.");
+        }
+
+        UpdateKeyImage();
+    }
+
+    /// <summary>
+    ///  Updates the displayed image of the associated key with its corresponding _keyStatus.
+    /// </summary>
+    private void UpdateKeyImage()
+    {
+        switch (_keyStatus)
         {
             case KeyStatus.IDLE:
                 _associatedKey.Image = _isBlack ? _keyImages["idle_black"] : _keyImages["idle_white"];
@@ -152,7 +164,7 @@ internal class Note : Piano
                 _associatedKey.Image = _isBlack ? _keyImages["press_black"] : _keyImages["press_white"];
                 break;
             default:
-                throw new ArgumentOutOfRangeException($"Enum KeyStatus '{keyStatus}' is not accounted for.");
+                throw new ArgumentOutOfRangeException($"Enum KeyStatus '{_keyStatus}' is not accounted for.");
         }
     }
 

@@ -119,6 +119,7 @@ internal class Piano
         throw new NullReferenceException($"{this}._notes = null");
     }
 
+    // TODO: don't let the user send midi signals before this proccess is complete.
     private async void AssignMidiDevice()
     {
         // midiDevice = "Microsoft GS Wavetable Synth"
