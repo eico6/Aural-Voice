@@ -50,6 +50,15 @@ internal class Piano
     }
 
     /// <summary>
+    ///  Specifies the caller of a KeyAction to prevent overlapping inputs.
+    /// </summary>
+    internal enum ActionCaller : byte
+    {
+        MOUSE = 0,
+        KEYBOARD = 1
+    }
+
+    /// <summary>
     ///  All user input related to the keys, either via mouse events, or the use of hotkeys.
     /// </summary>
     internal enum KeyAction : Byte

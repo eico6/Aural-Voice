@@ -23,8 +23,8 @@ partial class AppWindow
         #region KeyDown(...)
         private void AppWindow_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.C) { piano.GetNote(NoteName.A0).KeyInput(Piano.KeyAction.DOWN); }
-            if (e.KeyCode == Keys.D) { piano.GetNote(NoteName.Bb0).KeyInput(Piano.KeyAction.DOWN); }
+            if (e.KeyCode == Keys.C) { piano.GetNote(NoteName.A0).KeyInput(Piano.KeyAction.DOWN, Piano.ActionCaller.KEYBOARD); }
+            if (e.KeyCode == Keys.D) { piano.GetNote(NoteName.Bb0).KeyInput(Piano.KeyAction.DOWN, Piano.ActionCaller.KEYBOARD); }
             // ...
         }
         #endregion
@@ -32,8 +32,8 @@ partial class AppWindow
         #region KeyUp(...)
         private void AppWindow_KeyUp(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.C) { piano.GetNote(NoteName.A0).KeyInput(Piano.KeyAction.UP); }
-            if (e.KeyCode == Keys.D) { piano.GetNote(NoteName.Bb0).KeyInput(Piano.KeyAction.UP); }
+            if (e.KeyCode == Keys.C) { piano.GetNote(NoteName.A0).KeyInput(Piano.KeyAction.UP, Piano.ActionCaller.KEYBOARD); }
+            if (e.KeyCode == Keys.D) { piano.GetNote(NoteName.Bb0).KeyInput(Piano.KeyAction.UP, Piano.ActionCaller.KEYBOARD); }
             // ...
         }
         #endregion

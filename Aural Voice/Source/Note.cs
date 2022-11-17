@@ -22,7 +22,11 @@ internal class Note : Piano
     private readonly bool _isBlack;
     private IMidiMessage? _midiMessage;
 
+    /// <summary>
+    ///  Handles user input logic.
+    /// </summary>
     private bool _isPlayingNote = false;
+    private ActionCaller? _prevCaller;
 
     internal Note(in String noteName, ref PictureBox keyRef)
     {
@@ -65,33 +69,70 @@ internal class Note : Piano
     }
 
     /// <summary>
-    ///  Handles visual and audio output of a key/note based on <paramref name="keyAction"/>.
+    ///  Handles visual and audio output of a key/note, 
+    ///  based on <paramref name="keyAction"/> and <paramref name="actionCaller"/>.
     /// </summary>
-    internal void KeyInput(in KeyAction keyAction)
+    internal void KeyInput(in KeyAction keyAction, in ActionCaller actionCaller = ActionCaller.MOUSE)
     {
-        KeyStatus keyStatus;
-
-        switch (keyAction)
+        // Mouse input
+        if (actionCaller == ActionCaller.MOUSE)
         {
-            case KeyAction.ENTER:
-                keyStatus = KeyStatus.HOVER;
-                break;
-            case KeyAction.LEAVE:
-                keyStatus = KeyStatus.IDLE;
-                break;
-            case KeyAction.DOWN:
-                keyStatus = KeyStatus.PRESS;
-                PlayNote();
-                break;
-            case KeyAction.UP:
-                keyStatus = KeyStatus.HOVER;
-                StopNote();
-                break;
-            default:
-                throw new ArgumentOutOfRangeException($"Enum KeyAction '{keyAction}' is not accounted for.");
+            // Don't run if the note is already playing and if that call was made via keyboard.
+            if (!(_isPlayingNote && _prevCaller == ActionCaller.KEYBOARD))
+            {
+                KeyStatus keyStatus;
+                _prevCaller = ActionCaller.MOUSE;
+
+                switch (keyAction)
+                {
+                    case KeyAction.ENTER:
+                        keyStatus = KeyStatus.HOVER;
+                        break;
+                    case KeyAction.LEAVE:
+                        keyStatus = KeyStatus.IDLE;
+                        break;
+                    case KeyAction.DOWN:
+                        keyStatus = KeyStatus.PRESS;
+                        PlayNote();
+                        break;
+                    case KeyAction.UP:
+                        keyStatus = KeyStatus.HOVER;
+                        StopNote();
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException($"Enum KeyAction '{keyAction}' is not accounted for.");
+                }
+
+                SetKeyImage(keyStatus);
+            }
         }
 
-        SetKeyImage(keyStatus);
+        // Keyboard input
+        if (actionCaller == ActionCaller.KEYBOARD)
+        {
+            // Don't run if the note is already playing and if that call was made via mouse.
+            if (!(_isPlayingNote && _prevCaller == ActionCaller.MOUSE))
+            {
+                KeyStatus keyStatus;
+                _prevCaller = ActionCaller.KEYBOARD;
+
+                switch (keyAction)
+                {
+                    case KeyAction.DOWN:
+                        keyStatus = KeyStatus.PRESS;
+                        PlayNote();
+                        break;
+                    case KeyAction.UP:
+                        keyStatus = KeyStatus.IDLE;
+                        StopNote();
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException($"Enum KeyAction '{keyAction}' is not accounted for.");
+                }
+                
+                SetKeyImage(keyStatus);
+            }
+        }
     }
 
     /// <summary>
