@@ -22,6 +22,8 @@ internal class Note : Piano
     private readonly bool _isBlack;
     private IMidiMessage? _midiMessage;
 
+    private bool _isPlayingNote = false;
+
     internal Note(in String noteName, ref PictureBox keyRef)
     {
         _name = noteName;
@@ -35,11 +37,15 @@ internal class Note : Piano
     /// </summary>
     internal void PlayNote()
     {
-        if (midiDevice != null)
+        if (!_isPlayingNote)
         {
-            _midiMessage = new MidiNoteOnMessage(defaultChannel, _midiIndex, maxVelocity);
-            midiDevice.SendMessage(_midiMessage);
-        } else { throw new NullReferenceException($"{this}.midiDevice == null"); }
+            if (midiDevice != null)
+            {
+                _midiMessage = new MidiNoteOnMessage(defaultChannel, _midiIndex, maxVelocity);
+                midiDevice.SendMessage(_midiMessage);
+                _isPlayingNote = true;
+            } else { throw new NullReferenceException($"{this}.midiDevice = null"); }
+        }
     }
 
     /// <summary>
@@ -47,11 +53,15 @@ internal class Note : Piano
     /// </summary>
     internal void StopNote()
     {
-        if (midiDevice != null)
+        if (_isPlayingNote)
         {
-            _midiMessage = new MidiNoteOffMessage(defaultChannel, _midiIndex, maxVelocity);
-            midiDevice.SendMessage(_midiMessage);
-        } else { throw new NullReferenceException($"{this}.midiDevice == null"); }
+            if (midiDevice != null)
+            {
+                _midiMessage = new MidiNoteOffMessage(defaultChannel, _midiIndex, maxVelocity);
+                midiDevice.SendMessage(_midiMessage);
+                _isPlayingNote = false;
+            } else { throw new NullReferenceException($"{this}.midiDevice = null"); }
+        }
     }
 
     /// <summary>
@@ -197,7 +207,7 @@ internal class Note : Piano
         } 
         else
         {
-            throw new NullReferenceException($"{this}._name == null");
+            throw new NullReferenceException($"{this}._name = null");
         }
     }
 }

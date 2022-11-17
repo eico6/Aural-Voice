@@ -93,7 +93,7 @@ internal class Piano
         }
         else
         {
-            throw new NullReferenceException($"{this}._notes == null");
+            throw new NullReferenceException($"{this}._notes = null");
         }
     }
 
@@ -107,7 +107,7 @@ internal class Piano
             return _notes[noteName];
         }
 
-        throw new NullReferenceException($"{this}._notes == null");
+        throw new NullReferenceException($"{this}._notes = null");
     }
 
     private async void AssignMidiDevice()
