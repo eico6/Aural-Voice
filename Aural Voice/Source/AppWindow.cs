@@ -31,6 +31,8 @@ public partial class AppWindow : MaterialForm
         // and show "Loading {components, material, piano} ...", whichever one is being
         // initialized. Then show "Complete!" and start a 1 sec fixed timer which ends with
         // app being fully displayed. GitHub link and author can also be displayed.
+        // Edit: this will be important for the assignment of the midi device, as it is
+        // currently done asynchronously and will throw an exception if "used" too early.
 
         InitializeComponent();
         InitializePiano();

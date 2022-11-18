@@ -46,7 +46,7 @@ internal class Piano
     internal Piano()
     {
         _notes = new Dictionary<String, Note>();
-        AssignMidiDevice();
+        AssignMidiDeviceAsync();
     }
 
     /// <summary>
@@ -120,7 +120,7 @@ internal class Piano
     }
 
     // TODO: don't let the user send midi signals before this proccess is complete.
-    private async void AssignMidiDevice()
+    private async void AssignMidiDeviceAsync()
     {
         // midiDevice = "Microsoft GS Wavetable Synth"
         midiDevice = await MidiSynthesizer.CreateAsync();

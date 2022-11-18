@@ -98,7 +98,7 @@ internal class Note : Piano
     }
 
     /// <summary>
-    ///  Performs visual and audio output of key/note, from mouse input. 
+    ///  Performs audiovisual output of key/note, from mouse input. 
     /// </summary>
     private void MouseInput(in KeyAction keyAction)
     {
@@ -126,7 +126,7 @@ internal class Note : Piano
     }
 
     /// <summary>
-    ///  Performs visual and audio output of key/note, from keyboard input. 
+    ///  Performs audiovisual output of key/note, from keyboard input. 
     /// </summary>
     private void KeyboardInput(in KeyAction keyAction)
     {
@@ -148,7 +148,7 @@ internal class Note : Piano
     }
 
     /// <summary>
-    ///  Updates the displayed image of the associated key with its corresponding _keyStatus.
+    ///  Updates the displayed image of the associated key based on its '_keyStatus'.
     /// </summary>
     private void UpdateKeyImage()
     {
