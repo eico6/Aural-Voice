@@ -132,8 +132,25 @@ partial class AppWindow
     {
         piano = new Piano();
         
+        // Octave 0
         piano.AddNote(NoteName.A0, keyA0);
         piano.AddNote(NoteName.Bb0, keyBb0);
+        piano.AddNote(NoteName.B0, keyB0);
+
+        // Octave 1
+        piano.AddNote(NoteName.C1, keyC1);
+        piano.AddNote(NoteName.Db1, keyDb1);
+        piano.AddNote(NoteName.D1, keyD1);
+        piano.AddNote(NoteName.Eb1, keyEb1);
+        piano.AddNote(NoteName.E1, keyE1);
+        piano.AddNote(NoteName.F1, keyF1);
+        piano.AddNote(NoteName.Gb1, keyGb1);
+        piano.AddNote(NoteName.G1, keyG1);
+        piano.AddNote(NoteName.Ab1, keyAb1);
+        piano.AddNote(NoteName.A1, keyA1);
+        piano.AddNote(NoteName.Bb1, keyBb1);
+        piano.AddNote(NoteName.B1, keyB1);
+
         // ...
     }
 
