@@ -27,8 +27,8 @@ partial class AppWindow
     {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AppWindow));
             this.tabController = new MaterialSkin.Controls.MaterialTabControl();
-            this.pianoTab = new System.Windows.Forms.TabPage();
             this.pianoCard = new MaterialSkin.Controls.MaterialCard();
+            this.pianoTab = new System.Windows.Forms.TabPage();
             this.keyBb1 = new System.Windows.Forms.PictureBox();
             this.keyB1 = new System.Windows.Forms.PictureBox();
             this.keyAb1 = new System.Windows.Forms.PictureBox();
@@ -417,24 +417,24 @@ partial class AppWindow
     #endregion
 
     private MaterialSkin.Controls.MaterialTabControl tabController;
-    private TabPage pianoTab;
-    private TabPage optionsTab;
     private MaterialSkin.Controls.MaterialTabSelector tabSelector;
     private MaterialSkin.Controls.MaterialCard pianoCard;
-    private PictureBox keyA0;
+    private TabPage pianoTab;
+    private TabPage optionsTab;
     private PictureBox keysLayout;
+    private PictureBox keyA0;
     private PictureBox keyBb0;
-    private PictureBox keyC1;
     private PictureBox keyB0;
-    private PictureBox keyBb1;
-    private PictureBox keyB1;
-    private PictureBox keyAb1;
-    private PictureBox keyA1;
-    private PictureBox keyGb1;
-    private PictureBox keyG1;
-    private PictureBox keyF1;
-    private PictureBox keyEb1;
-    private PictureBox keyE1;
+    private PictureBox keyC1;
     private PictureBox keyDb1;
     private PictureBox keyD1;
+    private PictureBox keyEb1;
+    private PictureBox keyE1;
+    private PictureBox keyF1;
+    private PictureBox keyGb1;
+    private PictureBox keyG1;
+    private PictureBox keyAb1;
+    private PictureBox keyA1;
+    private PictureBox keyBb1;
+    private PictureBox keyB1;
 }

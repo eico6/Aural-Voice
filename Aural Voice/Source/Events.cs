@@ -120,13 +120,13 @@ partial class AppWindow
         private void keyBb1_MouseDown(object sender, MouseEventArgs e) { piano.GetNote(NoteName.Bb1).ActionInput(Piano.KeyAction.DOWN); }
         private void keyB1_MouseDown(object sender, MouseEventArgs e) { piano.GetNote(NoteName.B1).ActionInput(Piano.KeyAction.DOWN); }
 
-    // ...
-    #endregion
+        // ...
+        #endregion
 
-    #region MouseUp(...)
+        #region MouseUp(...)
 
-    // Octave 0
-    private void keyA0_MouseUp(object sender, MouseEventArgs e)  { piano.GetNote(NoteName.A0).ActionInput(Piano.KeyAction.UP); }
+        // Octave 0
+        private void keyA0_MouseUp(object sender, MouseEventArgs e)  { piano.GetNote(NoteName.A0).ActionInput(Piano.KeyAction.UP); }
         private void keyBb0_MouseUp(object sender, MouseEventArgs e) { piano.GetNote(NoteName.Bb0).ActionInput(Piano.KeyAction.UP); }
         private void keyB0_MouseUp(object sender, MouseEventArgs e) { piano.GetNote(NoteName.B0).ActionInput(Piano.KeyAction.UP); }
 
@@ -145,8 +145,8 @@ partial class AppWindow
         private void keyB1_MouseUp(object sender, MouseEventArgs e) { piano.GetNote(NoteName.B1).ActionInput(Piano.KeyAction.UP); }
 
 
-    // ...
-    #endregion
+        // ...
+        #endregion
 
     #endregion
 }
