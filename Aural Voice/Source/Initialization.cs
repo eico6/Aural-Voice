@@ -151,7 +151,92 @@ partial class AppWindow
         piano.AddNote(NoteName.Bb1, keyBb1);
         piano.AddNote(NoteName.B1, keyB1);
 
-        // ...
+        // Octave 2
+        piano.AddNote(NoteName.C2, keyC2);
+        piano.AddNote(NoteName.Db2, keyDb2);
+        piano.AddNote(NoteName.D2, keyD2);
+        piano.AddNote(NoteName.Eb2, keyEb2);
+        piano.AddNote(NoteName.E2, keyE2);
+        piano.AddNote(NoteName.F2, keyF2);
+        piano.AddNote(NoteName.Gb2, keyGb2);
+        piano.AddNote(NoteName.G2, keyG2);
+        piano.AddNote(NoteName.Ab2, keyAb2);
+        piano.AddNote(NoteName.A2, keyA2);
+        piano.AddNote(NoteName.Bb2, keyBb2);
+        piano.AddNote(NoteName.B2, keyB2);
+
+        // Octave 3
+        piano.AddNote(NoteName.C3, keyC3);
+        piano.AddNote(NoteName.Db3, keyDb3);
+        piano.AddNote(NoteName.D3, keyD3);
+        piano.AddNote(NoteName.Eb3, keyEb3);
+        piano.AddNote(NoteName.E3, keyE3);
+        piano.AddNote(NoteName.F3, keyF3);
+        piano.AddNote(NoteName.Gb3, keyGb3);
+        piano.AddNote(NoteName.G3, keyG3);
+        piano.AddNote(NoteName.Ab3, keyAb3);
+        piano.AddNote(NoteName.A3, keyA3);
+        piano.AddNote(NoteName.Bb3, keyBb3);
+        piano.AddNote(NoteName.B3, keyB3);
+
+        // Octave 4
+        piano.AddNote(NoteName.C4, keyC4);
+        piano.AddNote(NoteName.Db4, keyDb4);
+        piano.AddNote(NoteName.D4, keyD4);
+        piano.AddNote(NoteName.Eb4, keyEb4);
+        piano.AddNote(NoteName.E4, keyE4);
+        piano.AddNote(NoteName.F4, keyF4);
+        piano.AddNote(NoteName.Gb4, keyGb4);
+        piano.AddNote(NoteName.G4, keyG4);
+        piano.AddNote(NoteName.Ab4, keyAb4);
+        piano.AddNote(NoteName.A4, keyA4);
+        piano.AddNote(NoteName.Bb4, keyBb4);
+        piano.AddNote(NoteName.B4, keyB4);
+
+        // Octave 5
+        piano.AddNote(NoteName.C5, keyC5);
+        piano.AddNote(NoteName.Db5, keyDb5);
+        piano.AddNote(NoteName.D5, keyD5);
+        piano.AddNote(NoteName.Eb5, keyEb5);
+        piano.AddNote(NoteName.E5, keyE5);
+        piano.AddNote(NoteName.F5, keyF5);
+        piano.AddNote(NoteName.Gb5, keyGb5);
+        piano.AddNote(NoteName.G5, keyG5);
+        piano.AddNote(NoteName.Ab5, keyAb5);
+        piano.AddNote(NoteName.A5, keyA5);
+        piano.AddNote(NoteName.Bb5, keyBb5);
+        piano.AddNote(NoteName.B5, keyB5);
+
+        // Octave 6
+        piano.AddNote(NoteName.C6, keyC6);
+        piano.AddNote(NoteName.Db6, keyDb6);
+        piano.AddNote(NoteName.D6, keyD6);
+        piano.AddNote(NoteName.Eb6, keyEb6);
+        piano.AddNote(NoteName.E6, keyE6);
+        piano.AddNote(NoteName.F6, keyF6);
+        piano.AddNote(NoteName.Gb6, keyGb6);
+        piano.AddNote(NoteName.G6, keyG6);
+        piano.AddNote(NoteName.Ab6, keyAb6);
+        piano.AddNote(NoteName.A6, keyA6);
+        piano.AddNote(NoteName.Bb6, keyBb6);
+        piano.AddNote(NoteName.B6, keyB6);
+
+        // Octave 7
+        piano.AddNote(NoteName.C7, keyC7);
+        piano.AddNote(NoteName.Db7, keyDb7);
+        piano.AddNote(NoteName.D7, keyD7);
+        piano.AddNote(NoteName.Eb7, keyEb7);
+        piano.AddNote(NoteName.E7, keyE7);
+        piano.AddNote(NoteName.F7, keyF7);
+        piano.AddNote(NoteName.Gb7, keyGb7);
+        piano.AddNote(NoteName.G7, keyG7);
+        piano.AddNote(NoteName.Ab7, keyAb7);
+        piano.AddNote(NoteName.A7, keyA7);
+        piano.AddNote(NoteName.Bb7, keyBb7);
+        piano.AddNote(NoteName.B7, keyB7);
+
+        // Octave 8
+        piano.AddNote(NoteName.C8, keyC8);
     }
 
     /// <summary>

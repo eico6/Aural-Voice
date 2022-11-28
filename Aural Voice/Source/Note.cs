@@ -49,7 +49,11 @@ internal class Note : Piano
                 _midiMessage = new MidiNoteOnMessage(defaultChannel, _midiIndex, maxVelocity);
                 midiDevice.SendMessage(_midiMessage);
                 _isPlayingNote = true;
-            } else { throw new NullReferenceException($"{this}.midiDevice = null"); }
+                // TODO: remember to re-write this exception when the asynchronous function is fixed.
+            } else { throw new NullReferenceException($"{this}.midiDevice = null. \n\n" +
+                $"NOTE: It's highly likely that you just opened the application and tried to play a note. " +
+                $"This is not your fault, just wait a couple of seconds for all keys to be initialized. " +
+                $"If this is the case, click 'Continue' :)."); }
         }
     }
 
