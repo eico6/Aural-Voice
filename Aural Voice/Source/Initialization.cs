@@ -14,6 +14,7 @@ partial class AppWindow
 {
     /// <summary>
     ///  Used as an alias to keep note names consistent and fail-safe.
+    ///  Essentially promotes the use of l-values instead of r-values.
     /// </summary>
     internal static class NoteName
     {
