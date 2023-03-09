@@ -119,7 +119,11 @@ internal class Piano
         throw new NullReferenceException($"{this}._notes = null");
     }
 
-    // TODO: don't let the user send midi signals before this proccess is complete.
+    // TODO: I found a big problem! There is almost 500mb in use when application is running.
+    //       This is because 'Note' is derived from 'Piano'. So for each note, a new piano is
+    //       instantiated (which also needs to create another midiDevice). So what you need to
+    //       do is change the whole structure and remove that inheretance, and instead reference
+    //       each note with the same piano.
     private async void AssignMidiDeviceAsync()
     {
         // midiDevice = "Microsoft GS Wavetable Synth"
