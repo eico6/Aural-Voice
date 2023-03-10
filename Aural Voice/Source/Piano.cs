@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.Devices.Midi;
 using Windows.UI.Core;
+using MaterialSkin.Controls;
 
 namespace AuralVoice;
 
@@ -25,15 +26,32 @@ internal partial class Piano
     /// </summary>
     private Dictionary<String, Note>? _notes;
 
+    /// <summary>
+    ///  Direct references to windows forms controls.
+    /// </summary>
+    public static MaterialSlider? volumeSliderRef;
+    public static MaterialComboBox? programSelectorRef;
+
     private const byte _defaultChannel = 0;
-    private const byte _maxVelocity = 127;
-    private byte _program = 0;
-    internal static byte defaultChannel { get => _defaultChannel; }
-    internal static byte maxVelocity    { get => _maxVelocity; }
-    internal byte program
+    public static byte defaultChannel { get => _defaultChannel; }
+
+    /// <summary>
+    ///  Volume range = [0 - 127].
+    ///  Volume Slider Control range = [0 - 100]
+    ///  The volume setter "de-normalizes" the value.
+    /// </summary>
+    private static byte s_volume = 127; 
+    public static byte volume   
+    { 
+        get => s_volume; 
+        set => s_volume = Convert.ToByte(value * 1.27);
+    }
+
+    private static byte s_program = 0;
+    public static byte program
     {
-        get => _program;
-        set => _program = value;
+        get => s_program;
+        set => s_program = value;
     }
 
     /// <summary>
@@ -49,10 +67,65 @@ internal partial class Piano
         { "press_black", ProjectResources.key_black_press }
     };
 
-    internal Piano()
+    /// <summary>
+    ///  Collection of "General MIDI 1" instrument indexes.
+    /// </summary>
+    private static readonly Dictionary<String, byte> s_programElement = new Dictionary<String, byte>()
     {
+        { "Acoustic Grand Piano", 0 },
+        { "Electric Piano", 4 },
+        { "Vibraphone", 11 },
+        { "Drawbar Organ", 16 },
+        { "Pan Flute", 75 }
+    };
+
+    internal Piano(ref MaterialSlider volumeSlider, ref MaterialComboBox programSelector)
+    {
+        // Assign references to the windows forms controls.
+        volumeSliderRef = volumeSlider;
+        programSelectorRef = programSelector;
+
+        // Instantiate '_notes' and initialize the midi device.
         _notes = new Dictionary<String, Note>();
         AssignMidiDeviceAsync();
+    }
+
+    /// <summary>
+    ///  Sets new volume value, from 'int' to 'byte'.
+    /// </summary>
+    internal void updateVolume(int volumeIn)
+    {
+        if (volumeSliderRef != null)
+        {
+            volume = Convert.ToByte(volumeIn);
+        } else
+        {
+            throw new NullReferenceException($"{this}.volumeSliderRef = null");
+        }
+    }
+
+    /// <summary>
+    ///  Sets new program value, from 'string' to 'byte'.
+    /// </summary>
+    internal void updateProgram()
+    {
+        if (programSelectorRef != null)
+        {
+            if (s_midiDevice != null)
+            {
+                byte newProgram = s_programElement[programSelectorRef.SelectedItem.ToString()];
+
+                IMidiMessage programChange = new MidiProgramChangeMessage(defaultChannel, newProgram);
+                s_midiDevice.SendMessage(programChange);
+            }
+            else
+            {
+                throw new NullReferenceException($"{this}.s_midiDevice = null");
+            }
+        } else
+        {
+            throw new NullReferenceException($"{this}.programSelectorRef = null");
+        }
     }
 
     /// <summary>
@@ -100,10 +173,10 @@ internal partial class Piano
     /// </summary>
     private async void AssignMidiDeviceAsync()
     {
-        // midiDevice = "Microsoft GS Wavetable Synth"
+        // midiDevice = "Microsoft GS Wavetable Synth".
         s_midiDevice = await MidiSynthesizer.CreateAsync();
 
-        // Sets the assigned synth to program 0 ("Acoustic Grand Piano")
+        // Sets the assigned synth to program 0 ("Acoustic Grand Piano").
         IMidiMessage programChange = new MidiProgramChangeMessage(defaultChannel, program);
         s_midiDevice.SendMessage(programChange);
     }

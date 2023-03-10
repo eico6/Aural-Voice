@@ -17,7 +17,17 @@ partial class AppWindow
     ///  All events are called via user input.
     ///  Events are associated with "keys", where they call their respective "note".
     /// </summary>
-        
+
+    #region Control Events
+    
+        // volumeSlider
+        private void volumeSlider_onValueChanged(object sender, int newValue) { piano.updateVolume(newValue); }
+
+        // programSelector
+        private void programSelector_SelectedValueChanged(object sender, EventArgs e) { piano.updateProgram(); }
+
+    #endregion
+
     #region Hotkey Events
 
         #region KeyDown(...)

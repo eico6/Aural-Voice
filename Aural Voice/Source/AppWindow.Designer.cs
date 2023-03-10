@@ -119,7 +119,10 @@ partial class AppWindow
             this.keyB0 = new System.Windows.Forms.PictureBox();
             this.keyA0 = new System.Windows.Forms.PictureBox();
             this.optionsTab = new System.Windows.Forms.TabPage();
-            this.optionsTempText = new MaterialSkin.Controls.MaterialLabel();
+            this.volumeSlider = new MaterialSkin.Controls.MaterialSlider();
+            this.programSelector = new MaterialSkin.Controls.MaterialComboBox();
+            this.programTitle = new MaterialSkin.Controls.MaterialLabel();
+            this.audioTitle = new MaterialSkin.Controls.MaterialLabel();
             this.tabSelector = new MaterialSkin.Controls.MaterialTabSelector();
             this.tabController.SuspendLayout();
             this.pianoTab.SuspendLayout();
@@ -1593,7 +1596,10 @@ partial class AppWindow
             // 
             // optionsTab
             // 
-            this.optionsTab.Controls.Add(this.optionsTempText);
+            this.optionsTab.Controls.Add(this.volumeSlider);
+            this.optionsTab.Controls.Add(this.programSelector);
+            this.optionsTab.Controls.Add(this.programTitle);
+            this.optionsTab.Controls.Add(this.audioTitle);
             this.optionsTab.Location = new System.Drawing.Point(4, 4);
             this.optionsTab.Margin = new System.Windows.Forms.Padding(0);
             this.optionsTab.Name = "optionsTab";
@@ -1602,17 +1608,79 @@ partial class AppWindow
             this.optionsTab.Text = "Options";
             this.optionsTab.UseVisualStyleBackColor = true;
             // 
-            // optionsTempText
+            // volumeSlider
             // 
-            this.optionsTempText.AutoSize = true;
-            this.optionsTempText.Depth = 0;
-            this.optionsTempText.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.optionsTempText.Location = new System.Drawing.Point(382, 162);
-            this.optionsTempText.MouseState = MaterialSkin.MouseState.HOVER;
-            this.optionsTempText.Name = "optionsTempText";
-            this.optionsTempText.Size = new System.Drawing.Size(119, 19);
-            this.optionsTempText.TabIndex = 1;
-            this.optionsTempText.Text = "No options yet ...";
+            this.volumeSlider.Depth = 0;
+            this.volumeSlider.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.volumeSlider.Location = new System.Drawing.Point(48, 134);
+            this.volumeSlider.MouseState = MaterialSkin.MouseState.HOVER;
+            this.volumeSlider.Name = "volumeSlider";
+            this.volumeSlider.Size = new System.Drawing.Size(310, 40);
+            this.volumeSlider.TabIndex = 5;
+            this.volumeSlider.Text = "Volume";
+            this.volumeSlider.UseAccentColor = true;
+            this.volumeSlider.Value = 100;
+            this.volumeSlider.ValueMax = 100;
+            this.volumeSlider.ValueSuffix = "%";
+            this.volumeSlider.onValueChanged += new MaterialSkin.Controls.MaterialSlider.ValueChanged(this.volumeSlider_onValueChanged);
+            // 
+            // programSelector
+            // 
+            this.programSelector.AutoResize = false;
+            this.programSelector.BackColor = System.Drawing.Color.White;
+            this.programSelector.Depth = 0;
+            this.programSelector.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
+            this.programSelector.DropDownHeight = 147;
+            this.programSelector.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.programSelector.DropDownWidth = 200;
+            this.programSelector.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.programSelector.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.programSelector.FormattingEnabled = true;
+            this.programSelector.IntegralHeight = false;
+            this.programSelector.ItemHeight = 29;
+            this.programSelector.Items.AddRange(new object[] {
+            "Acoustic Grand Piano",
+            "Electric Piano",
+            "Vibraphone",
+            "Drawbar Organ",
+            "Pan Flute"});
+            this.programSelector.Location = new System.Drawing.Point(142, 229);
+            this.programSelector.MaxDropDownItems = 5;
+            this.programSelector.MouseState = MaterialSkin.MouseState.OUT;
+            this.programSelector.Name = "programSelector";
+            this.programSelector.Size = new System.Drawing.Size(216, 35);
+            this.programSelector.StartIndex = 0;
+            this.programSelector.TabIndex = 2;
+            this.programSelector.TabStop = false;
+            this.programSelector.UseAccent = false;
+            this.programSelector.UseTallSize = false;
+            this.programSelector.SelectedValueChanged += new System.EventHandler(this.programSelector_SelectedValueChanged);
+            // 
+            // programTitle
+            // 
+            this.programTitle.AutoSize = true;
+            this.programTitle.Depth = 0;
+            this.programTitle.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.programTitle.Location = new System.Drawing.Point(48, 245);
+            this.programTitle.MouseState = MaterialSkin.MouseState.HOVER;
+            this.programTitle.Name = "programTitle";
+            this.programTitle.Size = new System.Drawing.Size(62, 19);
+            this.programTitle.TabIndex = 1;
+            this.programTitle.Text = "Program";
+            // 
+            // audioTitle
+            // 
+            this.audioTitle.AutoSize = true;
+            this.audioTitle.Depth = 0;
+            this.audioTitle.Font = new System.Drawing.Font("Roboto", 34F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.audioTitle.FontType = MaterialSkin.MaterialSkinManager.fontType.H4;
+            this.audioTitle.Location = new System.Drawing.Point(156, 47);
+            this.audioTitle.MouseState = MaterialSkin.MouseState.HOVER;
+            this.audioTitle.Name = "audioTitle";
+            this.audioTitle.Size = new System.Drawing.Size(88, 41);
+            this.audioTitle.TabIndex = 4;
+            this.audioTitle.Text = "Audio";
+            this.audioTitle.UseMnemonic = false;
             // 
             // tabSelector
             // 
@@ -1840,6 +1908,9 @@ partial class AppWindow
     private PictureBox keyB0;
     private PictureBox keyBb0;
     private PictureBox keyA0;
-    private MaterialSkin.Controls.MaterialLabel optionsTempText;
+    private MaterialSkin.Controls.MaterialLabel programTitle;
     private MaterialSkin.Controls.MaterialLabel pianoTempText;
+    private MaterialSkin.Controls.MaterialComboBox programSelector;
+    private MaterialSkin.Controls.MaterialLabel audioTitle;
+    private MaterialSkin.Controls.MaterialSlider volumeSlider;
 }

@@ -78,7 +78,7 @@ internal partial class Piano
             {
                 if (s_midiDevice != null)
                 {
-                    _midiMessage = new MidiNoteOnMessage(Piano.defaultChannel, _midiIndex, Piano.maxVelocity);
+                    _midiMessage = new MidiNoteOnMessage(Piano.defaultChannel, _midiIndex, Piano.volume);
                     s_midiDevice.SendMessage(_midiMessage);
                     _isPlayingNote = true;
                 } else { throw new NullReferenceException($"{this}.midiDevice = null."); }
@@ -94,7 +94,7 @@ internal partial class Piano
             {
                 if (s_midiDevice != null)
                 {
-                    _midiMessage = new MidiNoteOffMessage(Piano.defaultChannel, _midiIndex, Piano.maxVelocity);
+                    _midiMessage = new MidiNoteOffMessage(Piano.defaultChannel, _midiIndex, Piano.volume);
                     s_midiDevice.SendMessage(_midiMessage);
                     _isPlayingNote = false;
                 } else { throw new NullReferenceException($"{this}.midiDevice = null"); }
