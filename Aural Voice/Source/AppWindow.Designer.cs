@@ -1617,6 +1617,7 @@ partial class AppWindow
             this.volumeSlider.Name = "volumeSlider";
             this.volumeSlider.Size = new System.Drawing.Size(310, 40);
             this.volumeSlider.TabIndex = 5;
+            this.volumeSlider.TabStop = false;
             this.volumeSlider.Text = "Volume";
             this.volumeSlider.UseAccentColor = true;
             this.volumeSlider.Value = 100;
