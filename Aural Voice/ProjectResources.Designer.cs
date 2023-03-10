@@ -63,6 +63,16 @@ namespace AuralVoice {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap key_black_green {
+            get {
+                object obj = ResourceManager.GetObject("key_black_green", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap key_black_hover {
             get {
                 object obj = ResourceManager.GetObject("key_black_hover", resourceCulture);
@@ -93,6 +103,26 @@ namespace AuralVoice {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap key_black_red {
+            get {
+                object obj = ResourceManager.GetObject("key_black_red", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap key_white_green {
+            get {
+                object obj = ResourceManager.GetObject("key_white_green", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap key_white_hover {
             get {
                 object obj = ResourceManager.GetObject("key_white_hover", resourceCulture);
@@ -116,6 +146,16 @@ namespace AuralVoice {
         internal static System.Drawing.Bitmap key_white_press {
             get {
                 object obj = ResourceManager.GetObject("key_white_press", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap key_white_red {
+            get {
+                object obj = ResourceManager.GetObject("key_white_red", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
