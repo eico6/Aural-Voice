@@ -11,13 +11,13 @@ namespace AuralVoice;
 /// <summary>
 ///  Virtual piano containing a collection of type Note. Handles midi input/output.
 /// </summary>
-internal class Piano
+internal partial class Piano
 {
     /// <summary>
     ///  Reference to a MIDI device. Initialized with the "Microsoft GS Wavetable Synth";
     ///  a virtual MIDI synth bundled with Windows releases. Handles audio I/O.
     /// </summary>
-    protected IMidiOutPort? midiDevice;
+    private static IMidiOutPort? s_midiDevice;
 
     /// <summary>
     ///  Collection containing the notes of the piano.
@@ -27,13 +27,13 @@ internal class Piano
 
     private const byte _defaultChannel = 0;
     private const byte _maxVelocity = 127;
-    protected byte defaultChannel { get => _defaultChannel; }
-    protected byte maxVelocity    { get => _maxVelocity; }
+    internal static byte defaultChannel { get => _defaultChannel; }
+    internal static byte maxVelocity    { get => _maxVelocity; }
 
     /// <summary>
     ///  Holds references to each piano key image in 'ProjectResources.resx'.
     /// </summary>
-    protected readonly Dictionary<String, Bitmap> _keyImages = new Dictionary<String, Bitmap>()
+    private static readonly Dictionary<String, Bitmap> s_keyImages = new Dictionary<String, Bitmap>()
     {
         { "idle_white", ProjectResources.key_white_idle },
         { "idle_black", ProjectResources.key_black_idle },
@@ -47,36 +47,6 @@ internal class Piano
     {
         _notes = new Dictionary<String, Note>();
         AssignMidiDeviceAsync();
-    }
-
-    /// <summary>
-    ///  Specifies the caller of a KeyAction to prevent overlapping inputs.
-    /// </summary>
-    internal enum ActionCaller : byte
-    {
-        MOUSE = 0,
-        KEYBOARD = 1
-    }
-
-    /// <summary>
-    ///  All user input related to the keys, either via mouse events, or the use of hotkeys.
-    /// </summary>
-    internal enum KeyAction : Byte
-    {
-        ENTER = 0,
-        LEAVE = 1,
-        DOWN = 2,
-        UP = 3
-    }
-
-    /// <summary>
-    ///  Determines which one of the three possible key images should be displayed. 
-    /// </summary>
-    protected enum KeyStatus : Byte
-    {
-        IDLE = 0,
-        HOVER = 1,
-        PRESS = 2
     }
 
     /// <summary>
@@ -119,18 +89,16 @@ internal class Piano
         throw new NullReferenceException($"{this}._notes = null");
     }
 
-    // TODO: I found a big problem! There is almost 500mb in use when application is running.
-    //       This is because 'Note' is derived from 'Piano'. So for each note, a new piano is
-    //       instantiated (which also needs to create another midiDevice). So what you need to
-    //       do is change the whole structure and remove that inheretance, and instead reference
-    //       each note with the same piano.
+    /// <summary>
+    ///  Initialize the midi device to default values.
+    /// </summary>
     private async void AssignMidiDeviceAsync()
     {
         // midiDevice = "Microsoft GS Wavetable Synth"
-        midiDevice = await MidiSynthesizer.CreateAsync();
+        s_midiDevice = await MidiSynthesizer.CreateAsync();
 
         // Sets the assigned synth to program 0 ("Acoustic Grand Piano")
         IMidiMessage programChange = new MidiProgramChangeMessage(defaultChannel, 0);
-        midiDevice.SendMessage(programChange);
+        s_midiDevice.SendMessage(programChange);
     }
 }
