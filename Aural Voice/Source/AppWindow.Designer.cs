@@ -1612,7 +1612,7 @@ partial class AppWindow
             // 
             this.volumeSlider.Depth = 0;
             this.volumeSlider.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.volumeSlider.Location = new System.Drawing.Point(48, 134);
+            this.volumeSlider.Location = new System.Drawing.Point(277, 241);
             this.volumeSlider.MouseState = MaterialSkin.MouseState.HOVER;
             this.volumeSlider.Name = "volumeSlider";
             this.volumeSlider.Size = new System.Drawing.Size(310, 40);
@@ -1644,7 +1644,7 @@ partial class AppWindow
             "Vibraphone",
             "Drawbar Organ",
             "Pan Flute"});
-            this.programSelector.Location = new System.Drawing.Point(142, 229);
+            this.programSelector.Location = new System.Drawing.Point(360, 151);
             this.programSelector.MaxDropDownItems = 5;
             this.programSelector.MouseState = MaterialSkin.MouseState.OUT;
             this.programSelector.Name = "programSelector";
@@ -1661,7 +1661,7 @@ partial class AppWindow
             this.programTitle.AutoSize = true;
             this.programTitle.Depth = 0;
             this.programTitle.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.programTitle.Location = new System.Drawing.Point(48, 245);
+            this.programTitle.Location = new System.Drawing.Point(278, 158);
             this.programTitle.MouseState = MaterialSkin.MouseState.HOVER;
             this.programTitle.Name = "programTitle";
             this.programTitle.Size = new System.Drawing.Size(62, 19);
@@ -1674,7 +1674,7 @@ partial class AppWindow
             this.audioTitle.Depth = 0;
             this.audioTitle.Font = new System.Drawing.Font("Roboto", 34F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.audioTitle.FontType = MaterialSkin.MaterialSkinManager.fontType.H4;
-            this.audioTitle.Location = new System.Drawing.Point(156, 47);
+            this.audioTitle.Location = new System.Drawing.Point(383, 56);
             this.audioTitle.MouseState = MaterialSkin.MouseState.HOVER;
             this.audioTitle.Name = "audioTitle";
             this.audioTitle.Size = new System.Drawing.Size(88, 41);
