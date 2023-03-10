@@ -1610,9 +1610,9 @@ partial class AppWindow
             this.optionsTempText.Location = new System.Drawing.Point(382, 162);
             this.optionsTempText.MouseState = MaterialSkin.MouseState.HOVER;
             this.optionsTempText.Name = "optionsTempText";
-            this.optionsTempText.Size = new System.Drawing.Size(115, 19);
+            this.optionsTempText.Size = new System.Drawing.Size(119, 19);
             this.optionsTempText.TabIndex = 1;
-            this.optionsTempText.Text = "No options yet...";
+            this.optionsTempText.Text = "No options yet ...";
             // 
             // tabSelector
             // 

@@ -27,8 +27,14 @@ internal partial class Piano
 
     private const byte _defaultChannel = 0;
     private const byte _maxVelocity = 127;
+    private byte _program = 0;
     internal static byte defaultChannel { get => _defaultChannel; }
     internal static byte maxVelocity    { get => _maxVelocity; }
+    internal byte program
+    {
+        get => _program;
+        set => _program = value;
+    }
 
     /// <summary>
     ///  Holds references to each piano key image in 'ProjectResources.resx'.
@@ -98,7 +104,7 @@ internal partial class Piano
         s_midiDevice = await MidiSynthesizer.CreateAsync();
 
         // Sets the assigned synth to program 0 ("Acoustic Grand Piano")
-        IMidiMessage programChange = new MidiProgramChangeMessage(defaultChannel, 0);
+        IMidiMessage programChange = new MidiProgramChangeMessage(defaultChannel, program);
         s_midiDevice.SendMessage(programChange);
     }
 }
