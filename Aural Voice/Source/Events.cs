@@ -20,11 +20,15 @@ partial class AppWindow
 
     #region Control Events
     
-        // volumeSlider
-        private void volumeSlider_onValueChanged(object sender, int newValue) { piano.updateVolume(newValue); }
+        // Tab Controller
+        private void tabController_Selected(object sender, TabControlEventArgs e) { piano.UpdateIsActive(); }
 
-        // programSelector
-        private void programSelector_SelectedValueChanged(object sender, EventArgs e) { piano.updateProgram(); }
+        // Volume Slider
+        private void volumeSlider_onValueChanged(object sender, int newValue) { piano.SetVolume(newValue); }
+
+        // Program Selector
+        private void programSelector_SelectedValueChanged(object sender, EventArgs e) { piano.UpdateProgram(); }
+
 
     #endregion
 

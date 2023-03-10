@@ -131,7 +131,7 @@ partial class AppWindow
     /// </summary> 
     private void InitializePiano()
     {
-        piano = new Piano(ref volumeSlider, ref programSelector);
+        piano = new Piano(ref programSelector, ref tabController);
         
         // Octave 0
         piano.AddNote(NoteName.A0, keyA0);

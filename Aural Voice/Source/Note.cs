@@ -74,7 +74,7 @@ internal partial class Piano
         /// </summary>
         internal void PlayNote()
         {
-            if (!_isPlayingNote)
+            if (!_isPlayingNote && Piano.isActive)
             {
                 if (s_midiDevice != null)
                 {

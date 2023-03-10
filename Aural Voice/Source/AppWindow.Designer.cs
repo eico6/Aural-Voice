@@ -236,6 +236,7 @@ partial class AppWindow
             this.tabController.SelectedIndex = 0;
             this.tabController.Size = new System.Drawing.Size(874, 383);
             this.tabController.TabIndex = 0;
+            this.tabController.Selected += new System.Windows.Forms.TabControlEventHandler(this.tabController_Selected);
             // 
             // pianoTab
             // 
@@ -1675,7 +1676,7 @@ partial class AppWindow
             this.audioTitle.Depth = 0;
             this.audioTitle.Font = new System.Drawing.Font("Roboto", 34F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.audioTitle.FontType = MaterialSkin.MaterialSkinManager.fontType.H4;
-            this.audioTitle.Location = new System.Drawing.Point(383, 56);
+            this.audioTitle.Location = new System.Drawing.Point(383, 58);
             this.audioTitle.MouseState = MaterialSkin.MouseState.HOVER;
             this.audioTitle.Name = "audioTitle";
             this.audioTitle.Size = new System.Drawing.Size(88, 41);

@@ -27,10 +27,20 @@ internal partial class Piano
     private Dictionary<String, Note>? _notes;
 
     /// <summary>
+    ///  Determines whether the piano is active or not.
+    /// </summary>
+    private static bool _isActive = true;
+    private static bool isActive
+    {
+        get => _isActive;
+        set => _isActive = value;
+    }
+
+    /// <summary>
     ///  Direct references to windows forms controls.
     /// </summary>
-    public static MaterialSlider? volumeSliderRef;
-    public static MaterialComboBox? programSelectorRef;
+    private static MaterialComboBox? s_programSelector;
+    private static MaterialTabControl? s_tabController;
 
     private const byte _defaultChannel = 0;
     public static byte defaultChannel { get => _defaultChannel; }
@@ -79,11 +89,11 @@ internal partial class Piano
         { "Pan Flute", 75 }
     };
 
-    internal Piano(ref MaterialSlider volumeSlider, ref MaterialComboBox programSelector)
+    internal Piano(ref MaterialComboBox programSelector, ref MaterialTabControl tabController)
     {
         // Assign references to the windows forms controls.
-        volumeSliderRef = volumeSlider;
-        programSelectorRef = programSelector;
+        s_programSelector = programSelector;
+        s_tabController = tabController;
 
         // Instantiate '_notes' and initialize the midi device.
         _notes = new Dictionary<String, Note>();
@@ -91,30 +101,41 @@ internal partial class Piano
     }
 
     /// <summary>
+    ///  Updates 'isActive' according to the newly selected tab.
+    /// </summary>
+    public void UpdateIsActive()
+    {
+        if (s_tabController != null)
+        {
+            string newTab = s_tabController.SelectedTab.ToString();
+
+            // The piano should only be active if the tab "Piano" is selected.
+            isActive = (newTab.Contains("Piano")) ? true : false;
+        }
+        else
+        {
+            throw new NullReferenceException($"{this}.s_tabController = null");
+        }
+    }
+
+    /// <summary>
     ///  Sets new volume value, from 'int' to 'byte'.
     /// </summary>
-    internal void updateVolume(int volumeIn)
+    internal void SetVolume(int volumeIn)
     {
-        if (volumeSliderRef != null)
-        {
-            volume = Convert.ToByte(volumeIn);
-        } else
-        {
-            throw new NullReferenceException($"{this}.volumeSliderRef = null");
-        }
+        volume = Convert.ToByte(volumeIn);
     }
 
     /// <summary>
     ///  Sets new program value, from 'string' to 'byte'.
     /// </summary>
-    internal void updateProgram()
+    internal void UpdateProgram()
     {
-        if (programSelectorRef != null)
+        if (s_programSelector != null)
         {
             if (s_midiDevice != null)
             {
-                byte newProgram = s_programElement[programSelectorRef.SelectedItem.ToString()];
-
+                byte newProgram = s_programElement[s_programSelector.SelectedItem.ToString()];
                 IMidiMessage programChange = new MidiProgramChangeMessage(defaultChannel, newProgram);
                 s_midiDevice.SendMessage(programChange);
             }
@@ -124,7 +145,7 @@ internal partial class Piano
             }
         } else
         {
-            throw new NullReferenceException($"{this}.programSelectorRef = null");
+            throw new NullReferenceException($"{this}.s_programSelector = null");
         }
     }
 
