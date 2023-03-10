@@ -27,6 +27,12 @@ internal partial class Piano
     private Dictionary<String, Note>? _notes;
 
     /// <summary>
+    ///  Direct references to windows forms controls.
+    /// </summary>
+    private static MaterialComboBox? s_programSelector;
+    private static MaterialTabControl? s_tabController;
+
+    /// <summary>
     ///  Determines whether the piano is active or not.
     /// </summary>
     private static bool _isActive = true;
@@ -36,14 +42,18 @@ internal partial class Piano
         set => _isActive = value;
     }
 
-    /// <summary>
-    ///  Direct references to windows forms controls.
-    /// </summary>
-    private static MaterialComboBox? s_programSelector;
-    private static MaterialTabControl? s_tabController;
-
     private const byte _defaultChannel = 0;
     public static byte defaultChannel { get => _defaultChannel; }
+
+    /// <summary>
+    ///  Piano program instrument index.
+    /// </summary>
+    private static byte s_program = 0;
+    public static byte program
+    {
+        get => s_program;
+        set => s_program = value;
+    }
 
     /// <summary>
     ///  Volume range = [0 - 127].
@@ -55,13 +65,6 @@ internal partial class Piano
     { 
         get => s_volume; 
         set => s_volume = Convert.ToByte(value * 1.27);
-    }
-
-    private static byte s_program = 0;
-    public static byte program
-    {
-        get => s_program;
-        set => s_program = value;
     }
 
     /// <summary>
@@ -83,10 +86,10 @@ internal partial class Piano
     private static readonly Dictionary<String, byte> s_programElement = new Dictionary<String, byte>()
     {
         { "Acoustic Grand Piano", 0 },
-        { "Electric Piano", 4 },
-        { "Vibraphone", 11 },
-        { "Drawbar Organ", 16 },
-        { "Pan Flute", 75 }
+        { "Electric Piano",       4 },
+        { "Vibraphone",           11 },
+        { "Drawbar Organ",        16 },
+        { "Pan Flute",            75 }
     };
 
     internal Piano(ref MaterialComboBox programSelector, ref MaterialTabControl tabController)
@@ -119,14 +122,6 @@ internal partial class Piano
     }
 
     /// <summary>
-    ///  Sets new volume value, from 'int' to 'byte'.
-    /// </summary>
-    internal void SetVolume(int volumeIn)
-    {
-        volume = Convert.ToByte(volumeIn);
-    }
-
-    /// <summary>
     ///  Sets new program value, from 'string' to 'byte'.
     /// </summary>
     internal void UpdateProgram()
@@ -147,6 +142,14 @@ internal partial class Piano
         {
             throw new NullReferenceException($"{this}.s_programSelector = null");
         }
+    }
+
+    /// <summary>
+    ///  Sets new volume value, from 'int' to 'byte'.
+    /// </summary>
+    internal void SetVolume(int volumeIn)
+    {
+        volume = Convert.ToByte(volumeIn);
     }
 
     /// <summary>

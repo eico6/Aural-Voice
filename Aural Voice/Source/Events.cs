@@ -23,11 +23,11 @@ partial class AppWindow
         // Tab Controller
         private void tabController_Selected(object sender, TabControlEventArgs e) { piano.UpdateIsActive(); }
 
-        // Volume Slider
-        private void volumeSlider_onValueChanged(object sender, int newValue) { piano.SetVolume(newValue); }
-
         // Program Selector
         private void programSelector_SelectedValueChanged(object sender, EventArgs e) { piano.UpdateProgram(); }
+
+        // Volume Slider
+        private void volumeSlider_onValueChanged(object sender, int newValue) { piano.SetVolume(newValue); }
 
 
     #endregion
