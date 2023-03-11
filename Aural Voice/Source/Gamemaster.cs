@@ -39,16 +39,37 @@ namespace AuralVoice
         private readonly MaterialButton? _buttonQuestion;
         private readonly MaterialCard? _noteDisplay;
         private readonly MaterialLabel? _noteDisplayText;
+        private readonly MaterialLabel? _scoreAnswersLabel;
+        private readonly MaterialLabel? _scoreCorrectLabel;
+        private readonly MaterialLabel? _scoreCorrect;
+        private readonly MaterialLabel? _scoreWrongLabel;
+        private readonly MaterialLabel? _scoreWrong;
+        private readonly MaterialLabel? _scoreTotalLabel;
+        private readonly MaterialLabel? _scoreTotal;
+        private readonly MaterialLabel? _scoreAccuracyLabel;
+        private readonly MaterialLabel? _scoreAccuracy;
 
         internal Gamemaster(MaterialForm appWindowIn, ref MaterialButton buttonGameIn, ref MaterialButton buttonQuestionIn,
-                            ref MaterialCard noteDisplayIn, ref MaterialLabel noteDisplayTextIn)
+                            ref MaterialCard noteDisplayIn, ref MaterialLabel noteDisplayTextIn, ref MaterialLabel scoreAnswersLabelIn,
+                            ref MaterialLabel scoreCorrectLabelIn, ref MaterialLabel scoreCorrectIn, ref MaterialLabel scoreWrongLabelIn,
+                            ref MaterialLabel scoreWrongIn, ref MaterialLabel scoreTotalLabelIn, ref MaterialLabel scoreTotalIn,
+                            ref MaterialLabel scoreAccuracyLabelIn, ref MaterialLabel scoreAccuracyIn)
         {
-            // Assign control references.
-            _appWindow = appWindowIn;
-            _buttonGame = buttonGameIn;
-            _buttonQuestion = buttonQuestionIn;
-            _noteDisplay = noteDisplayIn;
-            _noteDisplayText = noteDisplayTextIn;
+            // Assign UI control references.
+            _appWindow          = appWindowIn;
+            _buttonGame         = buttonGameIn;
+            _buttonQuestion     = buttonQuestionIn;
+            _noteDisplay        = noteDisplayIn;
+            _noteDisplayText    = noteDisplayTextIn;
+            _scoreAnswersLabel  = scoreAnswersLabelIn;
+            _scoreCorrectLabel  = scoreCorrectLabelIn;
+            _scoreCorrect       = scoreCorrectIn;
+            _scoreWrongLabel    = scoreWrongLabelIn;
+            _scoreWrong         = scoreWrongIn;
+            _scoreTotalLabel    = scoreTotalLabelIn;
+            _scoreTotal         = scoreTotalIn;
+            _scoreAccuracyLabel = scoreAccuracyLabelIn;
+            _scoreAccuracy      = scoreAccuracyIn;
         }
 
         /// <summary>
@@ -102,7 +123,7 @@ namespace AuralVoice
         public void StartGame()
         {
             isPlayMode = true;
-            // ResetScore();
+            ResetScore();
             AlterUI();
             StartRound();
         }
@@ -113,7 +134,7 @@ namespace AuralVoice
             AlterUI();
         }
 
-        public void StartRound()
+        private void StartRound()
         {
             roundOver = false;
             _buttonQuestion.Text = "REPLAY QUESTION";
@@ -121,12 +142,74 @@ namespace AuralVoice
             _noteDisplayText.Text = "  ?  ";
         }
 
-        public void EndRound()
+        private void EndRound()
         {
             roundOver = true;
+
+            // Update UI func
             _buttonQuestion.Text = "NEXT QUESTION";
             _buttonQuestion.UseAccentColor = true;
             _noteDisplayText.Text = "Ab4"; // Correct note
+        }
+
+        /// <summary>
+        ///  Question answered correctly.
+        /// </summary>
+        public void CorrectAnswer()
+        {
+            // Update amount of correct answers.
+            int newScore = Convert.ToInt32(_scoreCorrect.Text) + 1;
+            _scoreCorrect.Text = Convert.ToString(newScore);
+
+            UpdateScoreboard();
+            EndRound();
+        }
+
+        /// <summary>
+        ///  Question answered wrong.
+        /// </summary>
+        private void WrongAnswer()
+        {
+            // Update amount of wrong answers.
+            int newScore = Convert.ToInt32(_scoreWrong.Text) + 1;
+            _scoreWrong.Text = Convert.ToString(newScore);
+
+            UpdateScoreboard();
+        }
+
+        /// <summary>
+        ///  Calculates and updates the scoreboard with new values.
+        /// </summary>
+        private void UpdateScoreboard()
+        {
+            int scoreCorrect;
+            int scoreWrong;
+            int newTotal;
+            double newAccuracy;
+
+            // Retrieve score data in the form of integers.
+            scoreCorrect = Convert.ToInt32(_scoreCorrect.Text);
+            scoreWrong = Convert.ToInt32(_scoreWrong.Text);
+
+            // Calculate the new total and accuracy.
+            newTotal = scoreCorrect + scoreWrong;
+            newAccuracy = (Convert.ToDouble(scoreCorrect) / Convert.ToDouble(newTotal)) * 100d;
+            newAccuracy = Math.Floor(newAccuracy);
+
+            // UI Update
+            _scoreTotal.Text = Convert.ToString(newTotal);
+            _scoreAccuracy.Text = Convert.ToString(newAccuracy) + '%';
+        }
+
+        /// <summary>
+        ///  Resets the scoreboard do default values.
+        /// </summary>
+        private void ResetScore()
+        {
+            _scoreCorrect.Text  = "0";
+            _scoreWrong.Text    = "0";
+            _scoreTotal.Text    = "0";
+            _scoreAccuracy.Text = "0%";
         }
 
         /// <summary>
@@ -146,6 +229,17 @@ namespace AuralVoice
                 _buttonGame.UseAccentColor = false;
                 _noteDisplay.Visible = true;
                 _buttonQuestion.Visible = true;
+
+                // Score system visibility
+                _scoreAnswersLabel.Visible  = true;
+                _scoreCorrectLabel.Visible  = true;
+                _scoreCorrect.Visible       = true;
+                _scoreWrongLabel.Visible    = true;
+                _scoreWrong.Visible         = true;
+                _scoreTotalLabel.Visible    = true;
+                _scoreTotal.Visible         = true;
+                _scoreAccuracyLabel.Visible = true;
+                _scoreAccuracy.Visible      = true;
             }
             else if (!isPlayMode)
             {

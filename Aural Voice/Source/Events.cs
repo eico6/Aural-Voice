@@ -55,7 +55,7 @@ partial class AppWindow
             if (e.KeyCode == Keys.I) { piano.GetNote(NoteName.C5).ActionInput(Note.KeyAction.DOWN, Note.ActionCaller.KEYBOARD); }
 
             // Gamemaster
-            if (e.KeyCode == Keys.Space ) { gamemaster.EndRound(); }
+            if (e.KeyCode == Keys.Space ) { gamemaster.CorrectAnswer(); }
 
         }
         #endregion

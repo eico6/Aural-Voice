@@ -245,7 +245,9 @@ partial class AppWindow
     /// </summary>
     private void InitializeGamemaster()
     {
-        gamemaster = new Gamemaster(this, ref buttonGame, ref buttonQuestion, ref noteDisplay, ref noteDisplayText);
+        gamemaster = new Gamemaster(this, ref buttonGame, ref buttonQuestion, ref noteDisplay, ref noteDisplayText,
+                                    ref scoreAnswersLabel, ref scoreCorrectLabel, ref scoreCorrect, ref scoreWrongLabel,
+                                    ref scoreWrong, ref scoreTotalLabel, ref scoreTotal, ref scoreAccuracyLabel, ref scoreAccuracy);
     }
 
     /// <summary>

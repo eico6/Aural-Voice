@@ -28,6 +28,15 @@ partial class AppWindow
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AppWindow));
             this.tabController = new MaterialSkin.Controls.MaterialTabControl();
             this.pianoTab = new System.Windows.Forms.TabPage();
+            this.scoreAccuracy = new MaterialSkin.Controls.MaterialLabel();
+            this.scoreTotal = new MaterialSkin.Controls.MaterialLabel();
+            this.scoreWrong = new MaterialSkin.Controls.MaterialLabel();
+            this.scoreCorrect = new MaterialSkin.Controls.MaterialLabel();
+            this.scoreAccuracyLabel = new MaterialSkin.Controls.MaterialLabel();
+            this.scoreTotalLabel = new MaterialSkin.Controls.MaterialLabel();
+            this.scoreWrongLabel = new MaterialSkin.Controls.MaterialLabel();
+            this.scoreCorrectLabel = new MaterialSkin.Controls.MaterialLabel();
+            this.scoreAnswersLabel = new MaterialSkin.Controls.MaterialLabel();
             this.noteDisplay = new MaterialSkin.Controls.MaterialCard();
             this.noteDisplayText = new MaterialSkin.Controls.MaterialLabel();
             this.buttonGame = new MaterialSkin.Controls.MaterialButton();
@@ -244,6 +253,15 @@ partial class AppWindow
             // 
             // pianoTab
             // 
+            this.pianoTab.Controls.Add(this.scoreAccuracy);
+            this.pianoTab.Controls.Add(this.scoreTotal);
+            this.pianoTab.Controls.Add(this.scoreWrong);
+            this.pianoTab.Controls.Add(this.scoreCorrect);
+            this.pianoTab.Controls.Add(this.scoreAccuracyLabel);
+            this.pianoTab.Controls.Add(this.scoreTotalLabel);
+            this.pianoTab.Controls.Add(this.scoreWrongLabel);
+            this.pianoTab.Controls.Add(this.scoreCorrectLabel);
+            this.pianoTab.Controls.Add(this.scoreAnswersLabel);
             this.pianoTab.Controls.Add(this.noteDisplay);
             this.pianoTab.Controls.Add(this.buttonGame);
             this.pianoTab.Controls.Add(this.buttonQuestion);
@@ -255,6 +273,126 @@ partial class AppWindow
             this.pianoTab.TabIndex = 0;
             this.pianoTab.Text = "Piano";
             this.pianoTab.UseVisualStyleBackColor = true;
+            // 
+            // scoreAccuracy
+            // 
+            this.scoreAccuracy.AutoSize = true;
+            this.scoreAccuracy.Depth = 0;
+            this.scoreAccuracy.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.scoreAccuracy.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
+            this.scoreAccuracy.Location = new System.Drawing.Point(724, 194);
+            this.scoreAccuracy.MouseState = MaterialSkin.MouseState.HOVER;
+            this.scoreAccuracy.Name = "scoreAccuracy";
+            this.scoreAccuracy.Size = new System.Drawing.Size(27, 24);
+            this.scoreAccuracy.TabIndex = 12;
+            this.scoreAccuracy.Text = "0%";
+            this.scoreAccuracy.Visible = false;
+            // 
+            // scoreTotal
+            // 
+            this.scoreTotal.AutoSize = true;
+            this.scoreTotal.Depth = 0;
+            this.scoreTotal.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.scoreTotal.Location = new System.Drawing.Point(719, 135);
+            this.scoreTotal.MouseState = MaterialSkin.MouseState.HOVER;
+            this.scoreTotal.Name = "scoreTotal";
+            this.scoreTotal.Size = new System.Drawing.Size(10, 19);
+            this.scoreTotal.TabIndex = 11;
+            this.scoreTotal.Text = "0";
+            this.scoreTotal.Visible = false;
+            // 
+            // scoreWrong
+            // 
+            this.scoreWrong.AutoSize = true;
+            this.scoreWrong.Depth = 0;
+            this.scoreWrong.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.scoreWrong.Location = new System.Drawing.Point(719, 107);
+            this.scoreWrong.MouseState = MaterialSkin.MouseState.HOVER;
+            this.scoreWrong.Name = "scoreWrong";
+            this.scoreWrong.Size = new System.Drawing.Size(10, 19);
+            this.scoreWrong.TabIndex = 10;
+            this.scoreWrong.Text = "0";
+            this.scoreWrong.Visible = false;
+            // 
+            // scoreCorrect
+            // 
+            this.scoreCorrect.AutoSize = true;
+            this.scoreCorrect.Depth = 0;
+            this.scoreCorrect.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.scoreCorrect.Location = new System.Drawing.Point(719, 82);
+            this.scoreCorrect.MouseState = MaterialSkin.MouseState.HOVER;
+            this.scoreCorrect.Name = "scoreCorrect";
+            this.scoreCorrect.Size = new System.Drawing.Size(10, 19);
+            this.scoreCorrect.TabIndex = 9;
+            this.scoreCorrect.Text = "0";
+            this.scoreCorrect.Visible = false;
+            // 
+            // scoreAccuracyLabel
+            // 
+            this.scoreAccuracyLabel.AutoSize = true;
+            this.scoreAccuracyLabel.Depth = 0;
+            this.scoreAccuracyLabel.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.scoreAccuracyLabel.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
+            this.scoreAccuracyLabel.Location = new System.Drawing.Point(623, 194);
+            this.scoreAccuracyLabel.MouseState = MaterialSkin.MouseState.HOVER;
+            this.scoreAccuracyLabel.Name = "scoreAccuracyLabel";
+            this.scoreAccuracyLabel.Size = new System.Drawing.Size(88, 24);
+            this.scoreAccuracyLabel.TabIndex = 8;
+            this.scoreAccuracyLabel.Text = "Accuracy:";
+            this.scoreAccuracyLabel.Visible = false;
+            // 
+            // scoreTotalLabel
+            // 
+            this.scoreTotalLabel.AutoSize = true;
+            this.scoreTotalLabel.Depth = 0;
+            this.scoreTotalLabel.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.scoreTotalLabel.Location = new System.Drawing.Point(659, 135);
+            this.scoreTotalLabel.MouseState = MaterialSkin.MouseState.HOVER;
+            this.scoreTotalLabel.Name = "scoreTotalLabel";
+            this.scoreTotalLabel.Size = new System.Drawing.Size(42, 19);
+            this.scoreTotalLabel.TabIndex = 7;
+            this.scoreTotalLabel.Text = "Total:";
+            this.scoreTotalLabel.Visible = false;
+            // 
+            // scoreWrongLabel
+            // 
+            this.scoreWrongLabel.AutoSize = true;
+            this.scoreWrongLabel.Depth = 0;
+            this.scoreWrongLabel.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.scoreWrongLabel.Location = new System.Drawing.Point(650, 107);
+            this.scoreWrongLabel.MouseState = MaterialSkin.MouseState.HOVER;
+            this.scoreWrongLabel.Name = "scoreWrongLabel";
+            this.scoreWrongLabel.Size = new System.Drawing.Size(51, 19);
+            this.scoreWrongLabel.TabIndex = 6;
+            this.scoreWrongLabel.Text = "Wrong:";
+            this.scoreWrongLabel.Visible = false;
+            // 
+            // scoreCorrectLabel
+            // 
+            this.scoreCorrectLabel.AutoSize = true;
+            this.scoreCorrectLabel.Depth = 0;
+            this.scoreCorrectLabel.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.scoreCorrectLabel.Location = new System.Drawing.Point(646, 82);
+            this.scoreCorrectLabel.MouseState = MaterialSkin.MouseState.HOVER;
+            this.scoreCorrectLabel.Name = "scoreCorrectLabel";
+            this.scoreCorrectLabel.Size = new System.Drawing.Size(55, 19);
+            this.scoreCorrectLabel.TabIndex = 5;
+            this.scoreCorrectLabel.Text = "Correct:";
+            this.scoreCorrectLabel.Visible = false;
+            // 
+            // scoreAnswersLabel
+            // 
+            this.scoreAnswersLabel.AutoSize = true;
+            this.scoreAnswersLabel.Depth = 0;
+            this.scoreAnswersLabel.Font = new System.Drawing.Font("Roboto", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.scoreAnswersLabel.FontType = MaterialSkin.MaterialSkinManager.fontType.H5;
+            this.scoreAnswersLabel.Location = new System.Drawing.Point(636, 37);
+            this.scoreAnswersLabel.MouseState = MaterialSkin.MouseState.HOVER;
+            this.scoreAnswersLabel.Name = "scoreAnswersLabel";
+            this.scoreAnswersLabel.Size = new System.Drawing.Size(112, 29);
+            this.scoreAnswersLabel.TabIndex = 4;
+            this.scoreAnswersLabel.Text = "ANSWERS";
+            this.scoreAnswersLabel.Visible = false;
             // 
             // noteDisplay
             // 
@@ -1787,6 +1925,7 @@ partial class AppWindow
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.AppWindow_KeyUp);
             this.tabController.ResumeLayout(false);
             this.pianoTab.ResumeLayout(false);
+            this.pianoTab.PerformLayout();
             this.noteDisplay.ResumeLayout(false);
             this.noteDisplay.PerformLayout();
             this.pianoCard.ResumeLayout(false);
@@ -1987,4 +2126,13 @@ partial class AppWindow
     private MaterialSkin.Controls.MaterialButton buttonQuestion;
     private MaterialSkin.Controls.MaterialButton buttonGame;
     private MaterialSkin.Controls.MaterialLabel noteDisplayText;
+    private MaterialSkin.Controls.MaterialLabel scoreAnswersLabel;
+    private MaterialSkin.Controls.MaterialLabel scoreTotalLabel;
+    private MaterialSkin.Controls.MaterialLabel scoreWrongLabel;
+    private MaterialSkin.Controls.MaterialLabel scoreCorrectLabel;
+    private MaterialSkin.Controls.MaterialLabel scoreAccuracyLabel;
+    private MaterialSkin.Controls.MaterialLabel scoreTotal;
+    private MaterialSkin.Controls.MaterialLabel scoreWrong;
+    private MaterialSkin.Controls.MaterialLabel scoreCorrect;
+    private MaterialSkin.Controls.MaterialLabel scoreAccuracy;
 }
