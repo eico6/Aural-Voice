@@ -241,6 +241,14 @@ partial class AppWindow
     }
 
     /// <summary>
+    ///  Sets required control references for communication with the UI.
+    /// </summary>
+    private void InitializeGamemaster()
+    {
+        gamemaster = new Gamemaster(this, ref buttonGame, ref buttonQuestion, ref noteDisplay, ref noteDisplayText);
+    }
+
+    /// <summary>
     ///  WinForms theme: MaterialSkin 2, by leocb.
     /// </summary> 
     private void InitializeMaterialSkin()
@@ -249,6 +257,6 @@ partial class AppWindow
         materialSkinManager.AddFormToManage(this);
         materialSkinManager.Theme = MaterialSkinManager.Themes.DARK;
         materialSkinManager.ColorScheme = new ColorScheme(Primary.BlueGrey700, Primary.BlueGrey900, Primary.BlueGrey500, 
-                                                          Accent.LightBlue200, TextShade.WHITE);
+                                                          Accent.Blue400, TextShade.WHITE); // Prev accent: LightBlue200
     }
 }

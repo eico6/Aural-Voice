@@ -25,6 +25,11 @@ internal partial class Piano
     ///  Hash key should be passed as a 'AppWindow.NoteName' string.
     /// </summary>
     private Dictionary<String, Note>? _notes;
+    private Dictionary<String, Note>? notes
+    {
+        get { return _notes; }
+        set { _notes = value; }
+    }
 
     /// <summary>
     ///  Direct references to windows forms controls.
@@ -98,8 +103,8 @@ internal partial class Piano
         s_programSelector = programSelector;
         s_tabController = tabController;
 
-        // Instantiate '_notes' and initialize the midi device.
-        _notes = new Dictionary<String, Note>();
+        // Instantiate 'notes' and initialize the midi device.
+        notes = new Dictionary<String, Note>();
         AssignMidiDeviceAsync();
     }
 
@@ -157,25 +162,25 @@ internal partial class Piano
     /// </summary>
     internal void AddNote(in String noteName, PictureBox keyRef)
     {
-        if (_notes != null)
+        if (notes != null)
         {
             var newNote = new Note(noteName, ref keyRef);
 
-            if (_notes.ContainsKey(noteName))
+            if (notes.ContainsKey(noteName))
             {
                 throw new ArgumentException($"Note '{noteName}' already exists.");
             }
 
-            if (_notes.Count == 88)
+            if (notes.Count == 88)
             {
-                throw new ArgumentException($"Tried to add note '{noteName}' to '{this}._notes' when full.");
+                throw new ArgumentException($"Tried to add note '{noteName}' to '{this}.notes' when full.");
             }
 
-            _notes.Add(noteName, newNote);
+            notes.Add(noteName, newNote);
         }
         else
         {
-            throw new NullReferenceException($"{this}._notes = null");
+            throw new NullReferenceException($"{this}.notes = null");
         }
     }
 
@@ -184,12 +189,12 @@ internal partial class Piano
     /// </summary>
     internal Note GetNote(in String noteName)
     {
-        if (_notes != null)
+        if (notes != null)
         {
-            return _notes[noteName];
+            return notes[noteName];
         }
 
-        throw new NullReferenceException($"{this}._notes = null");
+        throw new NullReferenceException($"{this}.notes = null");
     }
 
     /// <summary>

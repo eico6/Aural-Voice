@@ -17,17 +17,19 @@ partial class AppWindow
     ///  All events are called via user input.
     ///  Events are associated with "keys", where they call their respective "note".
     /// </summary>
-
+        
     #region Control Events
     
-        // Tab Controller
+        #region PianoTab...
+        private void buttonGame_Click(object sender, EventArgs e) { gamemaster.GM_buttonGame_Click(); }
+        private void buttonQuestion_Click(object sender, EventArgs e) { gamemaster.GM_buttonQuestion_Click(); }
+        #endregion PianoTab...
+
+        #region OptionsTab...
         private void tabController_Selected(object sender, TabControlEventArgs e) { piano.UpdateIsActive(); }
-
-        // Program Selector
         private void programSelector_SelectedValueChanged(object sender, EventArgs e) { piano.UpdateProgram(); }
-
-        // Volume Slider
         private void volumeSlider_onValueChanged(object sender, int newValue) { piano.SetVolume(newValue); }
+        #endregion OptionsTab...
 
 
     #endregion
@@ -37,6 +39,7 @@ partial class AppWindow
         #region KeyDown(...)
         private void AppWindow_KeyDown(object sender, KeyEventArgs e)
         {
+            // Piano keys
             if (e.KeyCode == Keys.Q) { piano.GetNote(NoteName.C4).ActionInput(Note.KeyAction.DOWN, Note.ActionCaller.KEYBOARD); }
             if (e.KeyCode == Keys.D2) { piano.GetNote(NoteName.Db4).ActionInput(Note.KeyAction.DOWN, Note.ActionCaller.KEYBOARD); }
             if (e.KeyCode == Keys.W) { piano.GetNote(NoteName.D4).ActionInput(Note.KeyAction.DOWN, Note.ActionCaller.KEYBOARD); }
@@ -50,12 +53,17 @@ partial class AppWindow
             if (e.KeyCode == Keys.D7) { piano.GetNote(NoteName.Bb4).ActionInput(Note.KeyAction.DOWN, Note.ActionCaller.KEYBOARD); }
             if (e.KeyCode == Keys.U) { piano.GetNote(NoteName.B4).ActionInput(Note.KeyAction.DOWN, Note.ActionCaller.KEYBOARD); }
             if (e.KeyCode == Keys.I) { piano.GetNote(NoteName.C5).ActionInput(Note.KeyAction.DOWN, Note.ActionCaller.KEYBOARD); }
+
+            // Gamemaster
+            if (e.KeyCode == Keys.Space ) { gamemaster.EndRound(); }
+
         }
         #endregion
 
         #region KeyUp(...)
         private void AppWindow_KeyUp(object sender, KeyEventArgs e)
         {
+            // Piano keys
             if (e.KeyCode == Keys.Q) { piano.GetNote(NoteName.C4).ActionInput(Note.KeyAction.UP, Note.ActionCaller.KEYBOARD); }
             if (e.KeyCode == Keys.D2) { piano.GetNote(NoteName.Db4).ActionInput(Note.KeyAction.UP, Note.ActionCaller.KEYBOARD); }
             if (e.KeyCode == Keys.W) { piano.GetNote(NoteName.D4).ActionInput(Note.KeyAction.UP, Note.ActionCaller.KEYBOARD); }

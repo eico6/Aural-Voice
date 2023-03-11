@@ -262,13 +262,14 @@ partial class AppWindow
             this.noteDisplay.Controls.Add(this.noteDisplayText);
             this.noteDisplay.Depth = 0;
             this.noteDisplay.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.noteDisplay.Location = new System.Drawing.Point(343, 57);
+            this.noteDisplay.Location = new System.Drawing.Point(343, 37);
             this.noteDisplay.Margin = new System.Windows.Forms.Padding(14);
             this.noteDisplay.MouseState = MaterialSkin.MouseState.HOVER;
             this.noteDisplay.Name = "noteDisplay";
             this.noteDisplay.Padding = new System.Windows.Forms.Padding(14);
             this.noteDisplay.Size = new System.Drawing.Size(165, 81);
             this.noteDisplay.TabIndex = 3;
+            this.noteDisplay.Visible = false;
             // 
             // noteDisplayText
             // 
@@ -277,50 +278,57 @@ partial class AppWindow
             this.noteDisplayText.Depth = 0;
             this.noteDisplayText.Font = new System.Drawing.Font("Roboto", 48F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.noteDisplayText.FontType = MaterialSkin.MaterialSkinManager.fontType.H3;
-            this.noteDisplayText.Location = new System.Drawing.Point(44, 14);
+            this.noteDisplayText.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.noteDisplayText.Location = new System.Drawing.Point(44, 13);
             this.noteDisplayText.MouseState = MaterialSkin.MouseState.HOVER;
             this.noteDisplayText.Name = "noteDisplayText";
-            this.noteDisplayText.Size = new System.Drawing.Size(86, 58);
+            this.noteDisplayText.Size = new System.Drawing.Size(1, 0);
             this.noteDisplayText.TabIndex = 4;
-            this.noteDisplayText.Text = "Ab4";
             // 
             // buttonGame
             // 
+            this.buttonGame.AutoSize = false;
             this.buttonGame.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.buttonGame.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
             this.buttonGame.Depth = 0;
             this.buttonGame.HighEmphasis = true;
             this.buttonGame.Icon = null;
-            this.buttonGame.Location = new System.Drawing.Point(131, 120);
+            this.buttonGame.Location = new System.Drawing.Point(383, 186);
             this.buttonGame.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.buttonGame.MouseState = MaterialSkin.MouseState.HOVER;
             this.buttonGame.Name = "buttonGame";
             this.buttonGame.NoAccentTextColor = System.Drawing.Color.Empty;
-            this.buttonGame.Size = new System.Drawing.Size(67, 36);
+            this.buttonGame.Size = new System.Drawing.Size(75, 36);
             this.buttonGame.TabIndex = 2;
-            this.buttonGame.Text = "Start";
+            this.buttonGame.TabStop = false;
+            this.buttonGame.Text = "START";
             this.buttonGame.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
             this.buttonGame.UseAccentColor = true;
-            this.buttonGame.UseVisualStyleBackColor = true;
+            this.buttonGame.UseVisualStyleBackColor = false;
+            this.buttonGame.Click += new System.EventHandler(this.buttonGame_Click);
             // 
             // buttonQuestion
             // 
+            this.buttonQuestion.AutoSize = false;
             this.buttonQuestion.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.buttonQuestion.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
             this.buttonQuestion.Depth = 0;
             this.buttonQuestion.HighEmphasis = true;
             this.buttonQuestion.Icon = null;
-            this.buttonQuestion.Location = new System.Drawing.Point(363, 158);
+            this.buttonQuestion.Location = new System.Drawing.Point(349, 138);
             this.buttonQuestion.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.buttonQuestion.MouseState = MaterialSkin.MouseState.HOVER;
             this.buttonQuestion.Name = "buttonQuestion";
             this.buttonQuestion.NoAccentTextColor = System.Drawing.Color.Empty;
-            this.buttonQuestion.Size = new System.Drawing.Size(133, 36);
+            this.buttonQuestion.Size = new System.Drawing.Size(150, 36);
             this.buttonQuestion.TabIndex = 1;
-            this.buttonQuestion.Text = "Next Question";
+            this.buttonQuestion.TabStop = false;
+            this.buttonQuestion.Text = "REPLAY QUESTION";
             this.buttonQuestion.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
             this.buttonQuestion.UseAccentColor = false;
             this.buttonQuestion.UseVisualStyleBackColor = true;
+            this.buttonQuestion.Visible = false;
+            this.buttonQuestion.Click += new System.EventHandler(this.buttonQuestion_Click);
             // 
             // pianoCard
             // 
@@ -1779,7 +1787,6 @@ partial class AppWindow
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.AppWindow_KeyUp);
             this.tabController.ResumeLayout(false);
             this.pianoTab.ResumeLayout(false);
-            this.pianoTab.PerformLayout();
             this.noteDisplay.ResumeLayout(false);
             this.noteDisplay.PerformLayout();
             this.pianoCard.ResumeLayout(false);
@@ -1976,8 +1983,8 @@ partial class AppWindow
     private MaterialSkin.Controls.MaterialComboBox programSelector;
     private MaterialSkin.Controls.MaterialLabel audioTitle;
     private MaterialSkin.Controls.MaterialSlider volumeSlider;
-    public MaterialSkin.Controls.MaterialButton buttonQuestion;
-    public MaterialSkin.Controls.MaterialButton buttonGame;
     private MaterialSkin.Controls.MaterialCard noteDisplay;
-    public MaterialSkin.Controls.MaterialLabel noteDisplayText;
+    private MaterialSkin.Controls.MaterialButton buttonQuestion;
+    private MaterialSkin.Controls.MaterialButton buttonGame;
+    private MaterialSkin.Controls.MaterialLabel noteDisplayText;
 }

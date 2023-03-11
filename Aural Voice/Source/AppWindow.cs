@@ -23,6 +23,7 @@ namespace AuralVoice;
 public partial class AppWindow : MaterialForm
 {
     private Piano? piano;
+    private Gamemaster? gamemaster;
     private MaterialSkinManager? materialSkinManager;
 
     public AppWindow()
@@ -34,6 +35,7 @@ public partial class AppWindow : MaterialForm
 
         InitializeComponent();
         InitializePiano();
+        InitializeGamemaster();
         InitializeMaterialSkin();
     }
 }
