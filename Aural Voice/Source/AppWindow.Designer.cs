@@ -28,7 +28,10 @@ partial class AppWindow
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AppWindow));
             this.tabController = new MaterialSkin.Controls.MaterialTabControl();
             this.pianoTab = new System.Windows.Forms.TabPage();
-            this.pianoTempText = new MaterialSkin.Controls.MaterialLabel();
+            this.noteDisplay = new MaterialSkin.Controls.MaterialCard();
+            this.noteDisplayText = new MaterialSkin.Controls.MaterialLabel();
+            this.buttonGame = new MaterialSkin.Controls.MaterialButton();
+            this.buttonQuestion = new MaterialSkin.Controls.MaterialButton();
             this.pianoCard = new MaterialSkin.Controls.MaterialCard();
             this.keyBb7 = new System.Windows.Forms.PictureBox();
             this.keyC8 = new System.Windows.Forms.PictureBox();
@@ -126,6 +129,7 @@ partial class AppWindow
             this.tabSelector = new MaterialSkin.Controls.MaterialTabSelector();
             this.tabController.SuspendLayout();
             this.pianoTab.SuspendLayout();
+            this.noteDisplay.SuspendLayout();
             this.pianoCard.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.keyBb7)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.keyC8)).BeginInit();
@@ -240,7 +244,9 @@ partial class AppWindow
             // 
             // pianoTab
             // 
-            this.pianoTab.Controls.Add(this.pianoTempText);
+            this.pianoTab.Controls.Add(this.noteDisplay);
+            this.pianoTab.Controls.Add(this.buttonGame);
+            this.pianoTab.Controls.Add(this.buttonQuestion);
             this.pianoTab.Controls.Add(this.pianoCard);
             this.pianoTab.Location = new System.Drawing.Point(4, 4);
             this.pianoTab.Margin = new System.Windows.Forms.Padding(0);
@@ -250,17 +256,71 @@ partial class AppWindow
             this.pianoTab.Text = "Piano";
             this.pianoTab.UseVisualStyleBackColor = true;
             // 
-            // pianoTempText
+            // noteDisplay
             // 
-            this.pianoTempText.AutoSize = true;
-            this.pianoTempText.Depth = 0;
-            this.pianoTempText.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.pianoTempText.Location = new System.Drawing.Point(343, 110);
-            this.pianoTempText.MouseState = MaterialSkin.MouseState.HOVER;
-            this.pianoTempText.Name = "pianoTempText";
-            this.pianoTempText.Size = new System.Drawing.Size(172, 19);
-            this.pianoTempText.TabIndex = 1;
-            this.pianoTempText.Text = "Welcome to Aural Voice!";
+            this.noteDisplay.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.noteDisplay.Controls.Add(this.noteDisplayText);
+            this.noteDisplay.Depth = 0;
+            this.noteDisplay.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.noteDisplay.Location = new System.Drawing.Point(343, 57);
+            this.noteDisplay.Margin = new System.Windows.Forms.Padding(14);
+            this.noteDisplay.MouseState = MaterialSkin.MouseState.HOVER;
+            this.noteDisplay.Name = "noteDisplay";
+            this.noteDisplay.Padding = new System.Windows.Forms.Padding(14);
+            this.noteDisplay.Size = new System.Drawing.Size(165, 81);
+            this.noteDisplay.TabIndex = 3;
+            // 
+            // noteDisplayText
+            // 
+            this.noteDisplayText.AutoSize = true;
+            this.noteDisplayText.BackColor = System.Drawing.Color.White;
+            this.noteDisplayText.Depth = 0;
+            this.noteDisplayText.Font = new System.Drawing.Font("Roboto", 48F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.noteDisplayText.FontType = MaterialSkin.MaterialSkinManager.fontType.H3;
+            this.noteDisplayText.Location = new System.Drawing.Point(44, 14);
+            this.noteDisplayText.MouseState = MaterialSkin.MouseState.HOVER;
+            this.noteDisplayText.Name = "noteDisplayText";
+            this.noteDisplayText.Size = new System.Drawing.Size(86, 58);
+            this.noteDisplayText.TabIndex = 4;
+            this.noteDisplayText.Text = "Ab4";
+            // 
+            // buttonGame
+            // 
+            this.buttonGame.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.buttonGame.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.buttonGame.Depth = 0;
+            this.buttonGame.HighEmphasis = true;
+            this.buttonGame.Icon = null;
+            this.buttonGame.Location = new System.Drawing.Point(131, 120);
+            this.buttonGame.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.buttonGame.MouseState = MaterialSkin.MouseState.HOVER;
+            this.buttonGame.Name = "buttonGame";
+            this.buttonGame.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.buttonGame.Size = new System.Drawing.Size(67, 36);
+            this.buttonGame.TabIndex = 2;
+            this.buttonGame.Text = "Start";
+            this.buttonGame.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.buttonGame.UseAccentColor = true;
+            this.buttonGame.UseVisualStyleBackColor = true;
+            // 
+            // buttonQuestion
+            // 
+            this.buttonQuestion.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.buttonQuestion.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.buttonQuestion.Depth = 0;
+            this.buttonQuestion.HighEmphasis = true;
+            this.buttonQuestion.Icon = null;
+            this.buttonQuestion.Location = new System.Drawing.Point(363, 158);
+            this.buttonQuestion.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.buttonQuestion.MouseState = MaterialSkin.MouseState.HOVER;
+            this.buttonQuestion.Name = "buttonQuestion";
+            this.buttonQuestion.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.buttonQuestion.Size = new System.Drawing.Size(133, 36);
+            this.buttonQuestion.TabIndex = 1;
+            this.buttonQuestion.Text = "Next Question";
+            this.buttonQuestion.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.buttonQuestion.UseAccentColor = false;
+            this.buttonQuestion.UseVisualStyleBackColor = true;
             // 
             // pianoCard
             // 
@@ -1720,6 +1780,8 @@ partial class AppWindow
             this.tabController.ResumeLayout(false);
             this.pianoTab.ResumeLayout(false);
             this.pianoTab.PerformLayout();
+            this.noteDisplay.ResumeLayout(false);
+            this.noteDisplay.PerformLayout();
             this.pianoCard.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.keyBb7)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.keyC8)).EndInit();
@@ -1911,8 +1973,11 @@ partial class AppWindow
     private PictureBox keyBb0;
     private PictureBox keyA0;
     private MaterialSkin.Controls.MaterialLabel programTitle;
-    private MaterialSkin.Controls.MaterialLabel pianoTempText;
     private MaterialSkin.Controls.MaterialComboBox programSelector;
     private MaterialSkin.Controls.MaterialLabel audioTitle;
     private MaterialSkin.Controls.MaterialSlider volumeSlider;
+    public MaterialSkin.Controls.MaterialButton buttonQuestion;
+    public MaterialSkin.Controls.MaterialButton buttonGame;
+    private MaterialSkin.Controls.MaterialCard noteDisplay;
+    public MaterialSkin.Controls.MaterialLabel noteDisplayText;
 }
