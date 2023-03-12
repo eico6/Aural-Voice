@@ -24,16 +24,28 @@ namespace AuralVoice
         ///  When round over is active, the user can procceed to next question.
         ///  One question is equal to one round.
         /// </summary>
-        private static bool _roundOver = false;
-        public static bool roundOver
+        private bool _roundOver = false;
+        public bool roundOver
         {
             get { return _roundOver; }
             private set { _roundOver = value; }
         }
 
         /// <summary>
+        ///  Current question's note index. 
+        ///  Retrieves note element in 'Piano.notes' dictionary.
+        /// </summary>
+        private int _questionIndex;
+        private int questionIndex
+        {
+            get { return _questionIndex; }
+            set { _questionIndex = value; }
+        }
+
+        /// <summary>
         ///  References to controls for UI and game management.
         /// </summary>
+        private readonly Piano? _piano;
         private readonly MaterialForm? _appWindow;
         private readonly MaterialButton? _buttonGame;
         private readonly MaterialButton? _buttonQuestion;
@@ -49,13 +61,14 @@ namespace AuralVoice
         private readonly MaterialLabel? _scoreAccuracyLabel;
         private readonly MaterialLabel? _scoreAccuracy;
 
-        internal Gamemaster(MaterialForm appWindowIn, ref MaterialButton buttonGameIn, ref MaterialButton buttonQuestionIn,
+        internal Gamemaster(ref Piano pianoIn, MaterialForm appWindowIn, ref MaterialButton buttonGameIn, ref MaterialButton buttonQuestionIn,
                             ref MaterialCard noteDisplayIn, ref MaterialLabel noteDisplayTextIn, ref MaterialLabel scoreAnswersLabelIn,
                             ref MaterialLabel scoreCorrectLabelIn, ref MaterialLabel scoreCorrectIn, ref MaterialLabel scoreWrongLabelIn,
                             ref MaterialLabel scoreWrongIn, ref MaterialLabel scoreTotalLabelIn, ref MaterialLabel scoreTotalIn,
                             ref MaterialLabel scoreAccuracyLabelIn, ref MaterialLabel scoreAccuracyIn)
         {
             // Assign UI control references.
+            _piano              = pianoIn;
             _appWindow          = appWindowIn;
             _buttonGame         = buttonGameIn;
             _buttonQuestion     = buttonQuestionIn;
@@ -77,8 +90,6 @@ namespace AuralVoice
         /// </summary>
         public void GM_buttonGame_Click()
         {
-            // Insert function to do all exception testing in one go here.
-
             if (_buttonGame != null)
             {
                 if (isPlayMode)
@@ -110,7 +121,8 @@ namespace AuralVoice
                 }
                 else if (!roundOver)
                 {
-                    MessageBox.Show("Played note ...");
+                    MessageBox.Show(Convert.ToString(questionIndex));
+                    PlayQuestion();
                 }
                 ClearFocus();
             }
@@ -120,26 +132,61 @@ namespace AuralVoice
             }
         }
 
-        public void StartGame()
+        /// <summary>
+        ///  Try a note as an answer to the round's question.
+        /// </summary>
+        public void TryAnswer(int noteIndex)
+        {
+            if (noteIndex == questionIndex)
+            {
+                CorrectAnswer();
+            }
+            else
+            {
+                WrongAnswer();
+            }
+        }
+
+        /// <summary>
+        ///  Plays the question related to the current round.
+        /// </summary>
+        private void PlayQuestion()
+        {
+            _piano.notes.ElementAt(questionIndex).Value.StopNote(true);
+            _piano.notes.ElementAt(questionIndex).Value.PlayNote(true);
+        }
+
+        private void StartGame()
         {
             isPlayMode = true;
+
+            if (Piano.gamemasterRef == null)
+            {
+                _piano.SetGamemasterReference(this);
+            }
+
             ResetScore();
             AlterUI();
             StartRound();
         }
 
-        public void EndGame()
+        private void EndGame()
         {
             isPlayMode = false;
+            _piano.notes.ElementAt(questionIndex).Value.StopNote(true);
             AlterUI();
         }
 
         private void StartRound()
         {
             roundOver = false;
+            questionIndex = new Random().Next(88);
+
+            // Update UI func
             _buttonQuestion.Text = "REPLAY QUESTION";
             _buttonQuestion.UseAccentColor = false;
             _noteDisplayText.Text = "  ?  ";
+            GM_buttonQuestion_Click();
         }
 
         private void EndRound()
@@ -149,13 +196,13 @@ namespace AuralVoice
             // Update UI func
             _buttonQuestion.Text = "NEXT QUESTION";
             _buttonQuestion.UseAccentColor = true;
-            _noteDisplayText.Text = "Ab4"; // Correct note
+            _noteDisplayText.Text = _piano.notes.ElementAt(questionIndex).Value.name;
         }
 
         /// <summary>
         ///  Question answered correctly.
         /// </summary>
-        public void CorrectAnswer()
+        private void CorrectAnswer()
         {
             // Update amount of correct answers.
             int newScore = Convert.ToInt32(_scoreCorrect.Text) + 1;
@@ -170,6 +217,10 @@ namespace AuralVoice
         /// </summary>
         private void WrongAnswer()
         {
+            // TODO: here and in CorrectAnswers(), set '_piano.notes.ElementAt(answerIndex).questionStatus'
+            //       to be red/green, where answerIndex is passed from TryAnswer().
+            //       Possibly put this in another function, as you'd also like to update keyImage in the note.
+
             // Update amount of wrong answers.
             int newScore = Convert.ToInt32(_scoreWrong.Text) + 1;
             _scoreWrong.Text = Convert.ToString(newScore);
@@ -194,7 +245,7 @@ namespace AuralVoice
             // Calculate the new total and accuracy.
             newTotal = scoreCorrect + scoreWrong;
             newAccuracy = (Convert.ToDouble(scoreCorrect) / Convert.ToDouble(newTotal)) * 100d;
-            newAccuracy = Math.Floor(newAccuracy);
+            newAccuracy = Math.Round(newAccuracy, 2);
 
             // UI Update
             _scoreTotal.Text = Convert.ToString(newTotal);
