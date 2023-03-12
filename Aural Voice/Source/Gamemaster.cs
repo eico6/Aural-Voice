@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing.Design;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -42,6 +43,9 @@ namespace AuralVoice
             set { _questionIndex = value; }
         }
 
+        private int pianoLowerBound = 0;
+        private int pianoUpperBound = 88;
+
         /// <summary>
         ///  References to controls for UI and game management.
         /// </summary>
@@ -60,12 +64,16 @@ namespace AuralVoice
         private readonly MaterialLabel? _scoreTotal;
         private readonly MaterialLabel? _scoreAccuracyLabel;
         private readonly MaterialLabel? _scoreAccuracy;
+        private readonly MaterialLabel? _auralVoiceLabel;
+        private readonly MaterialSlider? _noteSlider;
+        private readonly MaterialLabel? _noteSliderValue;
 
         internal Gamemaster(ref Piano pianoIn, MaterialForm appWindowIn, ref MaterialButton buttonGameIn, ref MaterialButton buttonQuestionIn,
                             ref MaterialCard noteDisplayIn, ref MaterialLabel noteDisplayTextIn, ref MaterialLabel scoreAnswersLabelIn,
                             ref MaterialLabel scoreCorrectLabelIn, ref MaterialLabel scoreCorrectIn, ref MaterialLabel scoreWrongLabelIn,
                             ref MaterialLabel scoreWrongIn, ref MaterialLabel scoreTotalLabelIn, ref MaterialLabel scoreTotalIn,
-                            ref MaterialLabel scoreAccuracyLabelIn, ref MaterialLabel scoreAccuracyIn)
+                            ref MaterialLabel scoreAccuracyLabelIn, ref MaterialLabel scoreAccuracyIn, ref MaterialLabel auralVoiceLabelIn,
+                            ref MaterialSlider noteSliderIn, ref MaterialLabel noteSliderValueIn)
         {
             // Assign UI control references.
             _piano              = pianoIn;
@@ -83,6 +91,9 @@ namespace AuralVoice
             _scoreTotal         = scoreTotalIn;
             _scoreAccuracyLabel = scoreAccuracyLabelIn;
             _scoreAccuracy      = scoreAccuracyIn;
+            _auralVoiceLabel    = auralVoiceLabelIn;
+            _noteSlider         = noteSliderIn;
+            _noteSliderValue    = noteSliderValueIn;
         }
 
         /// <summary>
@@ -163,8 +174,10 @@ namespace AuralVoice
         private void StartGame()
         {
             isPlayMode = true;
+
             ResetScore();
-            AlterUI();
+            UpdateUI();
+            SetupPiano();
             StartRound();
         }
 
@@ -172,29 +185,16 @@ namespace AuralVoice
         {
             isPlayMode = false;
             roundOver = false;
-            _piano.UpdateIsActive();
 
-            foreach (var note in _piano.notes)
-            {
-                note.Value.ResetKeyImage();
-                note.Value.StopNote(true);
-            }
-
-            AlterUI();
+            SetupPiano();
+            UpdateUI();
         }
 
         private void StartRound()
         {
             roundOver = false;
-            //questionIndex = new Random().Next(88);
-            questionIndex = new Random().Next(39, 51);
-            _piano.UpdateIsActive();
-
-            foreach (var note in _piano.notes)
-            {
-                note.Value.ResetKeyImage();
-                note.Value.StopNote(true);
-            }
+            RefreshPiano();
+            questionIndex = new Random().Next(pianoLowerBound, pianoUpperBound);
 
             // Update UI func
             string? questionmark = "  ?  ";
@@ -204,16 +204,72 @@ namespace AuralVoice
             GM_buttonQuestion_Click();
         }
 
+        public void SetupPiano()
+        {
+            CalculateBounds();
+            DisableNotes();
+            RefreshPiano();
+        }
+
+        private void CalculateBounds()
+        {
+            int intValue;
+            decimal decValue;
+            int lowerDiff;
+            int upperDiff;
+            int middleNoteIndex;
+
+            intValue = _noteSlider.Value;
+
+            // Clamp the value to minimum 2.
+            intValue = (intValue < 2) ? 2 : intValue;
+            decValue = Convert.ToDecimal(intValue);
+
+            lowerDiff = Convert.ToInt32(Math.Floor(decValue / 2));
+            upperDiff = Convert.ToInt32(Math.Ceiling(decValue / 2));
+
+            // Special case for 87 keys and above.
+            middleNoteIndex = (intValue >= 87) ? 44 : 45;
+
+            pianoLowerBound = middleNoteIndex - lowerDiff;
+            pianoUpperBound = middleNoteIndex + upperDiff;
+
+            var newValue = new StringBuilder();
+            newValue.Append(Convert.ToString(intValue));
+            newValue.Append(" Notes");
+            _noteSliderValue.Text = Convert.ToString(newValue);
+        }
+
+        private void DisableNotes()
+        {
+            // Disable lower bound notes.
+            for (int i = 0; i < pianoLowerBound; i++)
+            {
+                _piano.notes.ElementAt(i).Value.DisableNote();
+            }
+
+            // Disable upper bound notes.
+            for (int i = pianoUpperBound; i < 88; i++)
+            {
+                _piano.notes.ElementAt(i).Value.DisableNote();
+            }
+        }
+
+        private void RefreshPiano()
+        {
+            _piano.UpdateIsPianoActive();
+
+            // Enable active notes.
+            for (int i = pianoLowerBound; i < pianoUpperBound; i++)
+            {
+                _piano.notes.ElementAt(i).Value.EnableNote();
+            }
+        }
+
         private void EndRound()
         {
             roundOver = true;
-            _piano.UpdateIsActive();
-
-            foreach (var note in _piano.notes)
-            {
-                note.Value.ResetKeyImage();
-                note.Value.StopNote(true);
-            }
+            _piano.UpdateIsPianoActive();
 
             // Update UI func
             string? questionName = _piano.notes.ElementAt(questionIndex).Value.name;
@@ -227,6 +283,9 @@ namespace AuralVoice
         /// </summary>
         private void CorrectAnswer()
         {
+            // Stop playing the question note.
+            _piano.notes.ElementAt(questionIndex).Value.StopNote(true);
+
             // Update amount of correct answers.
             int newScore = Convert.ToInt32(_scoreCorrect.Text) + 1;
             _scoreCorrect.Text = Convert.ToString(newScore);
@@ -291,9 +350,9 @@ namespace AuralVoice
         }
 
         /// <summary>
-        ///  Hide/unhide and translate UI elements according to 'isPlayMode'.
+        ///  Hide/unhide UI elements according to 'isPlayMode'.
         /// </summary>
-        private void AlterUI()
+        private void UpdateUI()
         {
             if (_buttonGame == null) { throw new NullReferenceException($"{this}._buttonGame = null"); }
             if (_noteDisplay == null) { throw new NullReferenceException($"{this}._noteDisplay = null"); }
@@ -304,15 +363,42 @@ namespace AuralVoice
             {
                 _buttonGame.Text = "STOP";
                 _buttonGame.UseAccentColor = false;
+
                 _buttonQuestion.Visible = true;
+                
+                _auralVoiceLabel.Visible = false;
+                _noteSlider.Visible      = false;
+                _noteSliderValue.Visible = false;
+
+                SetScoreVisibility(true);
             }
             else if (!isPlayMode)
             {
                 _buttonGame.Text = "START";
                 _buttonGame.UseAccentColor = true;
                 SetNoteDisplayText("");
+
                 _buttonQuestion.Visible = false;
+
+                _auralVoiceLabel.Visible = true;
+                _noteSlider.Visible      = true;
+                _noteSliderValue.Visible = true;
+
+                SetScoreVisibility(false);
             }
+        }
+
+        private void SetScoreVisibility(bool visibility)
+        {
+            _scoreAnswersLabel.Visible  = visibility;
+            _scoreCorrectLabel.Visible  = visibility;
+            _scoreCorrect.Visible       = visibility;
+            _scoreWrongLabel.Visible    = visibility;
+            _scoreWrong.Visible         = visibility;
+            _scoreTotalLabel.Visible    = visibility;
+            _scoreTotal.Visible         = visibility;
+            _scoreAccuracyLabel.Visible = visibility;
+            _scoreAccuracy.Visible      = visibility;
         }
 
         /// <summary>

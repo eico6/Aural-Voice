@@ -88,16 +88,19 @@ internal partial class Piano
     /// </summary>
     private static readonly Dictionary<String, Bitmap> s_keyImages = new Dictionary<String, Bitmap>()
     {
-        { "idle_white",  ProjectResources.key_white_idle },
-        { "idle_black",  ProjectResources.key_black_idle },
-        { "hover_white", ProjectResources.key_white_hover },
-        { "hover_black", ProjectResources.key_black_hover },
-        { "press_white", ProjectResources.key_white_press },
-        { "press_black", ProjectResources.key_black_press },
-        { "red_white",   ProjectResources.key_white_red },
-        { "red_black",   ProjectResources.key_black_red },
-        { "green_white", ProjectResources.key_white_green },
-        { "green_black", ProjectResources.key_black_green }
+        { "idle_white",     ProjectResources.key_white_idle },
+        { "idle_black",     ProjectResources.key_black_idle },
+        { "hover_white",    ProjectResources.key_white_hover },
+        { "hover_black",    ProjectResources.key_black_hover },
+        { "press_white",    ProjectResources.key_white_press },
+        { "press_black",    ProjectResources.key_black_press },
+        { "red_white",      ProjectResources.key_white_red },
+        { "red_black",      ProjectResources.key_black_red },
+        { "green_white",    ProjectResources.key_white_green },
+        { "green_black",    ProjectResources.key_black_green },
+        { "disabled_white", ProjectResources.key_white_disabled },
+        { "disabled_black", ProjectResources.key_black_disabled }
+
     };
 
     /// <summary>
@@ -124,9 +127,9 @@ internal partial class Piano
     }
 
     /// <summary>
-    ///  Updates 'isActive' according to game state.
+    ///  Updates 'isPianoActive' according to game state.
     /// </summary>
-    public void UpdateIsActive()
+    public void UpdateIsPianoActive()
     {
         if (s_tabController != null)
         {

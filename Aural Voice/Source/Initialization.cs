@@ -247,7 +247,8 @@ partial class AppWindow
     {
         gamemaster = new Gamemaster(ref piano, this, ref buttonGame, ref buttonQuestion, ref noteDisplay, ref noteDisplayText,
                                     ref scoreAnswersLabel, ref scoreCorrectLabel, ref scoreCorrect, ref scoreWrongLabel,
-                                    ref scoreWrong, ref scoreTotalLabel, ref scoreTotal, ref scoreAccuracyLabel, ref scoreAccuracy);
+                                    ref scoreWrong, ref scoreTotalLabel, ref scoreTotal, ref scoreAccuracyLabel, ref scoreAccuracy,
+                                    ref auralVoiceLabel, ref noteSlider, ref noteSliderValue);
 
         // Assign reference to the gamemaster.
         Piano.gamemasterRef = gamemaster;

@@ -28,6 +28,9 @@ partial class AppWindow
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AppWindow));
             this.tabController = new MaterialSkin.Controls.MaterialTabControl();
             this.pianoTab = new System.Windows.Forms.TabPage();
+            this.auralVoiceLabel = new MaterialSkin.Controls.MaterialLabel();
+            this.noteSliderValue = new MaterialSkin.Controls.MaterialLabel();
+            this.noteSlider = new MaterialSkin.Controls.MaterialSlider();
             this.scoreAccuracy = new MaterialSkin.Controls.MaterialLabel();
             this.scoreTotal = new MaterialSkin.Controls.MaterialLabel();
             this.scoreWrong = new MaterialSkin.Controls.MaterialLabel();
@@ -253,6 +256,9 @@ partial class AppWindow
             // 
             // pianoTab
             // 
+            this.pianoTab.Controls.Add(this.auralVoiceLabel);
+            this.pianoTab.Controls.Add(this.noteSliderValue);
+            this.pianoTab.Controls.Add(this.noteSlider);
             this.pianoTab.Controls.Add(this.scoreAccuracy);
             this.pianoTab.Controls.Add(this.scoreTotal);
             this.pianoTab.Controls.Add(this.scoreWrong);
@@ -274,54 +280,102 @@ partial class AppWindow
             this.pianoTab.Text = "Piano";
             this.pianoTab.UseVisualStyleBackColor = true;
             // 
+            // auralVoiceLabel
+            // 
+            this.auralVoiceLabel.AutoSize = true;
+            this.auralVoiceLabel.Depth = 0;
+            this.auralVoiceLabel.Font = new System.Drawing.Font("Roboto", 34F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.auralVoiceLabel.FontType = MaterialSkin.MaterialSkinManager.fontType.H4;
+            this.auralVoiceLabel.Location = new System.Drawing.Point(163, 58);
+            this.auralVoiceLabel.MouseState = MaterialSkin.MouseState.HOVER;
+            this.auralVoiceLabel.Name = "auralVoiceLabel";
+            this.auralVoiceLabel.Size = new System.Drawing.Size(209, 41);
+            this.auralVoiceLabel.TabIndex = 15;
+            this.auralVoiceLabel.Text = "AURAL VOICE";
+            // 
+            // noteSliderValue
+            // 
+            this.noteSliderValue.AutoSize = true;
+            this.noteSliderValue.Depth = 0;
+            this.noteSliderValue.Font = new System.Drawing.Font("Roboto Medium", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.noteSliderValue.FontType = MaterialSkin.MaterialSkinManager.fontType.Subtitle2;
+            this.noteSliderValue.Location = new System.Drawing.Point(228, 174);
+            this.noteSliderValue.MouseState = MaterialSkin.MouseState.HOVER;
+            this.noteSliderValue.Name = "noteSliderValue";
+            this.noteSliderValue.Size = new System.Drawing.Size(58, 17);
+            this.noteSliderValue.TabIndex = 14;
+            this.noteSliderValue.Text = "88 Notes";
+            // 
+            // noteSlider
+            // 
+            this.noteSlider.Depth = 0;
+            this.noteSlider.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.noteSlider.Location = new System.Drawing.Point(108, 190);
+            this.noteSlider.MouseState = MaterialSkin.MouseState.HOVER;
+            this.noteSlider.Name = "noteSlider";
+            this.noteSlider.RangeMax = 88;
+            this.noteSlider.ShowValue = false;
+            this.noteSlider.Size = new System.Drawing.Size(325, 40);
+            this.noteSlider.TabIndex = 13;
+            this.noteSlider.TabStop = false;
+            this.noteSlider.Text = "";
+            this.noteSlider.UseAccentColor = true;
+            this.noteSlider.Value = 88;
+            this.noteSlider.ValueMax = 88;
+            this.noteSlider.onValueChanged += new MaterialSkin.Controls.MaterialSlider.ValueChanged(this.noteSlider_onValueChanged);
+            // 
             // scoreAccuracy
             // 
             this.scoreAccuracy.AutoSize = true;
             this.scoreAccuracy.Depth = 0;
             this.scoreAccuracy.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.scoreAccuracy.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
-            this.scoreAccuracy.Location = new System.Drawing.Point(295, 199);
+            this.scoreAccuracy.Location = new System.Drawing.Point(337, 201);
             this.scoreAccuracy.MouseState = MaterialSkin.MouseState.HOVER;
             this.scoreAccuracy.Name = "scoreAccuracy";
             this.scoreAccuracy.Size = new System.Drawing.Size(27, 24);
             this.scoreAccuracy.TabIndex = 12;
             this.scoreAccuracy.Text = "0%";
+            this.scoreAccuracy.Visible = false;
             // 
             // scoreTotal
             // 
             this.scoreTotal.AutoSize = true;
             this.scoreTotal.Depth = 0;
             this.scoreTotal.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.scoreTotal.Location = new System.Drawing.Point(278, 137);
+            this.scoreTotal.Location = new System.Drawing.Point(320, 137);
             this.scoreTotal.MouseState = MaterialSkin.MouseState.HOVER;
             this.scoreTotal.Name = "scoreTotal";
             this.scoreTotal.Size = new System.Drawing.Size(10, 19);
             this.scoreTotal.TabIndex = 11;
             this.scoreTotal.Text = "0";
+            this.scoreTotal.Visible = false;
             // 
             // scoreWrong
             // 
             this.scoreWrong.AutoSize = true;
             this.scoreWrong.Depth = 0;
             this.scoreWrong.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.scoreWrong.Location = new System.Drawing.Point(278, 109);
+            this.scoreWrong.Location = new System.Drawing.Point(320, 109);
             this.scoreWrong.MouseState = MaterialSkin.MouseState.HOVER;
             this.scoreWrong.Name = "scoreWrong";
             this.scoreWrong.Size = new System.Drawing.Size(10, 19);
             this.scoreWrong.TabIndex = 10;
             this.scoreWrong.Text = "0";
+            this.scoreWrong.Visible = false;
             // 
             // scoreCorrect
             // 
             this.scoreCorrect.AutoSize = true;
             this.scoreCorrect.Depth = 0;
             this.scoreCorrect.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.scoreCorrect.Location = new System.Drawing.Point(278, 84);
+            this.scoreCorrect.Location = new System.Drawing.Point(320, 84);
             this.scoreCorrect.MouseState = MaterialSkin.MouseState.HOVER;
             this.scoreCorrect.Name = "scoreCorrect";
             this.scoreCorrect.Size = new System.Drawing.Size(10, 19);
             this.scoreCorrect.TabIndex = 9;
             this.scoreCorrect.Text = "0";
+            this.scoreCorrect.Visible = false;
             // 
             // scoreAccuracyLabel
             // 
@@ -329,48 +383,52 @@ partial class AppWindow
             this.scoreAccuracyLabel.Depth = 0;
             this.scoreAccuracyLabel.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.scoreAccuracyLabel.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
-            this.scoreAccuracyLabel.Location = new System.Drawing.Point(191, 199);
+            this.scoreAccuracyLabel.Location = new System.Drawing.Point(233, 199);
             this.scoreAccuracyLabel.MouseState = MaterialSkin.MouseState.HOVER;
             this.scoreAccuracyLabel.Name = "scoreAccuracyLabel";
             this.scoreAccuracyLabel.Size = new System.Drawing.Size(88, 24);
             this.scoreAccuracyLabel.TabIndex = 8;
             this.scoreAccuracyLabel.Text = "Accuracy:";
+            this.scoreAccuracyLabel.Visible = false;
             // 
             // scoreTotalLabel
             // 
             this.scoreTotalLabel.AutoSize = true;
             this.scoreTotalLabel.Depth = 0;
             this.scoreTotalLabel.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.scoreTotalLabel.Location = new System.Drawing.Point(205, 137);
+            this.scoreTotalLabel.Location = new System.Drawing.Point(247, 137);
             this.scoreTotalLabel.MouseState = MaterialSkin.MouseState.HOVER;
             this.scoreTotalLabel.Name = "scoreTotalLabel";
             this.scoreTotalLabel.Size = new System.Drawing.Size(42, 19);
             this.scoreTotalLabel.TabIndex = 7;
             this.scoreTotalLabel.Text = "Total:";
+            this.scoreTotalLabel.Visible = false;
             // 
             // scoreWrongLabel
             // 
             this.scoreWrongLabel.AutoSize = true;
             this.scoreWrongLabel.Depth = 0;
             this.scoreWrongLabel.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.scoreWrongLabel.Location = new System.Drawing.Point(204, 109);
+            this.scoreWrongLabel.Location = new System.Drawing.Point(246, 109);
             this.scoreWrongLabel.MouseState = MaterialSkin.MouseState.HOVER;
             this.scoreWrongLabel.Name = "scoreWrongLabel";
             this.scoreWrongLabel.Size = new System.Drawing.Size(51, 19);
             this.scoreWrongLabel.TabIndex = 6;
             this.scoreWrongLabel.Text = "Wrong:";
+            this.scoreWrongLabel.Visible = false;
             // 
             // scoreCorrectLabel
             // 
             this.scoreCorrectLabel.AutoSize = true;
             this.scoreCorrectLabel.Depth = 0;
             this.scoreCorrectLabel.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.scoreCorrectLabel.Location = new System.Drawing.Point(205, 84);
+            this.scoreCorrectLabel.Location = new System.Drawing.Point(247, 84);
             this.scoreCorrectLabel.MouseState = MaterialSkin.MouseState.HOVER;
             this.scoreCorrectLabel.Name = "scoreCorrectLabel";
             this.scoreCorrectLabel.Size = new System.Drawing.Size(55, 19);
             this.scoreCorrectLabel.TabIndex = 5;
             this.scoreCorrectLabel.Text = "Correct:";
+            this.scoreCorrectLabel.Visible = false;
             // 
             // scoreAnswersLabel
             // 
@@ -378,12 +436,13 @@ partial class AppWindow
             this.scoreAnswersLabel.Depth = 0;
             this.scoreAnswersLabel.Font = new System.Drawing.Font("Roboto", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.scoreAnswersLabel.FontType = MaterialSkin.MaterialSkinManager.fontType.H5;
-            this.scoreAnswersLabel.Location = new System.Drawing.Point(205, 38);
+            this.scoreAnswersLabel.Location = new System.Drawing.Point(247, 38);
             this.scoreAnswersLabel.MouseState = MaterialSkin.MouseState.HOVER;
             this.scoreAnswersLabel.Name = "scoreAnswersLabel";
             this.scoreAnswersLabel.Size = new System.Drawing.Size(112, 29);
             this.scoreAnswersLabel.TabIndex = 4;
             this.scoreAnswersLabel.Text = "ANSWERS";
+            this.scoreAnswersLabel.Visible = false;
             // 
             // noteDisplay
             // 
@@ -391,7 +450,7 @@ partial class AppWindow
             this.noteDisplay.Controls.Add(this.noteDisplayText);
             this.noteDisplay.Depth = 0;
             this.noteDisplay.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.noteDisplay.Location = new System.Drawing.Point(475, 38);
+            this.noteDisplay.Location = new System.Drawing.Point(503, 43);
             this.noteDisplay.Margin = new System.Windows.Forms.Padding(14);
             this.noteDisplay.MouseState = MaterialSkin.MouseState.HOVER;
             this.noteDisplay.Name = "noteDisplay";
@@ -421,7 +480,7 @@ partial class AppWindow
             this.buttonGame.Depth = 0;
             this.buttonGame.HighEmphasis = true;
             this.buttonGame.Icon = null;
-            this.buttonGame.Location = new System.Drawing.Point(515, 187);
+            this.buttonGame.Location = new System.Drawing.Point(545, 187);
             this.buttonGame.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.buttonGame.MouseState = MaterialSkin.MouseState.HOVER;
             this.buttonGame.Name = "buttonGame";
@@ -443,7 +502,7 @@ partial class AppWindow
             this.buttonQuestion.Depth = 0;
             this.buttonQuestion.HighEmphasis = true;
             this.buttonQuestion.Icon = null;
-            this.buttonQuestion.Location = new System.Drawing.Point(481, 139);
+            this.buttonQuestion.Location = new System.Drawing.Point(511, 143);
             this.buttonQuestion.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.buttonQuestion.MouseState = MaterialSkin.MouseState.HOVER;
             this.buttonQuestion.Name = "buttonQuestion";
@@ -1809,7 +1868,7 @@ partial class AppWindow
             // 
             this.volumeSlider.Depth = 0;
             this.volumeSlider.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.volumeSlider.Location = new System.Drawing.Point(277, 241);
+            this.volumeSlider.Location = new System.Drawing.Point(279, 246);
             this.volumeSlider.MouseState = MaterialSkin.MouseState.HOVER;
             this.volumeSlider.Name = "volumeSlider";
             this.volumeSlider.Size = new System.Drawing.Size(310, 40);
@@ -1842,11 +1901,11 @@ partial class AppWindow
             "Vibraphone",
             "Drawbar Organ",
             "Pan Flute"});
-            this.programSelector.Location = new System.Drawing.Point(360, 151);
+            this.programSelector.Location = new System.Drawing.Point(359, 160);
             this.programSelector.MaxDropDownItems = 5;
             this.programSelector.MouseState = MaterialSkin.MouseState.OUT;
             this.programSelector.Name = "programSelector";
-            this.programSelector.Size = new System.Drawing.Size(216, 35);
+            this.programSelector.Size = new System.Drawing.Size(217, 35);
             this.programSelector.StartIndex = 0;
             this.programSelector.TabIndex = 2;
             this.programSelector.TabStop = false;
@@ -1859,7 +1918,7 @@ partial class AppWindow
             this.programTitle.AutoSize = true;
             this.programTitle.Depth = 0;
             this.programTitle.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.programTitle.Location = new System.Drawing.Point(278, 158);
+            this.programTitle.Location = new System.Drawing.Point(279, 165);
             this.programTitle.MouseState = MaterialSkin.MouseState.HOVER;
             this.programTitle.Name = "programTitle";
             this.programTitle.Size = new System.Drawing.Size(62, 19);
@@ -1872,7 +1931,7 @@ partial class AppWindow
             this.audioTitle.Depth = 0;
             this.audioTitle.Font = new System.Drawing.Font("Roboto", 34F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.audioTitle.FontType = MaterialSkin.MaterialSkinManager.fontType.H4;
-            this.audioTitle.Location = new System.Drawing.Point(383, 58);
+            this.audioTitle.Location = new System.Drawing.Point(387, 61);
             this.audioTitle.MouseState = MaterialSkin.MouseState.HOVER;
             this.audioTitle.Name = "audioTitle";
             this.audioTitle.Size = new System.Drawing.Size(88, 41);
@@ -2125,4 +2184,7 @@ partial class AppWindow
     private MaterialSkin.Controls.MaterialLabel scoreWrong;
     private MaterialSkin.Controls.MaterialLabel scoreCorrect;
     private MaterialSkin.Controls.MaterialLabel scoreAccuracy;
+    private MaterialSkin.Controls.MaterialSlider noteSlider;
+    private MaterialSkin.Controls.MaterialLabel noteSliderValue;
+    private MaterialSkin.Controls.MaterialLabel auralVoiceLabel;
 }

@@ -29,6 +29,7 @@ internal partial class Piano
             get => _name;
         }
 
+        private bool _isNoteActive = true;
         private static int _indexCounter = 0;
         private readonly int _noteIndex;
         private readonly PictureBox _associatedKey;
@@ -91,7 +92,8 @@ internal partial class Piano
             HOVER = 1,
             PRESS = 2,
             WRONG = 3,
-            CORRECT = 4
+            CORRECT = 4,
+            DISABLED = 5
         }
 
         /// <summary>
@@ -112,30 +114,38 @@ internal partial class Piano
         /// </summary>
         internal void PlayNote(bool isGameMaster = false)
         {
-            // if (the user is not being asked questions || the call was made by the game master)
-            if (!Gamemaster.isPlayMode || isGameMaster)
+            if (_isNoteActive)
             {
-                // if (this note is not already being played && the piano is active)
-                if (!_isPlayingNote && Piano.isActive)
+                // if (the user is not being asked questions ||
+                //     the call was made by the game master)
+                if (!Gamemaster.isPlayMode || isGameMaster)
                 {
-                    if (s_midiDevice != null)
-                    {
-                        _midiMessage = new MidiNoteOnMessage(Piano.defaultChannel, _midiIndex, Piano.volume);
-                        s_midiDevice.SendMessage(_midiMessage);
-                        _isPlayingNote = true;
-                    } else { throw new NullReferenceException($"{this}.midiDevice = null."); }
-                }
-            } 
-            else if (Gamemaster.isPlayMode)
-            {
-                // if (this note has not been answered yet this round)
-                if (questionStatus == QuestionStatus.STANDBY)
-                {
-                    bool isCorrectAnswer;
+                    // Display current note.
+                    if (!isGameMaster) _gamemasterRef.SetNoteDisplayText(name);
 
-                    isCorrectAnswer = gamemasterRef.TryAnswer(_noteIndex);
-                    _keyStatus = (isCorrectAnswer) ? KeyStatus.CORRECT : KeyStatus.WRONG;
-                    UpdateKeyImage();
+                    // if (this note is not already being
+                    //     played && the piano is active)
+                    if (!_isPlayingNote && Piano.isActive)
+                    {
+                        if (s_midiDevice != null)
+                        {
+                            _midiMessage = new MidiNoteOnMessage(Piano.defaultChannel, _midiIndex, Piano.volume);
+                            s_midiDevice.SendMessage(_midiMessage);
+                            _isPlayingNote = true;
+                        } else { throw new NullReferenceException($"{this}.midiDevice = null."); }
+                    }
+                } 
+                else if (Gamemaster.isPlayMode)
+                {
+                    // if (this note has not been answered yet this round)
+                    if (questionStatus == QuestionStatus.STANDBY)
+                    {
+                        bool isCorrectAnswer;
+
+                        isCorrectAnswer = gamemasterRef.TryAnswer(_noteIndex);
+                        _keyStatus = (isCorrectAnswer) ? KeyStatus.CORRECT : KeyStatus.WRONG;
+                        UpdateKeyImage();
+                    }
                 }
             }
         }
@@ -215,16 +225,14 @@ internal partial class Piano
                     break;
                 case KeyAction.LEAVE:
                     _keyStatus = KeyStatus.IDLE;
+                    if (!Gamemaster.isPlayMode)
+                        _gamemasterRef.SetNoteDisplayText("");
                     break;
                 case KeyAction.DOWN:
-                    if (!Gamemaster.isPlayMode) 
-                        _gamemasterRef.SetNoteDisplayText(name);
                     _keyStatus = KeyStatus.PRESS;
                     PlayNote();
                     break;
                 case KeyAction.UP:
-                    if (!Gamemaster.isPlayMode) 
-                        _gamemasterRef.SetNoteDisplayText("");
                     _keyStatus = KeyStatus.HOVER;
                     StopNote();
                     break;
@@ -243,8 +251,6 @@ internal partial class Piano
             switch (keyAction)
             {
                 case KeyAction.DOWN:
-                    if (!Gamemaster.isPlayMode)
-                        _gamemasterRef.SetNoteDisplayText(name);
                     _keyStatus = KeyStatus.PRESS;
                     PlayNote();
                     break;
@@ -266,52 +272,64 @@ internal partial class Piano
         /// </summary>
         private void UpdateKeyImage()
         {
-            if (questionStatus == QuestionStatus.STANDBY)
+            if (_isNoteActive)
             {
-                switch (_keyStatus)
+                if (questionStatus == QuestionStatus.STANDBY)
                 {
-                    case KeyStatus.IDLE:
-                        _associatedKey.Image = _isBlack ? s_keyImages["idle_black"] : s_keyImages["idle_white"];
-                        break;
-                    case KeyStatus.HOVER:
-                        _associatedKey.Image = _isBlack ? s_keyImages["hover_black"] : s_keyImages["hover_white"];
-                        break;
-                    case KeyStatus.PRESS:
-                        _associatedKey.Image = _isBlack ? s_keyImages["press_black"] : s_keyImages["press_white"];
-                        break;
-                    case KeyStatus.WRONG:
-                        _associatedKey.Image = _isBlack ? s_keyImages["red_black"] : s_keyImages["red_white"];
-                        questionStatus = QuestionStatus.RED;
-                        break;
-                    case KeyStatus.CORRECT:
-                        _associatedKey.Image = _isBlack ? s_keyImages["green_black"] : s_keyImages["green_white"];
-                        questionStatus = QuestionStatus.GREEN;
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException($"Enum KeyStatus '{_keyStatus}' is not accounted for.");
+                    switch (_keyStatus)
+                    {
+                        case KeyStatus.IDLE:
+                            _associatedKey.Image = _isBlack ? s_keyImages["idle_black"] : s_keyImages["idle_white"];
+                            break;
+                        case KeyStatus.HOVER:
+                            _associatedKey.Image = _isBlack ? s_keyImages["hover_black"] : s_keyImages["hover_white"];
+                            break;
+                        case KeyStatus.PRESS:
+                            _associatedKey.Image = _isBlack ? s_keyImages["press_black"] : s_keyImages["press_white"];
+                            break;
+                        case KeyStatus.WRONG:
+                            _associatedKey.Image = _isBlack ? s_keyImages["red_black"] : s_keyImages["red_white"];
+                            questionStatus = QuestionStatus.RED;
+                            break;
+                        case KeyStatus.CORRECT:
+                            _associatedKey.Image = _isBlack ? s_keyImages["green_black"] : s_keyImages["green_white"];
+                            questionStatus = QuestionStatus.GREEN;
+                            break;
+                        case KeyStatus.DISABLED:
+                            _associatedKey.Image = _isBlack ? s_keyImages["disabled_black"] : s_keyImages["disabled_white"];
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException($"Enum KeyStatus '{_keyStatus}' is not accounted for.");
+                    }
                 }
             }
         }
 
-        /// <summary>
-        ///  Sets the displayed image of the associated key to its idle 's_keyImages'.
-        /// </summary>
-        public void ResetKeyImage()
+        public void EnableNote()
         {
-            if (gamemasterRef.roundOver)
-            {
-                if (_keyStatus == KeyStatus.HOVER || _keyStatus == KeyStatus.PRESS)
-                {
-                    _associatedKey.Image = _isBlack ? s_keyImages["idle_black"] : s_keyImages["idle_white"];
-                }
-            } 
-            else if (!gamemasterRef.roundOver)
-            {
-                _associatedKey.Image = _isBlack ? s_keyImages["idle_black"] : s_keyImages["idle_white"];
-            }
+            _isNoteActive = true;
 
-            questionStatus = QuestionStatus.STANDBY;
+            ResetStatus();
+            UpdateKeyImage();
+
+            StopNote(true);
         }
+
+        public void DisableNote()
+        {
+            _keyStatus = KeyStatus.DISABLED;
+            UpdateKeyImage();
+            StopNote(true);
+
+            _isNoteActive = false;
+        }
+
+        private void ResetStatus()
+        {
+            questionStatus = QuestionStatus.STANDBY;
+            _keyStatus = KeyStatus.IDLE;
+        }
+
 
         /// <summary>
         ///  Calculates and returns a midi message note index based on 'Note._name'.
