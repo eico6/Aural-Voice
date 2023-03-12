@@ -217,10 +217,14 @@ internal partial class Piano
                     _keyStatus = KeyStatus.IDLE;
                     break;
                 case KeyAction.DOWN:
+                    if (!Gamemaster.isPlayMode) 
+                        _gamemasterRef.SetNoteDisplayText(name);
                     _keyStatus = KeyStatus.PRESS;
                     PlayNote();
                     break;
                 case KeyAction.UP:
+                    if (!Gamemaster.isPlayMode) 
+                        _gamemasterRef.SetNoteDisplayText("");
                     _keyStatus = KeyStatus.HOVER;
                     StopNote();
                     break;
@@ -239,10 +243,14 @@ internal partial class Piano
             switch (keyAction)
             {
                 case KeyAction.DOWN:
+                    if (!Gamemaster.isPlayMode)
+                        _gamemasterRef.SetNoteDisplayText(name);
                     _keyStatus = KeyStatus.PRESS;
                     PlayNote();
                     break;
                 case KeyAction.UP:
+                    if (!Gamemaster.isPlayMode)
+                        _gamemasterRef.SetNoteDisplayText("");
                     _keyStatus = KeyStatus.IDLE;
                     StopNote();
                     break;

@@ -197,9 +197,10 @@ namespace AuralVoice
             }
 
             // Update UI func
+            string? questionmark = "  ?  ";
             _buttonQuestion.Text = "REPLAY QUESTION";
             _buttonQuestion.UseAccentColor = false;
-            _noteDisplayText.Text = "  ?  ";
+            SetNoteDisplayText(questionmark);
             GM_buttonQuestion_Click();
         }
 
@@ -215,9 +216,10 @@ namespace AuralVoice
             }
 
             // Update UI func
+            string? questionName = _piano.notes.ElementAt(questionIndex).Value.name;
             _buttonQuestion.Text = "NEXT QUESTION";
             _buttonQuestion.UseAccentColor = true;
-            _noteDisplayText.Text = _piano.notes.ElementAt(questionIndex).Value.name;
+            SetNoteDisplayText(questionName);
         }
 
         /// <summary>
@@ -270,6 +272,14 @@ namespace AuralVoice
         }
 
         /// <summary>
+        ///  Set '_noteDisplayText' to a new string.
+        /// </summary>
+        public void SetNoteDisplayText(string newText)
+        {
+            _noteDisplayText.Text = newText;
+        }
+
+        /// <summary>
         ///  Resets the scoreboard do default values.
         /// </summary>
         private void ResetScore()
@@ -300,7 +310,7 @@ namespace AuralVoice
             {
                 _buttonGame.Text = "START";
                 _buttonGame.UseAccentColor = true;
-                _noteDisplayText.Text = "";
+                SetNoteDisplayText("");
                 _buttonQuestion.Visible = false;
             }
         }
