@@ -88,12 +88,19 @@ internal partial class Piano
     /// </summary>
     private static readonly Dictionary<String, Bitmap> s_keyImages = new Dictionary<String, Bitmap>()
     {
-        { "idle_white", ProjectResources.key_white_idle },
-        { "idle_black", ProjectResources.key_black_idle },
-        { "hover_white", ProjectResources.key_white_hover },
-        { "hover_black", ProjectResources.key_black_hover },
-        { "press_white", ProjectResources.key_white_press },
-        { "press_black", ProjectResources.key_black_press }
+        { "idle_white",     ProjectResources.key_white_idle },
+        { "idle_black",     ProjectResources.key_black_idle },
+        { "hover_white",    ProjectResources.key_white_hover },
+        { "hover_black",    ProjectResources.key_black_hover },
+        { "press_white",    ProjectResources.key_white_press },
+        { "press_black",    ProjectResources.key_black_press },
+        { "red_white",      ProjectResources.key_white_red },
+        { "red_black",      ProjectResources.key_black_red },
+        { "green_white",    ProjectResources.key_white_green },
+        { "green_black",    ProjectResources.key_black_green },
+        { "disabled_white", ProjectResources.key_white_disabled },
+        { "disabled_black", ProjectResources.key_black_disabled }
+
     };
 
     /// <summary>
@@ -120,24 +127,23 @@ internal partial class Piano
     }
 
     /// <summary>
-    ///  Sets reference to the 'AppWindow.gamemaster' at runtime.
+    ///  Updates 'isPianoActive' according to game state.
     /// </summary>
-    public void SetGamemasterReference(Gamemaster gamemasterIn)
-    {
-        gamemasterRef = gamemasterIn;
-    }
-
-    /// <summary>
-    ///  Updates 'isActive' according to the newly selected tab.
-    /// </summary>
-    public void UpdateIsActive()
+    public void UpdateIsPianoActive()
     {
         if (s_tabController != null)
         {
             string newTab = s_tabController.SelectedTab.ToString();
 
-            // The piano should only be active if the tab "Piano" is selected.
-            isActive = (newTab.Contains("Piano")) ? true : false;
+            // if (the Piano tab is active && a question round is not over)
+            if (newTab.Contains("Piano") && !gamemasterRef.roundOver)
+            {
+                isActive = true;
+            }
+            else
+            {
+                isActive = false;
+            }
         }
         else
         {

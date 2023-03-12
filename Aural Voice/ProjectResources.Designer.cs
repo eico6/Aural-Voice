@@ -63,6 +63,16 @@ namespace AuralVoice {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap key_black_disabled {
+            get {
+                object obj = ResourceManager.GetObject("key_black_disabled", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap key_black_green {
             get {
                 object obj = ResourceManager.GetObject("key_black_green", resourceCulture);
@@ -106,6 +116,16 @@ namespace AuralVoice {
         internal static System.Drawing.Bitmap key_black_red {
             get {
                 object obj = ResourceManager.GetObject("key_black_red", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap key_white_disabled {
+            get {
+                object obj = ResourceManager.GetObject("key_white_disabled", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

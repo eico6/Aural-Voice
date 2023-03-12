@@ -23,10 +23,11 @@ partial class AppWindow
         #region PianoTab...
         private void buttonGame_Click(object sender, EventArgs e) { gamemaster.GM_buttonGame_Click(); }
         private void buttonQuestion_Click(object sender, EventArgs e) { gamemaster.GM_buttonQuestion_Click(); }
+        private void noteSlider_onValueChanged(object sender, int newValue) { gamemaster.SetupPiano(); }
         #endregion PianoTab...
 
         #region OptionsTab...
-        private void tabController_Selected(object sender, TabControlEventArgs e) { piano.UpdateIsActive(); }
+        private void tabController_Selected(object sender, TabControlEventArgs e) { piano.UpdateIsPianoActive(); }
         private void programSelector_SelectedValueChanged(object sender, EventArgs e) { piano.UpdateProgram(); }
         private void volumeSlider_onValueChanged(object sender, int newValue) { piano.SetVolume(newValue); }
         #endregion OptionsTab...
@@ -40,22 +41,22 @@ partial class AppWindow
         private void AppWindow_KeyDown(object sender, KeyEventArgs e)
         {
             // Piano keys
-            if (e.KeyCode == Keys.Q) { piano.GetNote(NoteName.C4).ActionInput(Note.KeyAction.DOWN, Note.ActionCaller.KEYBOARD); }
+            if (e.KeyCode == Keys.Q)  { piano.GetNote(NoteName.C4).ActionInput(Note.KeyAction.DOWN, Note.ActionCaller.KEYBOARD); }
             if (e.KeyCode == Keys.D2) { piano.GetNote(NoteName.Db4).ActionInput(Note.KeyAction.DOWN, Note.ActionCaller.KEYBOARD); }
-            if (e.KeyCode == Keys.W) { piano.GetNote(NoteName.D4).ActionInput(Note.KeyAction.DOWN, Note.ActionCaller.KEYBOARD); }
+            if (e.KeyCode == Keys.W)  { piano.GetNote(NoteName.D4).ActionInput(Note.KeyAction.DOWN, Note.ActionCaller.KEYBOARD); }
             if (e.KeyCode == Keys.D3) { piano.GetNote(NoteName.Eb4).ActionInput(Note.KeyAction.DOWN, Note.ActionCaller.KEYBOARD); }
-            if (e.KeyCode == Keys.E) { piano.GetNote(NoteName.E4).ActionInput(Note.KeyAction.DOWN, Note.ActionCaller.KEYBOARD); }
-            if (e.KeyCode == Keys.R) { piano.GetNote(NoteName.F4).ActionInput(Note.KeyAction.DOWN, Note.ActionCaller.KEYBOARD); }
+            if (e.KeyCode == Keys.E)  { piano.GetNote(NoteName.E4).ActionInput(Note.KeyAction.DOWN, Note.ActionCaller.KEYBOARD); }
+            if (e.KeyCode == Keys.R)  { piano.GetNote(NoteName.F4).ActionInput(Note.KeyAction.DOWN, Note.ActionCaller.KEYBOARD); }
             if (e.KeyCode == Keys.D5) { piano.GetNote(NoteName.Gb4).ActionInput(Note.KeyAction.DOWN, Note.ActionCaller.KEYBOARD); }
-            if (e.KeyCode == Keys.T) { piano.GetNote(NoteName.G4).ActionInput(Note.KeyAction.DOWN, Note.ActionCaller.KEYBOARD); }
+            if (e.KeyCode == Keys.T)  { piano.GetNote(NoteName.G4).ActionInput(Note.KeyAction.DOWN, Note.ActionCaller.KEYBOARD); }
             if (e.KeyCode == Keys.D6) { piano.GetNote(NoteName.Ab4).ActionInput(Note.KeyAction.DOWN, Note.ActionCaller.KEYBOARD); }
-            if (e.KeyCode == Keys.Y) { piano.GetNote(NoteName.A4).ActionInput(Note.KeyAction.DOWN, Note.ActionCaller.KEYBOARD); }
+            if (e.KeyCode == Keys.Y)  { piano.GetNote(NoteName.A4).ActionInput(Note.KeyAction.DOWN, Note.ActionCaller.KEYBOARD); }
             if (e.KeyCode == Keys.D7) { piano.GetNote(NoteName.Bb4).ActionInput(Note.KeyAction.DOWN, Note.ActionCaller.KEYBOARD); }
-            if (e.KeyCode == Keys.U) { piano.GetNote(NoteName.B4).ActionInput(Note.KeyAction.DOWN, Note.ActionCaller.KEYBOARD); }
-            if (e.KeyCode == Keys.I) { piano.GetNote(NoteName.C5).ActionInput(Note.KeyAction.DOWN, Note.ActionCaller.KEYBOARD); }
+            if (e.KeyCode == Keys.U)  { piano.GetNote(NoteName.B4).ActionInput(Note.KeyAction.DOWN, Note.ActionCaller.KEYBOARD); }
+            if (e.KeyCode == Keys.I)  { piano.GetNote(NoteName.C5).ActionInput(Note.KeyAction.DOWN, Note.ActionCaller.KEYBOARD); }
 
             // Gamemaster
-            if (e.KeyCode == Keys.Space ) {  }
+            if (e.KeyCode == Keys.Space ) { gamemaster.GM_buttonQuestion_Click(); }
 
         }
         #endregion
@@ -64,19 +65,19 @@ partial class AppWindow
         private void AppWindow_KeyUp(object sender, KeyEventArgs e)
         {
             // Piano keys
-            if (e.KeyCode == Keys.Q) { piano.GetNote(NoteName.C4).ActionInput(Note.KeyAction.UP, Note.ActionCaller.KEYBOARD); }
+            if (e.KeyCode == Keys.Q)  { piano.GetNote(NoteName.C4).ActionInput(Note.KeyAction.UP, Note.ActionCaller.KEYBOARD); }
             if (e.KeyCode == Keys.D2) { piano.GetNote(NoteName.Db4).ActionInput(Note.KeyAction.UP, Note.ActionCaller.KEYBOARD); }
-            if (e.KeyCode == Keys.W) { piano.GetNote(NoteName.D4).ActionInput(Note.KeyAction.UP, Note.ActionCaller.KEYBOARD); }
+            if (e.KeyCode == Keys.W)  { piano.GetNote(NoteName.D4).ActionInput(Note.KeyAction.UP, Note.ActionCaller.KEYBOARD); }
             if (e.KeyCode == Keys.D3) { piano.GetNote(NoteName.Eb4).ActionInput(Note.KeyAction.UP, Note.ActionCaller.KEYBOARD); }
-            if (e.KeyCode == Keys.E) { piano.GetNote(NoteName.E4).ActionInput(Note.KeyAction.UP, Note.ActionCaller.KEYBOARD); }
-            if (e.KeyCode == Keys.R) { piano.GetNote(NoteName.F4).ActionInput(Note.KeyAction.UP, Note.ActionCaller.KEYBOARD); }
+            if (e.KeyCode == Keys.E)  { piano.GetNote(NoteName.E4).ActionInput(Note.KeyAction.UP, Note.ActionCaller.KEYBOARD); }
+            if (e.KeyCode == Keys.R)  { piano.GetNote(NoteName.F4).ActionInput(Note.KeyAction.UP, Note.ActionCaller.KEYBOARD); }
             if (e.KeyCode == Keys.D5) { piano.GetNote(NoteName.Gb4).ActionInput(Note.KeyAction.UP, Note.ActionCaller.KEYBOARD); }
-            if (e.KeyCode == Keys.T) { piano.GetNote(NoteName.G4).ActionInput(Note.KeyAction.UP, Note.ActionCaller.KEYBOARD); }
+            if (e.KeyCode == Keys.T)  { piano.GetNote(NoteName.G4).ActionInput(Note.KeyAction.UP, Note.ActionCaller.KEYBOARD); }
             if (e.KeyCode == Keys.D6) { piano.GetNote(NoteName.Ab4).ActionInput(Note.KeyAction.UP, Note.ActionCaller.KEYBOARD); }
-            if (e.KeyCode == Keys.Y) { piano.GetNote(NoteName.A4).ActionInput(Note.KeyAction.UP, Note.ActionCaller.KEYBOARD); }
+            if (e.KeyCode == Keys.Y)  { piano.GetNote(NoteName.A4).ActionInput(Note.KeyAction.UP, Note.ActionCaller.KEYBOARD); }
             if (e.KeyCode == Keys.D7) { piano.GetNote(NoteName.Bb4).ActionInput(Note.KeyAction.UP, Note.ActionCaller.KEYBOARD); }
-            if (e.KeyCode == Keys.U) { piano.GetNote(NoteName.B4).ActionInput(Note.KeyAction.UP, Note.ActionCaller.KEYBOARD); }
-            if (e.KeyCode == Keys.I) { piano.GetNote(NoteName.C5).ActionInput(Note.KeyAction.UP, Note.ActionCaller.KEYBOARD); }
+            if (e.KeyCode == Keys.U)  { piano.GetNote(NoteName.B4).ActionInput(Note.KeyAction.UP, Note.ActionCaller.KEYBOARD); }
+            if (e.KeyCode == Keys.I)  { piano.GetNote(NoteName.C5).ActionInput(Note.KeyAction.UP, Note.ActionCaller.KEYBOARD); }
         }
         #endregion
 
