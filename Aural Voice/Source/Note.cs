@@ -168,29 +168,39 @@ internal partial class Piano
         {
             if (Piano.isActive)
             {
-                // If input was made via mouse.
-                if (actionCaller == ActionCaller.MOUSE)
+                // If in play mode, let all input be registered, regardless of caller ActionCaller.
+                if (Gamemaster.isPlayMode)
                 {
-                    // Don't run if the note is already playing and if that call was made via keyboard.
-                    if (!(_isPlayingNote && _prevCaller == ActionCaller.KEYBOARD))
-                    {
-                        MouseInput(keyAction);
-                        _prevCaller = ActionCaller.MOUSE;
-                    }
+                    if (actionCaller == ActionCaller.MOUSE) MouseInput(keyAction);
+                    if (actionCaller == ActionCaller.KEYBOARD) KeyboardInput(keyAction);
                 }
-
-                // If input was made via keyboard.
-                if (actionCaller == ActionCaller.KEYBOARD)
+                else
                 {
-                    // Don't run if the note is already playing and if that call was made via mouse.
-                    if (!(_isPlayingNote && _prevCaller == ActionCaller.MOUSE))
+                    // If input was made via mouse.
+                    if (actionCaller == ActionCaller.MOUSE)
                     {
-                        KeyboardInput(keyAction);
-                        _prevCaller = ActionCaller.KEYBOARD;
+                        // Don't run if the note is already playing and if that call
+                        // was made via keyboard. This is to prevent overlapping notes.
+                        if (!(_isPlayingNote && _prevCaller == ActionCaller.KEYBOARD))
+                        {
+                            MouseInput(keyAction);
+                            _prevCaller = ActionCaller.MOUSE;
+                        }
+                    }
+
+                    // If input was made via keyboard.
+                    if (actionCaller == ActionCaller.KEYBOARD)
+                    {
+                        // Don't run if the note is already playing and if that call
+                        // was made via mouse. This is to prevent overlapping notes.
+                        if (!(_isPlayingNote && _prevCaller == ActionCaller.MOUSE))
+                        {
+                            KeyboardInput(keyAction);
+                            _prevCaller = ActionCaller.KEYBOARD;
+                        }  
                     }
                 }
             }
-
         }
 
         /// <summary>

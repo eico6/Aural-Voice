@@ -238,10 +238,6 @@ namespace AuralVoice
         /// </summary>
         private void WrongAnswer()
         {
-            // TODO: here and in CorrectAnswers(), set '_piano.notes.ElementAt(answerIndex).questionStatus'
-            //       to be red/green, where answerIndex is passed from TryAnswer().
-            //       Possibly put this in another function, as you'd also like to update keyImage in the note.
-
             // Update amount of wrong answers.
             int newScore = Convert.ToInt32(_scoreWrong.Text) + 1;
             _scoreWrong.Text = Convert.ToString(newScore);
@@ -297,14 +293,12 @@ namespace AuralVoice
             if (isPlayMode)
             {
                 _buttonGame.Text = "STOP";
-                //_buttonGame.Location = new Point(383, 186);
                 _buttonGame.UseAccentColor = false;
                 _buttonQuestion.Visible = true;
             }
             else if (!isPlayMode)
             {
                 _buttonGame.Text = "START";
-                //_buttonGame.Location = new Point(383, 120);
                 _buttonGame.UseAccentColor = true;
                 _noteDisplayText.Text = "";
                 _buttonQuestion.Visible = false;
