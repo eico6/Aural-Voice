@@ -280,7 +280,7 @@ partial class AppWindow
             this.scoreAccuracy.Depth = 0;
             this.scoreAccuracy.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.scoreAccuracy.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
-            this.scoreAccuracy.Location = new System.Drawing.Point(724, 194);
+            this.scoreAccuracy.Location = new System.Drawing.Point(720, 194);
             this.scoreAccuracy.MouseState = MaterialSkin.MouseState.HOVER;
             this.scoreAccuracy.Name = "scoreAccuracy";
             this.scoreAccuracy.Size = new System.Drawing.Size(27, 24);
@@ -333,7 +333,7 @@ partial class AppWindow
             this.scoreAccuracyLabel.Depth = 0;
             this.scoreAccuracyLabel.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.scoreAccuracyLabel.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
-            this.scoreAccuracyLabel.Location = new System.Drawing.Point(623, 194);
+            this.scoreAccuracyLabel.Location = new System.Drawing.Point(616, 194);
             this.scoreAccuracyLabel.MouseState = MaterialSkin.MouseState.HOVER;
             this.scoreAccuracyLabel.Name = "scoreAccuracyLabel";
             this.scoreAccuracyLabel.Size = new System.Drawing.Size(88, 24);

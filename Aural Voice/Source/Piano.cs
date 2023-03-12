@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Windows.Devices.Midi;
 using Windows.UI.Core;
 using MaterialSkin.Controls;
+using Windows.ApplicationModel.Preview.Notes;
 
 namespace AuralVoice;
 
@@ -25,10 +26,10 @@ internal partial class Piano
     ///  Hash key should be passed as a 'AppWindow.NoteName' string.
     /// </summary>
     private Dictionary<String, Note>? _notes;
-    private Dictionary<String, Note>? notes
+    public Dictionary<String, Note>? notes
     {
         get { return _notes; }
-        set { _notes = value; }
+        private set { _notes = value; }
     }
 
     /// <summary>
@@ -45,6 +46,16 @@ internal partial class Piano
     {
         get => _isActive;
         set => _isActive = value;
+    }
+
+    /// <summary>
+    ///  Holds reference to the 'AppWindow.gamemaster'.
+    /// </summary>
+    private static Gamemaster? _gamemasterRef;
+    public static Gamemaster? gamemasterRef
+    {
+        get => _gamemasterRef;
+        set => _gamemasterRef = value;
     }
 
     private const byte _defaultChannel = 0;
@@ -106,6 +117,14 @@ internal partial class Piano
         // Instantiate 'notes' and initialize the midi device.
         notes = new Dictionary<String, Note>();
         AssignMidiDeviceAsync();
+    }
+
+    /// <summary>
+    ///  Sets reference to the 'AppWindow.gamemaster' at runtime.
+    /// </summary>
+    public void SetGamemasterReference(Gamemaster gamemasterIn)
+    {
+        gamemasterRef = gamemasterIn;
     }
 
     /// <summary>

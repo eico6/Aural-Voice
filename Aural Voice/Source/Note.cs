@@ -18,12 +18,29 @@ internal partial class Piano
     /// </summary>
     internal class Note
     {
+        /// <summary>
+        ///  Holds the note's name. E.g. "Ab4".
+        /// </summary>
         private readonly String? _name;
+        public String? name
+        {
+            get => _name;
+        }
+
+        private static int _indexCounter = 0;
+        private readonly int _noteIndex;
         private readonly PictureBox _associatedKey;
         private readonly byte _midiIndex;
         private readonly bool _isBlack;
         private IMidiMessage? _midiMessage;
         private KeyStatus? _keyStatus;
+
+        private QuestionStatus _questionStatus = QuestionStatus.STANDBY;
+        public QuestionStatus questionStatus
+        {
+            get => _questionStatus;
+            set => _questionStatus = value;
+        }
 
         /// <summary>
         ///  Handles user input logic for overlapping calls.
@@ -37,12 +54,16 @@ internal partial class Piano
             _associatedKey = keyRef;
             _midiIndex = GetMidiIndex();
             _isBlack = _name.Contains('b') ? true : false;
+
+            // Sets this note's index, corresponding to its 'Piano.notes' placement.
+            _noteIndex = _indexCounter;
+            _indexCounter++;
         }
 
         /// <summary>
         ///  Specifies the caller of a KeyAction to prevent overlapping inputs.
         /// </summary>
-        internal enum ActionCaller : byte
+        internal enum ActionCaller : Byte
         {
             MOUSE = 0,
             KEYBOARD = 1
@@ -70,34 +91,65 @@ internal partial class Piano
         }
 
         /// <summary>
+        ///  Three possible note conditions during questioning.
+        ///  - STANDBY = Can be used as an answer to the round's question.
+        ///  - RED     = Was previously used as a wrong answer to a question.
+        ///  - GREEN   = Was previously used as a correct answer to a question.
+        /// </summary>
+        public enum QuestionStatus : Byte
+        {
+            STANDBY = 0,
+            RED = 1,
+            GREEN = 2
+        }
+
+        /// <summary>
         ///  Send a midi signal to start playing this note.
         /// </summary>
-        internal void PlayNote()
+        internal void PlayNote(bool isGameMaster = false)
         {
-            if (!_isPlayingNote && Piano.isActive)
+            // if (the user is not being asked questions || the call was made by the game master)
+            if (!Gamemaster.isPlayMode || isGameMaster)
             {
-                if (s_midiDevice != null)
+                // if (this note is not already being played && the piano is active)
+                if (!_isPlayingNote && Piano.isActive)
                 {
-                    _midiMessage = new MidiNoteOnMessage(Piano.defaultChannel, _midiIndex, Piano.volume);
-                    s_midiDevice.SendMessage(_midiMessage);
-                    _isPlayingNote = true;
-                } else { throw new NullReferenceException($"{this}.midiDevice = null."); }
+                    if (s_midiDevice != null)
+                    {
+                        _midiMessage = new MidiNoteOnMessage(Piano.defaultChannel, _midiIndex, Piano.volume);
+                        s_midiDevice.SendMessage(_midiMessage);
+                        _isPlayingNote = true;
+                    } else { throw new NullReferenceException($"{this}.midiDevice = null."); }
+                }
+            } 
+            else if (Gamemaster.isPlayMode)
+            {
+                // if (this note has not been answered yet this round)
+                if (questionStatus == QuestionStatus.STANDBY)
+                {
+                    gamemasterRef.TryAnswer(_noteIndex);
+                }
             }
         }
 
         /// <summary>
         ///  Send a midi signal to stop playing this note.
         /// </summary>
-        internal void StopNote()
+        internal void StopNote(bool isGameMaster = false)
         {
-            if (_isPlayingNote)
+            // if (the user is not being asked questions || the call was made by the game master)
+            if (!Gamemaster.isPlayMode || isGameMaster)
             {
-                if (s_midiDevice != null)
+                // if (this note is currently being played)
+                if (_isPlayingNote)
                 {
-                    _midiMessage = new MidiNoteOffMessage(Piano.defaultChannel, _midiIndex, Piano.volume);
-                    s_midiDevice.SendMessage(_midiMessage);
-                    _isPlayingNote = false;
-                } else { throw new NullReferenceException($"{this}.midiDevice = null"); }
+                    if (s_midiDevice != null)
+                    {
+                        _midiMessage = new MidiNoteOffMessage(Piano.defaultChannel, _midiIndex, Piano.volume);
+                        s_midiDevice.SendMessage(_midiMessage);
+                        _isPlayingNote = false;
+                    } else { throw new NullReferenceException($"{this}.midiDevice = null"); }
+                }
             }
         }
 
