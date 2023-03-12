@@ -88,12 +88,16 @@ internal partial class Piano
     /// </summary>
     private static readonly Dictionary<String, Bitmap> s_keyImages = new Dictionary<String, Bitmap>()
     {
-        { "idle_white", ProjectResources.key_white_idle },
-        { "idle_black", ProjectResources.key_black_idle },
+        { "idle_white",  ProjectResources.key_white_idle },
+        { "idle_black",  ProjectResources.key_black_idle },
         { "hover_white", ProjectResources.key_white_hover },
         { "hover_black", ProjectResources.key_black_hover },
         { "press_white", ProjectResources.key_white_press },
-        { "press_black", ProjectResources.key_black_press }
+        { "press_black", ProjectResources.key_black_press },
+        { "red_white",   ProjectResources.key_white_red },
+        { "red_black",   ProjectResources.key_black_red },
+        { "green_white", ProjectResources.key_white_green },
+        { "green_black", ProjectResources.key_black_green }
     };
 
     /// <summary>
@@ -117,14 +121,6 @@ internal partial class Piano
         // Instantiate 'notes' and initialize the midi device.
         notes = new Dictionary<String, Note>();
         AssignMidiDeviceAsync();
-    }
-
-    /// <summary>
-    ///  Sets reference to the 'AppWindow.gamemaster' at runtime.
-    /// </summary>
-    public void SetGamemasterReference(Gamemaster gamemasterIn)
-    {
-        gamemasterRef = gamemasterIn;
     }
 
     /// <summary>

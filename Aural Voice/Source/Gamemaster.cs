@@ -113,36 +113,41 @@ namespace AuralVoice
         /// </summary>
         public void GM_buttonQuestion_Click()
         {
-            if (_buttonQuestion != null)
+            if (isPlayMode)
             {
-                if (roundOver)
+                if (_buttonQuestion != null)
                 {
-                    StartRound();
+                    if (roundOver)
+                    {
+                        StartRound();
+                    }
+                    else if (!roundOver)
+                    {
+                        PlayQuestion();
+                    }
+                    ClearFocus();
                 }
-                else if (!roundOver)
+                else
                 {
-                    PlayQuestion();
+                    throw new NullReferenceException($"{this}._buttonQuestion = null");
                 }
-                ClearFocus();
-            }
-            else
-            {
-                throw new NullReferenceException($"{this}._buttonQuestion = null");
             }
         }
 
         /// <summary>
         ///  Try a note as an answer to the round's question.
         /// </summary>
-        public void TryAnswer(int noteIndex)
+        public bool TryAnswer(int noteIndex)
         {
             if (noteIndex == questionIndex)
             {
                 CorrectAnswer();
+                return true;
             }
             else
             {
                 WrongAnswer();
+                return false;
             }
         }
 
@@ -158,12 +163,6 @@ namespace AuralVoice
         private void StartGame()
         {
             isPlayMode = true;
-
-            if (Piano.gamemasterRef == null)
-            {
-                _piano.SetGamemasterReference(this);
-            }
-
             ResetScore();
             AlterUI();
             StartRound();
@@ -172,19 +171,29 @@ namespace AuralVoice
         private void EndGame()
         {
             isPlayMode = false;
-            _piano.notes.ElementAt(questionIndex).Value.StopNote(true);
+            roundOver = false;
+            _piano.UpdateIsActive();
+
+            foreach (var note in _piano.notes)
+            {
+                note.Value.ResetKeyImage();
+                note.Value.StopNote(true);
+            }
+
             AlterUI();
         }
 
         private void StartRound()
         {
             roundOver = false;
-            questionIndex = new Random().Next(88);
+            //questionIndex = new Random().Next(88);
+            questionIndex = new Random().Next(39, 51);
             _piano.UpdateIsActive();
 
             foreach (var note in _piano.notes)
             {
                 note.Value.ResetKeyImage();
+                note.Value.StopNote(true);
             }
 
             // Update UI func
@@ -202,6 +211,7 @@ namespace AuralVoice
             foreach (var note in _piano.notes)
             {
                 note.Value.ResetKeyImage();
+                note.Value.StopNote(true);
             }
 
             // Update UI func
@@ -215,9 +225,6 @@ namespace AuralVoice
         /// </summary>
         private void CorrectAnswer()
         {
-            // Stops the question note from being played.
-            _piano.notes.ElementAt(questionIndex).Value.StopNote(true);
-
             // Update amount of correct answers.
             int newScore = Convert.ToInt32(_scoreCorrect.Text) + 1;
             _scoreCorrect.Text = Convert.ToString(newScore);
@@ -292,19 +299,7 @@ namespace AuralVoice
                 _buttonGame.Text = "STOP";
                 //_buttonGame.Location = new Point(383, 186);
                 _buttonGame.UseAccentColor = false;
-                _noteDisplay.Visible = true;
                 _buttonQuestion.Visible = true;
-
-                // Score system visibility
-                _scoreAnswersLabel.Visible  = true;
-                _scoreCorrectLabel.Visible  = true;
-                _scoreCorrect.Visible       = true;
-                _scoreWrongLabel.Visible    = true;
-                _scoreWrong.Visible         = true;
-                _scoreTotalLabel.Visible    = true;
-                _scoreTotal.Visible         = true;
-                _scoreAccuracyLabel.Visible = true;
-                _scoreAccuracy.Visible      = true;
             }
             else if (!isPlayMode)
             {
@@ -312,7 +307,6 @@ namespace AuralVoice
                 //_buttonGame.Location = new Point(383, 120);
                 _buttonGame.UseAccentColor = true;
                 _noteDisplayText.Text = "";
-                _noteDisplay.Visible = false;
                 _buttonQuestion.Visible = false;
             }
         }

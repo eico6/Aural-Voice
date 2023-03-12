@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Windows.Devices.Midi;
 using Windows.UI.Notifications;
+using static AuralVoice.Piano.Note;
 
 namespace AuralVoice;
 
@@ -82,13 +83,15 @@ internal partial class Piano
         }
 
         /// <summary>
-        ///  Determines which one of the three possible key images should be displayed. 
+        ///  Determines which one of the five possible key images should be displayed. 
         /// </summary>
         private enum KeyStatus : Byte
         {
             IDLE = 0,
             HOVER = 1,
-            PRESS = 2
+            PRESS = 2,
+            WRONG = 3,
+            CORRECT = 4
         }
 
         /// <summary>
@@ -128,7 +131,11 @@ internal partial class Piano
                 // if (this note has not been answered yet this round)
                 if (questionStatus == QuestionStatus.STANDBY)
                 {
-                    gamemasterRef.TryAnswer(_noteIndex);
+                    bool isCorrectAnswer;
+
+                    isCorrectAnswer = gamemasterRef.TryAnswer(_noteIndex);
+                    _keyStatus = (isCorrectAnswer) ? KeyStatus.CORRECT : KeyStatus.WRONG;
+                    UpdateKeyImage();
                 }
             }
         }
@@ -241,19 +248,30 @@ internal partial class Piano
         /// </summary>
         private void UpdateKeyImage()
         {
-            switch (_keyStatus)
+            if (questionStatus == QuestionStatus.STANDBY)
             {
-                case KeyStatus.IDLE:
-                    _associatedKey.Image = _isBlack ? s_keyImages["idle_black"] : s_keyImages["idle_white"];
-                    break;
-                case KeyStatus.HOVER:
-                    _associatedKey.Image = _isBlack ? s_keyImages["hover_black"] : s_keyImages["hover_white"];
-                    break;
-                case KeyStatus.PRESS:
-                    _associatedKey.Image = _isBlack ? s_keyImages["press_black"] : s_keyImages["press_white"];
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException($"Enum KeyStatus '{_keyStatus}' is not accounted for.");
+                switch (_keyStatus)
+                {
+                    case KeyStatus.IDLE:
+                        _associatedKey.Image = _isBlack ? s_keyImages["idle_black"] : s_keyImages["idle_white"];
+                        break;
+                    case KeyStatus.HOVER:
+                        _associatedKey.Image = _isBlack ? s_keyImages["hover_black"] : s_keyImages["hover_white"];
+                        break;
+                    case KeyStatus.PRESS:
+                        _associatedKey.Image = _isBlack ? s_keyImages["press_black"] : s_keyImages["press_white"];
+                        break;
+                    case KeyStatus.WRONG:
+                        _associatedKey.Image = _isBlack ? s_keyImages["red_black"] : s_keyImages["red_white"];
+                        questionStatus = QuestionStatus.RED;
+                        break;
+                    case KeyStatus.CORRECT:
+                        _associatedKey.Image = _isBlack ? s_keyImages["green_black"] : s_keyImages["green_white"];
+                        questionStatus = QuestionStatus.GREEN;
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException($"Enum KeyStatus '{_keyStatus}' is not accounted for.");
+                }
             }
         }
 
@@ -273,6 +291,8 @@ internal partial class Piano
             {
                 _associatedKey.Image = _isBlack ? s_keyImages["idle_black"] : s_keyImages["idle_white"];
             }
+
+            questionStatus = QuestionStatus.STANDBY;
         }
 
         /// <summary>
