@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing.Text;
 using System.Linq;
 using System.Media;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -158,27 +159,31 @@ internal partial class Piano
         /// </summary>
         internal void ActionInput(in KeyAction keyAction, in ActionCaller actionCaller = ActionCaller.MOUSE)
         {
-            // If input was made via mouse.
-            if (actionCaller == ActionCaller.MOUSE)
+            if (Piano.isActive)
             {
-                // Don't run if the note is already playing and if that call was made via keyboard.
-                if (!(_isPlayingNote && _prevCaller == ActionCaller.KEYBOARD))
+                // If input was made via mouse.
+                if (actionCaller == ActionCaller.MOUSE)
                 {
-                    MouseInput(keyAction);
-                    _prevCaller = ActionCaller.MOUSE;
+                    // Don't run if the note is already playing and if that call was made via keyboard.
+                    if (!(_isPlayingNote && _prevCaller == ActionCaller.KEYBOARD))
+                    {
+                        MouseInput(keyAction);
+                        _prevCaller = ActionCaller.MOUSE;
+                    }
+                }
+
+                // If input was made via keyboard.
+                if (actionCaller == ActionCaller.KEYBOARD)
+                {
+                    // Don't run if the note is already playing and if that call was made via mouse.
+                    if (!(_isPlayingNote && _prevCaller == ActionCaller.MOUSE))
+                    {
+                        KeyboardInput(keyAction);
+                        _prevCaller = ActionCaller.KEYBOARD;
+                    }
                 }
             }
 
-            // If input was made via keyboard.
-            if (actionCaller == ActionCaller.KEYBOARD)
-            {
-                // Don't run if the note is already playing and if that call was made via mouse.
-                if (!(_isPlayingNote && _prevCaller == ActionCaller.MOUSE))
-                {
-                    KeyboardInput(keyAction);
-                    _prevCaller = ActionCaller.KEYBOARD;
-                }
-            }
         }
 
         /// <summary>
@@ -249,6 +254,24 @@ internal partial class Piano
                     break;
                 default:
                     throw new ArgumentOutOfRangeException($"Enum KeyStatus '{_keyStatus}' is not accounted for.");
+            }
+        }
+
+        /// <summary>
+        ///  Sets the displayed image of the associated key to its idle 's_keyImages'.
+        /// </summary>
+        public void ResetKeyImage()
+        {
+            if (gamemasterRef.roundOver)
+            {
+                if (_keyStatus == KeyStatus.HOVER || _keyStatus == KeyStatus.PRESS)
+                {
+                    _associatedKey.Image = _isBlack ? s_keyImages["idle_black"] : s_keyImages["idle_white"];
+                }
+            } 
+            else if (!gamemasterRef.roundOver)
+            {
+                _associatedKey.Image = _isBlack ? s_keyImages["idle_black"] : s_keyImages["idle_white"];
             }
         }
 

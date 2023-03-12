@@ -128,7 +128,7 @@ internal partial class Piano
     }
 
     /// <summary>
-    ///  Updates 'isActive' according to the newly selected tab.
+    ///  Updates 'isActive' according to game state.
     /// </summary>
     public void UpdateIsActive()
     {
@@ -136,8 +136,15 @@ internal partial class Piano
         {
             string newTab = s_tabController.SelectedTab.ToString();
 
-            // The piano should only be active if the tab "Piano" is selected.
-            isActive = (newTab.Contains("Piano")) ? true : false;
+            // if (the Piano tab is active && a question round is not over)
+            if (newTab.Contains("Piano") && !gamemasterRef.roundOver)
+            {
+                isActive = true;
+            }
+            else
+            {
+                isActive = false;
+            }
         }
         else
         {

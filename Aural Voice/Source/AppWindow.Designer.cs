@@ -280,7 +280,7 @@ partial class AppWindow
             this.scoreAccuracy.Depth = 0;
             this.scoreAccuracy.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.scoreAccuracy.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
-            this.scoreAccuracy.Location = new System.Drawing.Point(720, 194);
+            this.scoreAccuracy.Location = new System.Drawing.Point(616, 194);
             this.scoreAccuracy.MouseState = MaterialSkin.MouseState.HOVER;
             this.scoreAccuracy.Name = "scoreAccuracy";
             this.scoreAccuracy.Size = new System.Drawing.Size(27, 24);
@@ -293,7 +293,7 @@ partial class AppWindow
             this.scoreTotal.AutoSize = true;
             this.scoreTotal.Depth = 0;
             this.scoreTotal.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.scoreTotal.Location = new System.Drawing.Point(719, 135);
+            this.scoreTotal.Location = new System.Drawing.Point(615, 135);
             this.scoreTotal.MouseState = MaterialSkin.MouseState.HOVER;
             this.scoreTotal.Name = "scoreTotal";
             this.scoreTotal.Size = new System.Drawing.Size(10, 19);
@@ -306,7 +306,7 @@ partial class AppWindow
             this.scoreWrong.AutoSize = true;
             this.scoreWrong.Depth = 0;
             this.scoreWrong.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.scoreWrong.Location = new System.Drawing.Point(719, 107);
+            this.scoreWrong.Location = new System.Drawing.Point(615, 107);
             this.scoreWrong.MouseState = MaterialSkin.MouseState.HOVER;
             this.scoreWrong.Name = "scoreWrong";
             this.scoreWrong.Size = new System.Drawing.Size(10, 19);
@@ -319,7 +319,7 @@ partial class AppWindow
             this.scoreCorrect.AutoSize = true;
             this.scoreCorrect.Depth = 0;
             this.scoreCorrect.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.scoreCorrect.Location = new System.Drawing.Point(719, 82);
+            this.scoreCorrect.Location = new System.Drawing.Point(615, 82);
             this.scoreCorrect.MouseState = MaterialSkin.MouseState.HOVER;
             this.scoreCorrect.Name = "scoreCorrect";
             this.scoreCorrect.Size = new System.Drawing.Size(10, 19);
@@ -333,7 +333,7 @@ partial class AppWindow
             this.scoreAccuracyLabel.Depth = 0;
             this.scoreAccuracyLabel.Font = new System.Drawing.Font("Roboto Medium", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.scoreAccuracyLabel.FontType = MaterialSkin.MaterialSkinManager.fontType.H6;
-            this.scoreAccuracyLabel.Location = new System.Drawing.Point(616, 194);
+            this.scoreAccuracyLabel.Location = new System.Drawing.Point(512, 194);
             this.scoreAccuracyLabel.MouseState = MaterialSkin.MouseState.HOVER;
             this.scoreAccuracyLabel.Name = "scoreAccuracyLabel";
             this.scoreAccuracyLabel.Size = new System.Drawing.Size(88, 24);
@@ -346,7 +346,7 @@ partial class AppWindow
             this.scoreTotalLabel.AutoSize = true;
             this.scoreTotalLabel.Depth = 0;
             this.scoreTotalLabel.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.scoreTotalLabel.Location = new System.Drawing.Point(659, 135);
+            this.scoreTotalLabel.Location = new System.Drawing.Point(555, 135);
             this.scoreTotalLabel.MouseState = MaterialSkin.MouseState.HOVER;
             this.scoreTotalLabel.Name = "scoreTotalLabel";
             this.scoreTotalLabel.Size = new System.Drawing.Size(42, 19);
@@ -359,7 +359,7 @@ partial class AppWindow
             this.scoreWrongLabel.AutoSize = true;
             this.scoreWrongLabel.Depth = 0;
             this.scoreWrongLabel.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.scoreWrongLabel.Location = new System.Drawing.Point(650, 107);
+            this.scoreWrongLabel.Location = new System.Drawing.Point(546, 107);
             this.scoreWrongLabel.MouseState = MaterialSkin.MouseState.HOVER;
             this.scoreWrongLabel.Name = "scoreWrongLabel";
             this.scoreWrongLabel.Size = new System.Drawing.Size(51, 19);
@@ -372,7 +372,7 @@ partial class AppWindow
             this.scoreCorrectLabel.AutoSize = true;
             this.scoreCorrectLabel.Depth = 0;
             this.scoreCorrectLabel.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.scoreCorrectLabel.Location = new System.Drawing.Point(646, 82);
+            this.scoreCorrectLabel.Location = new System.Drawing.Point(542, 82);
             this.scoreCorrectLabel.MouseState = MaterialSkin.MouseState.HOVER;
             this.scoreCorrectLabel.Name = "scoreCorrectLabel";
             this.scoreCorrectLabel.Size = new System.Drawing.Size(55, 19);
@@ -386,7 +386,7 @@ partial class AppWindow
             this.scoreAnswersLabel.Depth = 0;
             this.scoreAnswersLabel.Font = new System.Drawing.Font("Roboto", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.scoreAnswersLabel.FontType = MaterialSkin.MaterialSkinManager.fontType.H5;
-            this.scoreAnswersLabel.Location = new System.Drawing.Point(636, 37);
+            this.scoreAnswersLabel.Location = new System.Drawing.Point(532, 37);
             this.scoreAnswersLabel.MouseState = MaterialSkin.MouseState.HOVER;
             this.scoreAnswersLabel.Name = "scoreAnswersLabel";
             this.scoreAnswersLabel.Size = new System.Drawing.Size(112, 29);
@@ -400,7 +400,7 @@ partial class AppWindow
             this.noteDisplay.Controls.Add(this.noteDisplayText);
             this.noteDisplay.Depth = 0;
             this.noteDisplay.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.noteDisplay.Location = new System.Drawing.Point(343, 37);
+            this.noteDisplay.Location = new System.Drawing.Point(239, 37);
             this.noteDisplay.Margin = new System.Windows.Forms.Padding(14);
             this.noteDisplay.MouseState = MaterialSkin.MouseState.HOVER;
             this.noteDisplay.Name = "noteDisplay";
@@ -431,7 +431,7 @@ partial class AppWindow
             this.buttonGame.Depth = 0;
             this.buttonGame.HighEmphasis = true;
             this.buttonGame.Icon = null;
-            this.buttonGame.Location = new System.Drawing.Point(383, 186);
+            this.buttonGame.Location = new System.Drawing.Point(279, 186);
             this.buttonGame.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.buttonGame.MouseState = MaterialSkin.MouseState.HOVER;
             this.buttonGame.Name = "buttonGame";
@@ -453,7 +453,7 @@ partial class AppWindow
             this.buttonQuestion.Depth = 0;
             this.buttonQuestion.HighEmphasis = true;
             this.buttonQuestion.Icon = null;
-            this.buttonQuestion.Location = new System.Drawing.Point(349, 138);
+            this.buttonQuestion.Location = new System.Drawing.Point(245, 138);
             this.buttonQuestion.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.buttonQuestion.MouseState = MaterialSkin.MouseState.HOVER;
             this.buttonQuestion.Name = "buttonQuestion";

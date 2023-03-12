@@ -121,7 +121,6 @@ namespace AuralVoice
                 }
                 else if (!roundOver)
                 {
-                    MessageBox.Show(Convert.ToString(questionIndex));
                     PlayQuestion();
                 }
                 ClearFocus();
@@ -181,6 +180,12 @@ namespace AuralVoice
         {
             roundOver = false;
             questionIndex = new Random().Next(88);
+            _piano.UpdateIsActive();
+
+            foreach (var note in _piano.notes)
+            {
+                note.Value.ResetKeyImage();
+            }
 
             // Update UI func
             _buttonQuestion.Text = "REPLAY QUESTION";
@@ -192,6 +197,12 @@ namespace AuralVoice
         private void EndRound()
         {
             roundOver = true;
+            _piano.UpdateIsActive();
+
+            foreach (var note in _piano.notes)
+            {
+                note.Value.ResetKeyImage();
+            }
 
             // Update UI func
             _buttonQuestion.Text = "NEXT QUESTION";
@@ -204,6 +215,9 @@ namespace AuralVoice
         /// </summary>
         private void CorrectAnswer()
         {
+            // Stops the question note from being played.
+            _piano.notes.ElementAt(questionIndex).Value.StopNote(true);
+
             // Update amount of correct answers.
             int newScore = Convert.ToInt32(_scoreCorrect.Text) + 1;
             _scoreCorrect.Text = Convert.ToString(newScore);
@@ -306,7 +320,7 @@ namespace AuralVoice
         /// <summary>
         ///  Sets the focus to '_noteDisplayText'.
         ///  - Focus is whenever a control is highlighted and recieves keyboard inputs.
-        ///  - This focus is by default set to the latest control clicked by the user.
+        ///  - This focus is, by default, set to the latest control clicked by the user.
         ///  - This function's goal is therefore to clear/reset that focus to an 
         ///    "uninteractive" control, which happens to be a 'MaterialLabel' class.
         /// </summary>
