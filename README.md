@@ -9,4 +9,4 @@
 - WinForms Theme: [MaterialSkin 2](https://github.com/leocb/MaterialSkin) by [leocb](https://github.com/leocb/).
 
 ## Preview
-(TODO: place .gif of application)
+![](AuralVoice_preview.gif)
