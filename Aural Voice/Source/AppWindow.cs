@@ -5,6 +5,7 @@ using Windows.Devices.Midi;
 using Windows.UI.Notifications;
 using Windows.UI.WindowManagement;
 
+// Aural Voice 1.0.0
 namespace AuralVoice;
 
 /// <summary>

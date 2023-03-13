@@ -1,5 +1,6 @@
 ## Description
 - Aural Voice is a pitch training program. Improve your hearing through relative pitch, or develop a simulated perfect pitch.
+- Public version: Aural Voice 1.0.0, release date: Mar 13th, 2023.
 - Made by Eivind H. Naasen, date of creation: Aug 21st, 2022.
 
 ## Technical Data
