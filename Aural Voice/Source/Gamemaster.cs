@@ -86,7 +86,7 @@ namespace AuralVoice
         }
 
         /// <summary>
-        ///  References to controls for UI and game management.
+        ///  References to winforms controls for UI and game management.
         /// </summary>
         private readonly Piano? piano;
         private readonly MaterialForm? appWindow;
@@ -114,7 +114,7 @@ namespace AuralVoice
                             ref MaterialLabel scoreAccuracyLabelIn, ref MaterialLabel scoreAccuracyIn, ref MaterialLabel auralVoiceLabelIn,
                             ref MaterialSlider noteSliderIn, ref MaterialLabel noteSliderValueIn)
         {
-            // Assign UI control references.
+            // Assign references to winforms UI controls.
             piano              = pianoIn;
             appWindow          = appWindowIn;
             buttonGame         = buttonGameIn;

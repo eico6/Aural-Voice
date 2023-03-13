@@ -20,6 +20,11 @@ internal partial class Piano
     ///  a virtual MIDI synth bundled with Windows releases. Handles audio I/O.
     /// </summary>
     private static IMidiOutPort? s_midiDevice;
+    private static IMidiOutPort? midiDevice
+    {
+        get { return s_midiDevice; }
+        set { s_midiDevice = value; }
+    }
 
     /// <summary>
     ///  Collection containing the notes of the piano.
@@ -33,48 +38,49 @@ internal partial class Piano
     }
 
     /// <summary>
-    ///  Direct references to windows forms controls.
-    /// </summary>
-    private static MaterialComboBox? s_programSelector;
-    private static MaterialTabControl? s_tabController;
-
-    /// <summary>
-    ///  Determines whether the piano is active or not.
+    ///  Determines whether the piano should recieve input or not.
     /// </summary>
     private static bool _isActive = true;
     private static bool isActive
     {
-        get => _isActive;
-        set => _isActive = value;
+        get { return _isActive; }
+        set { _isActive = value; }
     }
 
     /// <summary>
-    ///  Holds reference to the 'AppWindow.gamemaster'.
+    ///  Holds reference to the Gamemaster.
     /// </summary>
     private static Gamemaster? _gamemasterRef;
     public static Gamemaster? gamemasterRef
     {
-        get => _gamemasterRef;
-        set => _gamemasterRef = value;
+        get { return _gamemasterRef; }
+        set { _gamemasterRef = value; }
     }
 
+    /// <summary>
+    ///  MIDI channel. 
+    ///  Aural Voice only supports one channel.
+    /// </summary>
     private const byte _defaultChannel = 0;
-    public static byte defaultChannel { get => _defaultChannel; }
+    public static byte defaultChannel 
+    { 
+        get { return _defaultChannel; }
+    }
 
     /// <summary>
     ///  Piano program instrument index.
     /// </summary>
-    private static byte s_program = 0;
-    public static byte program
+    private const byte _defaultProgram = 0;
+    public static byte defaultProgram
     {
-        get => s_program;
-        set => s_program = value;
+        get { return _defaultProgram; }
     }
 
     /// <summary>
-    ///  Volume range = [0 - 127].
-    ///  Volume Slider Control range = [0 - 100]
-    ///  The volume setter "de-normalizes" the value.
+    ///  Audio volume.
+    ///  - Volume range = [0 - 127].
+    ///  - Volume Slider Control range = [0 - 100]
+    ///  - The volume setter "de-normalizes" the value.
     /// </summary>
     private static byte s_volume = 127; 
     public static byte volume   
@@ -84,9 +90,15 @@ internal partial class Piano
     }
 
     /// <summary>
+    ///  References to winforms controls.
+    /// </summary>
+    private MaterialComboBox? programSelector;
+    private MaterialTabControl? tabController;
+
+    /// <summary>
     ///  Holds references to each piano key image in 'ProjectResources.resx'.
     /// </summary>
-    private static readonly Dictionary<String, Bitmap> s_keyImages = new Dictionary<String, Bitmap>()
+    private static readonly Dictionary<String, Bitmap> keyImages = new Dictionary<String, Bitmap>()
     {
         { "idle_white",     ProjectResources.key_white_idle },
         { "idle_black",     ProjectResources.key_black_idle },
@@ -106,7 +118,7 @@ internal partial class Piano
     /// <summary>
     ///  Collection of "General MIDI 1" instrument indexes.
     /// </summary>
-    private static readonly Dictionary<String, byte> s_programElement = new Dictionary<String, byte>()
+    private static readonly Dictionary<String, byte> programElement = new Dictionary<String, byte>()
     {
         { "Acoustic Grand Piano", 0 },
         { "Electric Piano",       4 },
@@ -115,71 +127,57 @@ internal partial class Piano
         { "Pan Flute",            75 }
     };
 
-    internal Piano(ref MaterialComboBox programSelector, ref MaterialTabControl tabController)
+    internal Piano(ref MaterialComboBox programSelectorIn, ref MaterialTabControl tabControllerIn)
     {
-        // Assign references to the windows forms controls.
-        s_programSelector = programSelector;
-        s_tabController = tabController;
+        // Assign references to winforms controls.
+        programSelector = programSelectorIn;
+        tabController = tabControllerIn;
 
-        // Instantiate 'notes' and initialize the midi device.
+        // Instantiate notes and initialize the midi device.
         notes = new Dictionary<String, Note>();
         AssignMidiDeviceAsync();
     }
 
     /// <summary>
-    ///  Updates 'isPianoActive' according to game state.
+    ///  Update piano activation according to game state.
     /// </summary>
     public void UpdateIsPianoActive()
     {
-        if (s_tabController != null)
-        {
-            string newTab = s_tabController.SelectedTab.ToString();
+        if (tabController == null) throw new NullReferenceException($"{this}.tabController = null");
 
-            // if (the Piano tab is active && a question round is not over)
-            if (newTab.Contains("Piano") && !gamemasterRef.roundOver)
-            {
-                isActive = true;
-            }
-            else
-            {
-                isActive = false;
-            }
+        string newTab = tabController.SelectedTab.ToString();
+
+        // if (the Piano tab is active && a question round is not over)
+        if (newTab.Contains("Piano") && !gamemasterRef.roundOver)
+        {
+            isActive = true;
         }
         else
         {
-            throw new NullReferenceException($"{this}.s_tabController = null");
+            isActive = false;
         }
     }
 
     /// <summary>
-    ///  Sets new program value, from 'string' to 'byte'.
+    ///  Updates active program on the midi device.
     /// </summary>
     internal void UpdateProgram()
     {
-        if (s_programSelector != null)
-        {
-            if (s_midiDevice != null)
-            {
-                byte newProgram = s_programElement[s_programSelector.SelectedItem.ToString()];
-                IMidiMessage programChange = new MidiProgramChangeMessage(defaultChannel, newProgram);
-                s_midiDevice.SendMessage(programChange);
-            }
-            else
-            {
-                throw new NullReferenceException($"{this}.s_midiDevice = null");
-            }
-        } else
-        {
-            throw new NullReferenceException($"{this}.s_programSelector = null");
-        }
+        if (programSelector == null) throw new NullReferenceException($"{this}.programSelector = null");
+        if (midiDevice == null)      throw new NullReferenceException($"{this}.midiDevice = null");
+
+        // Get selected program and send it to the midi device.
+        byte newProgram = Piano.programElement[programSelector.SelectedItem.ToString()];
+        IMidiMessage programChange = new MidiProgramChangeMessage(defaultChannel, newProgram);
+        midiDevice.SendMessage(programChange);
     }
 
     /// <summary>
-    ///  Sets new volume value, from 'int' to 'byte'.
+    ///  Sets a new volume value equal to <paramref name="volumeIn"/>.
     /// </summary>
     internal void SetVolume(int volumeIn)
     {
-        volume = Convert.ToByte(volumeIn);
+        Piano.volume = Convert.ToByte(volumeIn);
     }
 
     /// <summary>
@@ -187,26 +185,13 @@ internal partial class Piano
     /// </summary>
     internal void AddNote(in String noteName, PictureBox keyRef)
     {
-        if (notes != null)
-        {
-            var newNote = new Note(noteName, ref keyRef);
+        if (notes == null)               throw new NullReferenceException($"{this}.notes = null");
+        if (notes.ContainsKey(noteName)) throw new ArgumentException($"Note '{noteName}' already exists.");
+        if (notes.Count == 88)           throw new ArgumentException($"Tried to add note '{noteName}' to '{this}.notes' when full.");
 
-            if (notes.ContainsKey(noteName))
-            {
-                throw new ArgumentException($"Note '{noteName}' already exists.");
-            }
-
-            if (notes.Count == 88)
-            {
-                throw new ArgumentException($"Tried to add note '{noteName}' to '{this}.notes' when full.");
-            }
-
-            notes.Add(noteName, newNote);
-        }
-        else
-        {
-            throw new NullReferenceException($"{this}.notes = null");
-        }
+        // Add the new note to the notes dictionary.
+        var newNote = new Note(noteName, ref keyRef);
+        notes.Add(noteName, newNote);
     }
 
     /// <summary>
@@ -214,12 +199,9 @@ internal partial class Piano
     /// </summary>
     internal Note GetNote(in String noteName)
     {
-        if (notes != null)
-        {
-            return notes[noteName];
-        }
+        if (notes == null) throw new NullReferenceException($"{this}.notes = null");
 
-        throw new NullReferenceException($"{this}.notes = null");
+        return notes[noteName];
     }
 
     /// <summary>
@@ -227,11 +209,13 @@ internal partial class Piano
     /// </summary>
     private async void AssignMidiDeviceAsync()
     {
-        // midiDevice = "Microsoft GS Wavetable Synth".
-        s_midiDevice = await MidiSynthesizer.CreateAsync();
+        if (midiDevice == null) throw new NullReferenceException($"{this}.midiDevice = null");
 
-        // Sets the assigned synth to program 0 ("Acoustic Grand Piano").
-        IMidiMessage programChange = new MidiProgramChangeMessage(defaultChannel, program);
-        s_midiDevice.SendMessage(programChange);
+        // midiDevice = "Microsoft GS Wavetable Synth".
+        midiDevice = await MidiSynthesizer.CreateAsync();
+
+        // Sets the assigned synth to the default program ("Acoustic Grand Piano").
+        IMidiMessage programChange = new MidiProgramChangeMessage(Piano.defaultChannel, Piano.defaultProgram);
+        midiDevice.SendMessage(programChange);
     }
 }

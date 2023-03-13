@@ -126,10 +126,10 @@ internal partial class Piano
                     //     played && the piano is active)
                     if (!_isPlayingNote && Piano.isActive)
                     {
-                        if (s_midiDevice != null)
+                        if (Piano.midiDevice != null)
                         {
                             _midiMessage = new MidiNoteOnMessage(Piano.defaultChannel, _midiIndex, Piano.volume);
-                            s_midiDevice.SendMessage(_midiMessage);
+                            Piano.midiDevice.SendMessage(_midiMessage);
                             _isPlayingNote = true;
                         } else { throw new NullReferenceException($"{this}.midiDevice = null."); }
                     }
@@ -161,10 +161,10 @@ internal partial class Piano
                 // if (this note is currently being played)
                 if (_isPlayingNote)
                 {
-                    if (s_midiDevice != null)
+                    if (Piano.midiDevice != null)
                     {
                         _midiMessage = new MidiNoteOffMessage(Piano.defaultChannel, _midiIndex, Piano.volume);
-                        s_midiDevice.SendMessage(_midiMessage);
+                        Piano.midiDevice.SendMessage(_midiMessage);
                         _isPlayingNote = false;
                     } else { throw new NullReferenceException($"{this}.midiDevice = null"); }
                 }
@@ -278,24 +278,24 @@ internal partial class Piano
                     switch (_keyStatus)
                     {
                         case KeyStatus.IDLE:
-                            _associatedKey.Image = _isBlack ? s_keyImages["idle_black"] : s_keyImages["idle_white"];
+                            _associatedKey.Image = _isBlack ? Piano.keyImages["idle_black"] : Piano.keyImages["idle_white"];
                             break;
                         case KeyStatus.HOVER:
-                            _associatedKey.Image = _isBlack ? s_keyImages["hover_black"] : s_keyImages["hover_white"];
+                            _associatedKey.Image = _isBlack ? Piano.keyImages["hover_black"] : Piano.keyImages["hover_white"];
                             break;
                         case KeyStatus.PRESS:
-                            _associatedKey.Image = _isBlack ? s_keyImages["press_black"] : s_keyImages["press_white"];
+                            _associatedKey.Image = _isBlack ? Piano.keyImages["press_black"] : Piano.keyImages["press_white"];
                             break;
                         case KeyStatus.WRONG:
-                            _associatedKey.Image = _isBlack ? s_keyImages["red_black"] : s_keyImages["red_white"];
+                            _associatedKey.Image = _isBlack ? Piano.keyImages["red_black"] : Piano.keyImages["red_white"];
                             questionStatus = QuestionStatus.RED;
                             break;
                         case KeyStatus.CORRECT:
-                            _associatedKey.Image = _isBlack ? s_keyImages["green_black"] : s_keyImages["green_white"];
+                            _associatedKey.Image = _isBlack ? Piano.keyImages["green_black"] : Piano.keyImages["green_white"];
                             questionStatus = QuestionStatus.GREEN;
                             break;
                         case KeyStatus.DISABLED:
-                            _associatedKey.Image = _isBlack ? s_keyImages["disabled_black"] : s_keyImages["disabled_white"];
+                            _associatedKey.Image = _isBlack ? Piano.keyImages["disabled_black"] : Piano.keyImages["disabled_white"];
                             break;
                         default:
                             throw new ArgumentOutOfRangeException($"Enum KeyStatus '{_keyStatus}' is not accounted for.");
