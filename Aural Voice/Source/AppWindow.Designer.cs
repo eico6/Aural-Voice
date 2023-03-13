@@ -299,7 +299,7 @@ partial class AppWindow
             this.noteSliderValue.Depth = 0;
             this.noteSliderValue.Font = new System.Drawing.Font("Roboto Medium", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.noteSliderValue.FontType = MaterialSkin.MaterialSkinManager.fontType.Subtitle2;
-            this.noteSliderValue.Location = new System.Drawing.Point(228, 174);
+            this.noteSliderValue.Location = new System.Drawing.Point(244, 176);
             this.noteSliderValue.MouseState = MaterialSkin.MouseState.HOVER;
             this.noteSliderValue.Name = "noteSliderValue";
             this.noteSliderValue.Size = new System.Drawing.Size(58, 17);
@@ -466,7 +466,7 @@ partial class AppWindow
             this.noteDisplayText.Font = new System.Drawing.Font("Roboto", 48F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.noteDisplayText.FontType = MaterialSkin.MaterialSkinManager.fontType.H3;
             this.noteDisplayText.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.noteDisplayText.Location = new System.Drawing.Point(44, 13);
+            this.noteDisplayText.Location = new System.Drawing.Point(42, 11);
             this.noteDisplayText.MouseState = MaterialSkin.MouseState.HOVER;
             this.noteDisplayText.Name = "noteDisplayText";
             this.noteDisplayText.Size = new System.Drawing.Size(1, 0);

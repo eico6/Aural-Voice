@@ -4,7 +4,9 @@ using System.Drawing.Design;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using MaterialSkin.Controls;
+using static AuralVoice.AppWindow;
 
 namespace AuralVoice
 {
@@ -43,6 +45,9 @@ namespace AuralVoice
             set { _questionIndex = value; }
         }
 
+        /// <summary>
+        ///  Determines range of active keys.
+        /// </summary>
         private int pianoLowerBound = 0;
         private int pianoUpperBound = 88;
 
@@ -101,22 +106,19 @@ namespace AuralVoice
         /// </summary>
         public void GM_buttonGame_Click()
         {
-            if (_buttonGame != null)
+            if (_buttonGame == null) 
+                throw new NullReferenceException($"{this}._buttonGame = null");
+
+            if (isPlayMode)
             {
-                if (isPlayMode)
-                {
-                    EndGame();
-                }
-                else if (!isPlayMode)
-                {
-                    StartGame();
-                }
-                ClearFocus();
+                EndGame();
             }
             else
             {
-                throw new NullReferenceException($"{this}._buttonGame = null");
+                StartGame();
             }
+
+            ClearFocus();
         }
 
         /// <summary>
@@ -197,10 +199,9 @@ namespace AuralVoice
             questionIndex = new Random().Next(pianoLowerBound, pianoUpperBound);
 
             // Update UI func
-            string? questionmark = "  ?  ";
             _buttonQuestion.Text = "REPLAY QUESTION";
             _buttonQuestion.UseAccentColor = false;
-            SetNoteDisplayText(questionmark);
+            UpdateNoteDisplay();
             GM_buttonQuestion_Click();
         }
 
@@ -275,7 +276,7 @@ namespace AuralVoice
             string? questionName = _piano.notes.ElementAt(questionIndex).Value.name;
             _buttonQuestion.Text = "NEXT QUESTION";
             _buttonQuestion.UseAccentColor = true;
-            SetNoteDisplayText(questionName);
+            UpdateNoteDisplay(questionName);
         }
 
         /// <summary>
@@ -331,10 +332,41 @@ namespace AuralVoice
         }
 
         /// <summary>
+        ///  Handles logic for which what to display in '_noteDisplayText',
+        /// </summary>
+        /// <param name="noteName">Name of the note to display.</param>
+        public void UpdateNoteDisplay(string noteName = "")
+        {
+            if (isPlayMode)
+            {
+                string newInput;
+                newInput = (roundOver) ? noteName : "  ?  ";
+                SetNoteDisplayText(newInput);
+            }
+            else
+            {
+                SetNoteDisplayText(noteName);
+            }
+        }
+
+        /// <summary>
         ///  Set '_noteDisplayText' to a new string.
         /// </summary>
         public void SetNoteDisplayText(string newText)
         {
+            // Add an extra space at the start of the text if
+            // the text is the name of a white key. This is to
+            // visually align the text to the center.
+            if (!(newText.Contains('b') || newText.Contains('?')))
+            {
+                var whiteKey = new StringBuilder();
+
+                whiteKey.Append(" ");
+                whiteKey.Append(newText);
+
+                newText = Convert.ToString(whiteKey);
+            }
+
             _noteDisplayText.Text = newText;
         }
 
@@ -376,7 +408,7 @@ namespace AuralVoice
             {
                 _buttonGame.Text = "START";
                 _buttonGame.UseAccentColor = true;
-                SetNoteDisplayText("");
+                UpdateNoteDisplay();
 
                 _buttonQuestion.Visible = false;
 

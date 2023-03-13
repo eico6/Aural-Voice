@@ -116,13 +116,12 @@ internal partial class Piano
         {
             if (_isNoteActive)
             {
+                _gamemasterRef.UpdateNoteDisplay(name);
+
                 // if (the user is not being asked questions ||
                 //     the call was made by the game master)
                 if (!Gamemaster.isPlayMode || isGameMaster)
                 {
-                    // Display current note.
-                    if (!isGameMaster) _gamemasterRef.SetNoteDisplayText(name);
-
                     // if (this note is not already being
                     //     played && the piano is active)
                     if (!_isPlayingNote && Piano.isActive)
@@ -155,7 +154,8 @@ internal partial class Piano
         /// </summary>
         internal void StopNote(bool isGameMaster = false)
         {
-            // if (the user is not being asked questions || the call was made by the game master)
+            // if (the user is not being asked questions ||
+            //     the call was made by the game master)
             if (!Gamemaster.isPlayMode || isGameMaster)
             {
                 // if (this note is currently being played)
@@ -222,11 +222,11 @@ internal partial class Piano
             {
                 case KeyAction.ENTER:
                     _keyStatus = KeyStatus.HOVER;
+                    _gamemasterRef.UpdateNoteDisplay(name);
                     break;
                 case KeyAction.LEAVE:
                     _keyStatus = KeyStatus.IDLE;
-                    if (!Gamemaster.isPlayMode)
-                        _gamemasterRef.SetNoteDisplayText("");
+                    _gamemasterRef.UpdateNoteDisplay();
                     break;
                 case KeyAction.DOWN:
                     _keyStatus = KeyStatus.PRESS;
@@ -255,8 +255,7 @@ internal partial class Piano
                     PlayNote();
                     break;
                 case KeyAction.UP:
-                    if (!Gamemaster.isPlayMode)
-                        _gamemasterRef.SetNoteDisplayText("");
+                    _gamemasterRef.UpdateNoteDisplay();
                     _keyStatus = KeyStatus.IDLE;
                     StopNote();
                     break;
@@ -329,7 +328,6 @@ internal partial class Piano
             questionStatus = QuestionStatus.STANDBY;
             _keyStatus = KeyStatus.IDLE;
         }
-
 
         /// <summary>
         ///  Calculates and returns a midi message note index based on 'Note._name'.
