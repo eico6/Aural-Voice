@@ -4,7 +4,9 @@ using System.Drawing.Design;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using MaterialSkin.Controls;
+using static AuralVoice.AppWindow;
 
 namespace AuralVoice
 {
@@ -22,7 +24,7 @@ namespace AuralVoice
         }
 
         /// <summary>
-        ///  When round over is active, the user can procceed to next question.
+        ///  When active, the user can procceed to next the question.
         ///  One question is equal to one round.
         /// </summary>
         private bool _roundOver = false;
@@ -43,30 +45,67 @@ namespace AuralVoice
             set { _questionIndex = value; }
         }
 
-        private int pianoLowerBound = 0;
-        private int pianoUpperBound = 88;
+        /// <summary>
+        ///  Determines the lower bound of active keys.
+        /// </summary>
+        private int _pianoLowerBound = 0;
+        private int pianoLowerBound
+        {
+            get { return _pianoLowerBound; }
+            set { _pianoLowerBound = value; }
+        }
 
         /// <summary>
-        ///  References to controls for UI and game management.
+        ///  Determines the upper bound of active keys.
         /// </summary>
-        private readonly Piano? _piano;
-        private readonly MaterialForm? _appWindow;
-        private readonly MaterialButton? _buttonGame;
-        private readonly MaterialButton? _buttonQuestion;
-        private readonly MaterialCard? _noteDisplay;
-        private readonly MaterialLabel? _noteDisplayText;
-        private readonly MaterialLabel? _scoreAnswersLabel;
-        private readonly MaterialLabel? _scoreCorrectLabel;
-        private readonly MaterialLabel? _scoreCorrect;
-        private readonly MaterialLabel? _scoreWrongLabel;
-        private readonly MaterialLabel? _scoreWrong;
-        private readonly MaterialLabel? _scoreTotalLabel;
-        private readonly MaterialLabel? _scoreTotal;
-        private readonly MaterialLabel? _scoreAccuracyLabel;
-        private readonly MaterialLabel? _scoreAccuracy;
-        private readonly MaterialLabel? _auralVoiceLabel;
-        private readonly MaterialSlider? _noteSlider;
-        private readonly MaterialLabel? _noteSliderValue;
+        private int _pianoUpperBound = 88;
+        private int pianoUpperBound
+        {
+            get { return _pianoUpperBound; }
+            set { _pianoUpperBound = value; }
+        }
+
+        /// <summary>
+        ///  Determines the amount of questions answered correctly.
+        /// </summary>
+        private int _correctAnswers = 0;
+        private int correctAnswers
+        {
+            get { return _correctAnswers; }
+            set { _correctAnswers = value; }
+        }
+
+        /// <summary>
+        ///  Determines the aomunt of questions answered wrongly.
+        /// </summary>
+        private int _wrongAnswers = 0;
+        private int wrongAnswers
+        {
+            get { return _wrongAnswers; }
+            set { _wrongAnswers = value; }
+        }
+
+        /// <summary>
+        ///  References to winforms controls for UI and game management.
+        /// </summary>
+        private readonly Piano? piano;
+        private readonly MaterialForm? appWindow;
+        private readonly MaterialButton? buttonGame;
+        private readonly MaterialButton? buttonQuestion;
+        private readonly MaterialCard? noteDisplay;
+        private readonly MaterialLabel? noteDisplayText;
+        private readonly MaterialLabel? scoreAnswersLabel;
+        private readonly MaterialLabel? scoreCorrectLabel;
+        private readonly MaterialLabel? scoreCorrect;
+        private readonly MaterialLabel? scoreWrongLabel;
+        private readonly MaterialLabel? scoreWrong;
+        private readonly MaterialLabel? scoreTotalLabel;
+        private readonly MaterialLabel? scoreTotal;
+        private readonly MaterialLabel? scoreAccuracyLabel;
+        private readonly MaterialLabel? scoreAccuracy;
+        private readonly MaterialLabel? auralVoiceLabel;
+        private readonly MaterialSlider? noteSlider;
+        private readonly MaterialLabel? noteSliderValue;
 
         internal Gamemaster(ref Piano pianoIn, MaterialForm appWindowIn, ref MaterialButton buttonGameIn, ref MaterialButton buttonQuestionIn,
                             ref MaterialCard noteDisplayIn, ref MaterialLabel noteDisplayTextIn, ref MaterialLabel scoreAnswersLabelIn,
@@ -75,25 +114,25 @@ namespace AuralVoice
                             ref MaterialLabel scoreAccuracyLabelIn, ref MaterialLabel scoreAccuracyIn, ref MaterialLabel auralVoiceLabelIn,
                             ref MaterialSlider noteSliderIn, ref MaterialLabel noteSliderValueIn)
         {
-            // Assign UI control references.
-            _piano              = pianoIn;
-            _appWindow          = appWindowIn;
-            _buttonGame         = buttonGameIn;
-            _buttonQuestion     = buttonQuestionIn;
-            _noteDisplay        = noteDisplayIn;
-            _noteDisplayText    = noteDisplayTextIn;
-            _scoreAnswersLabel  = scoreAnswersLabelIn;
-            _scoreCorrectLabel  = scoreCorrectLabelIn;
-            _scoreCorrect       = scoreCorrectIn;
-            _scoreWrongLabel    = scoreWrongLabelIn;
-            _scoreWrong         = scoreWrongIn;
-            _scoreTotalLabel    = scoreTotalLabelIn;
-            _scoreTotal         = scoreTotalIn;
-            _scoreAccuracyLabel = scoreAccuracyLabelIn;
-            _scoreAccuracy      = scoreAccuracyIn;
-            _auralVoiceLabel    = auralVoiceLabelIn;
-            _noteSlider         = noteSliderIn;
-            _noteSliderValue    = noteSliderValueIn;
+            // Assign references to winforms UI controls.
+            piano              = pianoIn;
+            appWindow          = appWindowIn;
+            buttonGame         = buttonGameIn;
+            buttonQuestion     = buttonQuestionIn;
+            noteDisplay        = noteDisplayIn;
+            noteDisplayText    = noteDisplayTextIn;
+            scoreAnswersLabel  = scoreAnswersLabelIn;
+            scoreCorrectLabel  = scoreCorrectLabelIn;
+            scoreCorrect       = scoreCorrectIn;
+            scoreWrongLabel    = scoreWrongLabelIn;
+            scoreWrong         = scoreWrongIn;
+            scoreTotalLabel    = scoreTotalLabelIn;
+            scoreTotal         = scoreTotalIn;
+            scoreAccuracyLabel = scoreAccuracyLabelIn;
+            scoreAccuracy      = scoreAccuracyIn;
+            auralVoiceLabel    = auralVoiceLabelIn;
+            noteSlider         = noteSliderIn;
+            noteSliderValue    = noteSliderValueIn;
         }
 
         /// <summary>
@@ -101,22 +140,18 @@ namespace AuralVoice
         /// </summary>
         public void GM_buttonGame_Click()
         {
-            if (_buttonGame != null)
+            if (buttonGame == null) throw new NullReferenceException($"{this}.buttonGame = null");
+
+            if (isPlayMode)
             {
-                if (isPlayMode)
-                {
-                    EndGame();
-                }
-                else if (!isPlayMode)
-                {
-                    StartGame();
-                }
-                ClearFocus();
+                EndGame();
             }
             else
             {
-                throw new NullReferenceException($"{this}._buttonGame = null");
+                StartGame();
             }
+
+            ClearFocus();
         }
 
         /// <summary>
@@ -124,33 +159,27 @@ namespace AuralVoice
         /// </summary>
         public void GM_buttonQuestion_Click()
         {
-            if (isPlayMode)
+            if (buttonQuestion == null) throw new NullReferenceException($"{this}.buttonQuestion = null"); 
+
+            if (roundOver)
             {
-                if (_buttonQuestion != null)
-                {
-                    if (roundOver)
-                    {
-                        StartRound();
-                    }
-                    else if (!roundOver)
-                    {
-                        PlayQuestion();
-                    }
-                    ClearFocus();
-                }
-                else
-                {
-                    throw new NullReferenceException($"{this}._buttonQuestion = null");
-                }
+                StartRound();
             }
+            else
+            {
+                PlayQuestion();
+            }
+
+            ClearFocus();
         }
 
         /// <summary>
-        ///  Try a note as an answer to the round's question.
+        ///  Try a <paramref name="answerIndex"/> as an answer to the round's question.
         /// </summary>
-        public bool TryAnswer(int noteIndex)
+        public bool TryAnswer(int answerIndex)
         {
-            if (noteIndex == questionIndex)
+            // if (answered note == question's answer)
+            if (answerIndex == questionIndex)
             {
                 CorrectAnswer();
                 return true;
@@ -167,10 +196,17 @@ namespace AuralVoice
         /// </summary>
         private void PlayQuestion()
         {
-            _piano.notes.ElementAt(questionIndex).Value.StopNote(true);
-            _piano.notes.ElementAt(questionIndex).Value.PlayNote(true);
+            if (piano == null)       throw new NullReferenceException($"{this}.piano = null");
+            if (piano.notes == null) throw new NullReferenceException($"{this}.piano.notes = null");
+
+            // Play question note, but stop it first if it was already playing.
+            piano.notes.ElementAt(questionIndex).Value.StopNote(true);
+            piano.notes.ElementAt(questionIndex).Value.PlayNote(true);
         }
 
+        /// <summary>
+        ///  Starts the game.
+        /// </summary>
         private void StartGame()
         {
             isPlayMode = true;
@@ -181,6 +217,9 @@ namespace AuralVoice
             StartRound();
         }
 
+        /// <summary>
+        ///  Ends the game.
+        /// </summary>
         private void EndGame()
         {
             isPlayMode = false;
@@ -190,20 +229,52 @@ namespace AuralVoice
             UpdateUI();
         }
 
+        /// <summary>
+        ///  Starts a round.
+        /// </summary>
         private void StartRound()
         {
+            if (buttonQuestion == null) throw new NullReferenceException($"{this}.buttonQuestion = null");
+
+            // Starts the round and resets previous inputs.
             roundOver = false;
             RefreshPiano();
+
+            // Sets up a new random question within the piano bounds.
             questionIndex = new Random().Next(pianoLowerBound, pianoUpperBound);
 
-            // Update UI func
-            string? questionmark = "  ?  ";
-            _buttonQuestion.Text = "REPLAY QUESTION";
-            _buttonQuestion.UseAccentColor = false;
-            SetNoteDisplayText(questionmark);
+            // Update question button UI
+            buttonQuestion.Text = "REPLAY QUESTION";
+            buttonQuestion.UseAccentColor = false;
+
+            // Update displayed note, and plays the question.
+            UpdateNoteDisplay();
             GM_buttonQuestion_Click();
         }
 
+        /// <summary>
+        ///  Ends a round.
+        /// </summary>
+        private void EndRound()
+        {
+            if (buttonQuestion == null) throw new NullReferenceException($"{this}.buttonQuestion = null");
+
+            // Ends the round and disable piano input.
+            roundOver = true;
+            piano.UpdateIsPianoActive();
+
+            // Update question button UI
+            buttonQuestion.Text = "NEXT QUESTION";
+            buttonQuestion.UseAccentColor = true;
+
+            // Update displayed note to show the answer.
+            string? questionName = piano.notes.ElementAt(questionIndex).Value.name;
+            UpdateNoteDisplay(questionName);
+        }
+
+        /// <summary>
+        ///  Gets the piano ready for input.
+        /// </summary>
         public void SetupPiano()
         {
             CalculateBounds();
@@ -211,71 +282,85 @@ namespace AuralVoice
             RefreshPiano();
         }
 
+        /// <summary>
+        ///  Calculates 'pianoLowerBound' and 'pianoUpperBound'.
+        /// </summary>
         private void CalculateBounds()
         {
+            if (noteSlider == null)      throw new NullReferenceException($"{this}.noteSlider = null");
+            if (noteSliderValue == null) throw new NullReferenceException($"{this}.noteSliderValue = null");
+
             int intValue;
-            decimal decValue;
             int lowerDiff;
             int upperDiff;
             int middleNoteIndex;
+            decimal decValue;
 
-            intValue = _noteSlider.Value;
+            // Retrieve value of the UI slider.
+            intValue = noteSlider.Value;
 
-            // Clamp the value to minimum 2.
+            // Clamp intValue to minimum 2.
             intValue = (intValue < 2) ? 2 : intValue;
-            decValue = Convert.ToDecimal(intValue);
 
+            // Calculate differences.
+            decValue = Convert.ToDecimal(intValue);
             lowerDiff = Convert.ToInt32(Math.Floor(decValue / 2));
             upperDiff = Convert.ToInt32(Math.Ceiling(decValue / 2));
 
+            // Sets the middleNoteIndex.
             // Special case for 87 keys and above.
             middleNoteIndex = (intValue >= 87) ? 44 : 45;
 
+            // Calculate lower/upper bounds.
             pianoLowerBound = middleNoteIndex - lowerDiff;
             pianoUpperBound = middleNoteIndex + upperDiff;
 
+            // Update slider UI with new value.
             var newValue = new StringBuilder();
             newValue.Append(Convert.ToString(intValue));
             newValue.Append(" Notes");
-            _noteSliderValue.Text = Convert.ToString(newValue);
+            noteSliderValue.Text = Convert.ToString(newValue);
         }
 
+        /// <summary>
+        ///  Disable notes outside of piano bounds.
+        /// </summary>
         private void DisableNotes()
         {
+            if (piano == null)       throw new NullReferenceException($"{this}.piano = null");
+            if (piano.notes == null) throw new NullReferenceException($"{this}.piano.notes = null");
+
             // Disable lower bound notes.
             for (int i = 0; i < pianoLowerBound; i++)
             {
-                _piano.notes.ElementAt(i).Value.DisableNote();
+                piano.notes.ElementAt(i).Value.DisableNote();
             }
 
             // Disable upper bound notes.
             for (int i = pianoUpperBound; i < 88; i++)
             {
-                _piano.notes.ElementAt(i).Value.DisableNote();
+                piano.notes.ElementAt(i).Value.DisableNote();
             }
         }
 
+        /// <summary>
+        ///  Refreshes the piano based on app state.
+        ///  - Disable/activate piano.
+        ///  - Enables all notes for new input.
+        /// </summary>
         private void RefreshPiano()
         {
-            _piano.UpdateIsPianoActive();
+            if (piano == null)       throw new NullReferenceException($"{this}.piano = null");
+            if (piano.notes == null) throw new NullReferenceException($"{this}.piano.notes = null");
+
+            // Piano activation logic.
+            piano.UpdateIsPianoActive();
 
             // Enable active notes.
             for (int i = pianoLowerBound; i < pianoUpperBound; i++)
             {
-                _piano.notes.ElementAt(i).Value.EnableNote();
+                piano.notes.ElementAt(i).Value.EnableNote();
             }
-        }
-
-        private void EndRound()
-        {
-            roundOver = true;
-            _piano.UpdateIsPianoActive();
-
-            // Update UI func
-            string? questionName = _piano.notes.ElementAt(questionIndex).Value.name;
-            _buttonQuestion.Text = "NEXT QUESTION";
-            _buttonQuestion.UseAccentColor = true;
-            SetNoteDisplayText(questionName);
         }
 
         /// <summary>
@@ -283,26 +368,25 @@ namespace AuralVoice
         /// </summary>
         private void CorrectAnswer()
         {
+            if (piano == null)       throw new NullReferenceException($"{this}.piano = null");
+            if (piano.notes == null) throw new NullReferenceException($"{this}.piano.notes = null");
+
             // Stop playing the question note.
-            _piano.notes.ElementAt(questionIndex).Value.StopNote(true);
+            piano.notes.ElementAt(questionIndex).Value.StopNote(true);
 
-            // Update amount of correct answers.
-            int newScore = Convert.ToInt32(_scoreCorrect.Text) + 1;
-            _scoreCorrect.Text = Convert.ToString(newScore);
-
+            // Increment correctAnswers, update the scoreboard, and end round.
+            correctAnswers++;
             UpdateScoreboard();
             EndRound();
         }
 
         /// <summary>
-        ///  Question answered wrong.
+        ///  Question answered wrongly.
         /// </summary>
         private void WrongAnswer()
         {
-            // Update amount of wrong answers.
-            int newScore = Convert.ToInt32(_scoreWrong.Text) + 1;
-            _scoreWrong.Text = Convert.ToString(newScore);
-
+            // Increment wrongAnswers, and update the scoreboard.
+            wrongAnswers++;
             UpdateScoreboard();
         }
 
@@ -311,31 +395,71 @@ namespace AuralVoice
         /// </summary>
         private void UpdateScoreboard()
         {
-            int scoreCorrect;
-            int scoreWrong;
-            int newTotal;
-            double newAccuracy;
+            if (scoreCorrect == null)  throw new NullReferenceException($"{this}.scoreCorrect = null");
+            if (scoreWrong == null)    throw new NullReferenceException($"{this}.scoreWrong = null");
+            if (scoreTotal == null)    throw new NullReferenceException($"{this}.scoreTotal = null");
+            if (scoreAccuracy == null) throw new NullReferenceException($"{this}.scoreAccuracy = null");
 
-            // Retrieve score data in the form of integers.
-            scoreCorrect = Convert.ToInt32(_scoreCorrect.Text);
-            scoreWrong = Convert.ToInt32(_scoreWrong.Text);
+            int total = 0;
+            double accuracy = 0;
 
-            // Calculate the new total and accuracy.
-            newTotal = scoreCorrect + scoreWrong;
-            newAccuracy = (Convert.ToDouble(scoreCorrect) / Convert.ToDouble(newTotal)) * 100d;
-            newAccuracy = Math.Round(newAccuracy, 2);
+            // Calculate the total
+            total = correctAnswers + wrongAnswers;
 
-            // UI Update
-            _scoreTotal.Text = Convert.ToString(newTotal);
-            _scoreAccuracy.Text = Convert.ToString(newAccuracy) + '%';
+            // Calculate the accuracy
+            if (total > 0)
+            {
+                accuracy = (Convert.ToDouble(correctAnswers) / Convert.ToDouble(total)) * 100d;
+                accuracy = Math.Round(accuracy, 2);
+            }
+
+            // Update scoreboard UI elements with new values
+            scoreCorrect.Text  = Convert.ToString(correctAnswers);
+            scoreWrong.Text    = Convert.ToString(wrongAnswers);
+            scoreTotal.Text    = Convert.ToString(total);
+            scoreAccuracy.Text = Convert.ToString(accuracy) + '%';
         }
 
         /// <summary>
-        ///  Set '_noteDisplayText' to a new string.
+        ///  Handles note text logic, and displays result in 'noteDisplayText',
+        /// </summary>
+        /// <param name="noteName">Name of the note to display.</param>
+        public void UpdateNoteDisplay(string noteName = "")
+        {
+            if (isPlayMode)
+            {
+                string newInput;
+                newInput = (roundOver) ? noteName : "  ?  ";
+                SetNoteDisplayText(newInput);
+            }
+            else
+            {
+                SetNoteDisplayText(noteName);
+            }
+        }
+
+        /// <summary>
+        ///  Set the displayed note to <paramref name="newText"/>.
         /// </summary>
         public void SetNoteDisplayText(string newText)
         {
-            _noteDisplayText.Text = newText;
+            if (noteDisplayText == null) throw new NullReferenceException($"{this}.noteDisplayText = null");
+
+            // Add an extra space at the start of the text if
+            // the text is the name of a white key. This is to
+            // visually align the text to the center.
+            if (!(newText.Contains('b') || newText.Contains('?')))
+            {
+                var whiteKey = new StringBuilder();
+
+                whiteKey.Append(" ");
+                whiteKey.Append(newText);
+
+                newText = Convert.ToString(whiteKey);
+            }
+
+            // Update display text UI with new value.
+            noteDisplayText.Text = newText;
         }
 
         /// <summary>
@@ -343,77 +467,76 @@ namespace AuralVoice
         /// </summary>
         private void ResetScore()
         {
-            _scoreCorrect.Text  = "0";
-            _scoreWrong.Text    = "0";
-            _scoreTotal.Text    = "0";
-            _scoreAccuracy.Text = "0%";
+            correctAnswers = 0;
+            wrongAnswers = 0;
+            UpdateScoreboard();
         }
 
         /// <summary>
-        ///  Hide/unhide UI elements according to 'isPlayMode'.
+        ///  Hide/unhide and alter UI elements based on app state.
         /// </summary>
         private void UpdateUI()
         {
-            if (_buttonGame == null) { throw new NullReferenceException($"{this}._buttonGame = null"); }
-            if (_noteDisplay == null) { throw new NullReferenceException($"{this}._noteDisplay = null"); }
-            if (_noteDisplayText == null) { throw new NullReferenceException($"{this}._noteDisplayText = null"); }
-            if (_buttonQuestion == null) { throw new NullReferenceException($"{this}._buttonQuestion = null"); }
+            if (buttonGame == null)      throw new NullReferenceException($"{this}.buttonGame = null");
+            if (buttonQuestion == null)  throw new NullReferenceException($"{this}.buttonQuestion = null");
+            if (auralVoiceLabel == null) throw new NullReferenceException($"{this}.auralVoiceLabel = null");
+            if (noteSlider == null)      throw new NullReferenceException($"{this}.noteSlider = null");
+            if (noteSliderValue == null) throw new NullReferenceException($"{this}.noteSliderValue = null");
 
             if (isPlayMode)
             {
-                _buttonGame.Text = "STOP";
-                _buttonGame.UseAccentColor = false;
-
-                _buttonQuestion.Visible = true;
-                
-                _auralVoiceLabel.Visible = false;
-                _noteSlider.Visible      = false;
-                _noteSliderValue.Visible = false;
+                buttonGame.Text = "STOP";
+                buttonGame.UseAccentColor = false;
+                buttonQuestion.Visible = true;
+                auralVoiceLabel.Visible = false;
+                noteSlider.Visible      = false;
+                noteSliderValue.Visible = false;
 
                 SetScoreVisibility(true);
             }
             else if (!isPlayMode)
             {
-                _buttonGame.Text = "START";
-                _buttonGame.UseAccentColor = true;
-                SetNoteDisplayText("");
+                buttonGame.Text = "START";
+                buttonGame.UseAccentColor = true;
+                buttonQuestion.Visible = false;
+                auralVoiceLabel.Visible = true;
+                noteSlider.Visible      = true;
+                noteSliderValue.Visible = true;
 
-                _buttonQuestion.Visible = false;
-
-                _auralVoiceLabel.Visible = true;
-                _noteSlider.Visible      = true;
-                _noteSliderValue.Visible = true;
-
+                UpdateNoteDisplay();
                 SetScoreVisibility(false);
             }
         }
 
+        /// <summary>
+        ///  Set the visibility of all score UI elements, based on <paramref name="visibility"/>.
+        /// </summary>
         private void SetScoreVisibility(bool visibility)
         {
-            _scoreAnswersLabel.Visible  = visibility;
-            _scoreCorrectLabel.Visible  = visibility;
-            _scoreCorrect.Visible       = visibility;
-            _scoreWrongLabel.Visible    = visibility;
-            _scoreWrong.Visible         = visibility;
-            _scoreTotalLabel.Visible    = visibility;
-            _scoreTotal.Visible         = visibility;
-            _scoreAccuracyLabel.Visible = visibility;
-            _scoreAccuracy.Visible      = visibility;
+            scoreAnswersLabel.Visible  = visibility;
+            scoreCorrectLabel.Visible  = visibility;
+            scoreCorrect.Visible       = visibility;
+            scoreWrongLabel.Visible    = visibility;
+            scoreWrong.Visible         = visibility;
+            scoreTotalLabel.Visible    = visibility;
+            scoreTotal.Visible         = visibility;
+            scoreAccuracyLabel.Visible = visibility;
+            scoreAccuracy.Visible      = visibility;
         }
 
         /// <summary>
-        ///  Sets the focus to '_noteDisplayText'.
+        ///  Sets the focus to 'noteDisplayText'.
         ///  - Focus is whenever a control is highlighted and recieves keyboard inputs.
         ///  - This focus is, by default, set to the latest control clicked by the user.
-        ///  - This function's goal is therefore to clear/reset that focus to an 
-        ///    "uninteractive" control, which happens to be a 'MaterialLabel' class.
+        ///  - This function's goal is to "override" this functionality by clearing that 
+        ///    focus to an "uninteractive" control, which happens to be a 'MaterialLabel' class.
         /// </summary>
         private void ClearFocus()
         {
-            if (_appWindow == null) { throw new NullReferenceException($"{this}._appWindow = null"); }
-            if (_noteDisplayText == null) { throw new NullReferenceException($"{this}._noteDisplayText = null"); }
+            if (appWindow == null)       throw new NullReferenceException($"{this}.appWindow = null");
+            if (noteDisplayText == null) throw new NullReferenceException($"{this}.noteDisplayText = null");
 
-            _appWindow.ActiveControl = _noteDisplayText;
+            appWindow.ActiveControl = noteDisplayText;
         }
     }
 }

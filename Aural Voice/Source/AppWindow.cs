@@ -16,7 +16,7 @@ namespace AuralVoice;
 ///                      The keys are associated with the EventHandler. They consist of auto-
 ///                      generated code, which is why they are not stored in a collection.
 ///      Note notes    - This is where the functionality of each key is handled.
-///                      Each note has a a '_keyReference' to keep track of its associated key.
+///                      Each note has a a key reference to keep track of its associated key.
 ///                      The notes are stored within a hash table inside the 'Piano' class.
 /// </summary>
 
@@ -28,11 +28,6 @@ public partial class AppWindow : MaterialForm
 
     public AppWindow()
     {
-        // TODO: show splashscreen while initializing variables. Use another winfows form
-        // and show "Loading {components, material, piano} ...", whichever one is being
-        // initialized. Then show "Complete!" and start a 1 sec fixed timer which ends with
-        // app being fully displayed. GitHub link and author can also be displayed.
-
         InitializeComponent();
         InitializePiano();
         InitializeGamemaster();

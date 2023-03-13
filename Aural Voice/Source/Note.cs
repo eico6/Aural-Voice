@@ -23,44 +23,138 @@ internal partial class Piano
         /// <summary>
         ///  Holds the note's name. E.g. "Ab4".
         /// </summary>
-        private readonly String? _name;
+        private String? _name;
         public String? name
         {
-            get => _name;
+            get { return _name; }
+            private set { _name = value; }
         }
 
+        /// <summary>
+        ///  Determines whether this note recieves input or not.
+        /// </summary>
         private bool _isNoteActive = true;
-        private static int _indexCounter = 0;
-        private readonly int _noteIndex;
-        private readonly PictureBox _associatedKey;
-        private readonly byte _midiIndex;
-        private readonly bool _isBlack;
-        private IMidiMessage? _midiMessage;
-        private KeyStatus? _keyStatus;
-
-        private QuestionStatus _questionStatus = QuestionStatus.STANDBY;
-        public QuestionStatus questionStatus
+        private bool isNoteActive
         {
-            get => _questionStatus;
-            set => _questionStatus = value;
+            get { return _isNoteActive; }
+            set { _isNoteActive = value; }
+        }
+
+        /// <summary>
+        ///  Incremented by 1 for each new note.
+        ///  Keeps track of how many notes there are.
+        /// </summary>
+        private static int _indexCounter = 0;
+        private static int indexCounter
+        {
+            get { return _indexCounter; }
+            set { _indexCounter = value; }
+        }
+
+        /// <summary>
+        ///  Index position of this note related to the order
+        ///  notes were added into the 'Piano.Notes' dictionary.
+        /// </summary>
+        private readonly int _noteIndex;
+        private int noteIndex
+        {
+            get { return _noteIndex; }
+        }
+
+        /// <summary>
+        ///  Reference to the visual representation of the note.
+        /// </summary>
+        private PictureBox? _associatedKey;
+        private PictureBox? associatedKey
+        {
+            get { return _associatedKey; }
+            set { _associatedKey = value; }
+        }
+
+        /// <summary>
+        ///  Midi message note index
+        /// </summary>
+        private byte _midiIndex;
+        private byte midiIndex
+        {
+            set { _midiIndex = value; }
+            get { return _midiIndex; }
+        }
+
+        /// <summary>
+        ///  Determines whether this note is a black key.
+        /// </summary>
+        private bool _isBlack;
+        private bool isBlack
+        {
+            get { return _isBlack; }
+            set { _isBlack = value; }
+        }
+
+        /// <summary>
+        ///  Contains data for messages sent to the midi device.
+        /// </summary>
+        private IMidiMessage? _midiMessage;
+        private IMidiMessage? midiMessage
+        {
+            get { return _midiMessage; }
+            set { _midiMessage = value; }
+        }
+        
+        /// <summary>
+        ///  Determines the status of this note's corresponding key.
+        /// </summary>
+        private KeyStatus? _keyStatus;
+        private KeyStatus? keyStatus
+        {
+            get { return _keyStatus; }
+            set { _keyStatus = value; }
+        }
+
+        /// <summary>
+        ///  Determines whether this note as been answered as a question.
+        ///  - Default: STANDBY
+        ///  - Wrong:   RED
+        ///  - Correct: GREEN
+        /// </summary>
+        private QuestionStatus _questionStatus = QuestionStatus.STANDBY;
+        private QuestionStatus questionStatus
+        {
+            get { return _questionStatus; }
+            set { _questionStatus = value; }
         }
 
         /// <summary>
         ///  Handles user input logic for overlapping calls.
         /// </summary>
         private bool _isPlayingNote = false;
-        private ActionCaller? _prevCaller;
-
-        internal Note(in String noteName, ref PictureBox keyRef)
+        private bool isPlayingNote
         {
-            _name = noteName;
-            _associatedKey = keyRef;
-            _midiIndex = GetMidiIndex();
-            _isBlack = _name.Contains('b') ? true : false;
+            get { return _isPlayingNote; }
+            set { _isPlayingNote = value; }
+        }
+
+        /// <summary>
+        ///  Keeps that of previous ActionCaller.
+        ///  Used to prevent overlapping inputs.
+        /// </summary>
+        private ActionCaller? _prevCaller;
+        private ActionCaller? prevCaller
+        {
+            get { return _prevCaller; }
+            set { _prevCaller = value; }
+        }
+
+        internal Note(in String nameIn, ref PictureBox keyIn)
+        {
+            name          = nameIn;
+            associatedKey = keyIn;
+            midiIndex     = GetMidiIndex();
+            isBlack       = name.Contains('b') ? true : false;
 
             // Sets this note's index, corresponding to its 'Piano.notes' placement.
-            _noteIndex = _indexCounter;
-            _indexCounter++;
+            _noteIndex = Note.indexCounter;
+            Note.indexCounter++;
         }
 
         /// <summary>
@@ -84,7 +178,7 @@ internal partial class Piano
         }
 
         /// <summary>
-        ///  Determines which one of the five possible key images should be displayed. 
+        ///  Determines which one of the six possible key images should be displayed. 
         /// </summary>
         private enum KeyStatus : Byte
         {
@@ -110,31 +204,32 @@ internal partial class Piano
         }
 
         /// <summary>
-        ///  Send a midi signal to start playing this note.
+        ///  Send a midi message to start playing this note.
         /// </summary>
         internal void PlayNote(bool isGameMaster = false)
         {
-            if (_isNoteActive)
+            // if (this note is active)
+            if (isNoteActive)
             {
+                _gamemasterRef.UpdateNoteDisplay(name);
+
                 // if (the user is not being asked questions ||
                 //     the call was made by the game master)
                 if (!Gamemaster.isPlayMode || isGameMaster)
                 {
-                    // Display current note.
-                    if (!isGameMaster) _gamemasterRef.SetNoteDisplayText(name);
-
                     // if (this note is not already being
                     //     played && the piano is active)
-                    if (!_isPlayingNote && Piano.isActive)
+                    if (!isPlayingNote && Piano.isActive)
                     {
-                        if (s_midiDevice != null)
-                        {
-                            _midiMessage = new MidiNoteOnMessage(Piano.defaultChannel, _midiIndex, Piano.volume);
-                            s_midiDevice.SendMessage(_midiMessage);
-                            _isPlayingNote = true;
-                        } else { throw new NullReferenceException($"{this}.midiDevice = null."); }
+                        if (Piano.midiDevice == null) throw new NullReferenceException($"{this}.midiDevice = null.");
+
+                        // Send "note on" midi message with note data.
+                        midiMessage = new MidiNoteOnMessage(Piano.defaultChannel, midiIndex, Piano.volume);
+                        Piano.midiDevice.SendMessage(midiMessage);
+                        isPlayingNote = true;
                     }
                 } 
+                // else if (the user is being asked questions)
                 else if (Gamemaster.isPlayMode)
                 {
                     // if (this note has not been answered yet this round)
@@ -142,8 +237,9 @@ internal partial class Piano
                     {
                         bool isCorrectAnswer;
 
-                        isCorrectAnswer = gamemasterRef.TryAnswer(_noteIndex);
-                        _keyStatus = (isCorrectAnswer) ? KeyStatus.CORRECT : KeyStatus.WRONG;
+                        // Determines whether the note was correct or wrong.
+                        isCorrectAnswer = gamemasterRef.TryAnswer(noteIndex);
+                        keyStatus = (isCorrectAnswer) ? KeyStatus.CORRECT : KeyStatus.WRONG;
                         UpdateKeyImage();
                     }
                 }
@@ -151,22 +247,23 @@ internal partial class Piano
         }
 
         /// <summary>
-        ///  Send a midi signal to stop playing this note.
+        ///  Send a midi message to stop playing this note.
         /// </summary>
         internal void StopNote(bool isGameMaster = false)
         {
-            // if (the user is not being asked questions || the call was made by the game master)
+            // if (the user is not being asked questions ||
+            //     the call was made by the game master)
             if (!Gamemaster.isPlayMode || isGameMaster)
             {
                 // if (this note is currently being played)
-                if (_isPlayingNote)
+                if (isPlayingNote)
                 {
-                    if (s_midiDevice != null)
-                    {
-                        _midiMessage = new MidiNoteOffMessage(Piano.defaultChannel, _midiIndex, Piano.volume);
-                        s_midiDevice.SendMessage(_midiMessage);
-                        _isPlayingNote = false;
-                    } else { throw new NullReferenceException($"{this}.midiDevice = null"); }
+                    if (Piano.midiDevice == null) throw new NullReferenceException($"{this}.midiDevice = null");
+
+                    // Send "note off" midi message with note data.
+                    midiMessage = new MidiNoteOffMessage(Piano.defaultChannel, midiIndex, Piano.volume);
+                    Piano.midiDevice.SendMessage(midiMessage);
+                    isPlayingNote = false;
                 }
             }
         }
@@ -178,7 +275,7 @@ internal partial class Piano
         {
             if (Piano.isActive)
             {
-                // If in play mode, let all input be registered, regardless of caller ActionCaller.
+                // If in play mode, let all input be registered, regardless of ActionCaller.
                 if (Gamemaster.isPlayMode)
                 {
                     if (actionCaller == ActionCaller.MOUSE) MouseInput(keyAction);
@@ -191,10 +288,10 @@ internal partial class Piano
                     {
                         // Don't run if the note is already playing and if that call
                         // was made via keyboard. This is to prevent overlapping notes.
-                        if (!(_isPlayingNote && _prevCaller == ActionCaller.KEYBOARD))
+                        if (!(isPlayingNote && prevCaller == ActionCaller.KEYBOARD))
                         {
                             MouseInput(keyAction);
-                            _prevCaller = ActionCaller.MOUSE;
+                            prevCaller = ActionCaller.MOUSE;
                         }
                     }
 
@@ -203,10 +300,10 @@ internal partial class Piano
                     {
                         // Don't run if the note is already playing and if that call
                         // was made via mouse. This is to prevent overlapping notes.
-                        if (!(_isPlayingNote && _prevCaller == ActionCaller.MOUSE))
+                        if (!(isPlayingNote && prevCaller == ActionCaller.MOUSE))
                         {
                             KeyboardInput(keyAction);
-                            _prevCaller = ActionCaller.KEYBOARD;
+                            prevCaller = ActionCaller.KEYBOARD;
                         }  
                     }
                 }
@@ -214,26 +311,26 @@ internal partial class Piano
         }
 
         /// <summary>
-        ///  Performs audiovisual output of key/note, from mouse input. 
+        ///  Handles user input made via mouse events.
         /// </summary>
         private void MouseInput(in KeyAction keyAction)
         {
             switch (keyAction)
             {
                 case KeyAction.ENTER:
-                    _keyStatus = KeyStatus.HOVER;
+                    keyStatus = KeyStatus.HOVER;
+                    _gamemasterRef.UpdateNoteDisplay(name);
                     break;
                 case KeyAction.LEAVE:
-                    _keyStatus = KeyStatus.IDLE;
-                    if (!Gamemaster.isPlayMode)
-                        _gamemasterRef.SetNoteDisplayText("");
+                    keyStatus = KeyStatus.IDLE;
+                    _gamemasterRef.UpdateNoteDisplay();
                     break;
                 case KeyAction.DOWN:
-                    _keyStatus = KeyStatus.PRESS;
+                    keyStatus = KeyStatus.PRESS;
                     PlayNote();
                     break;
                 case KeyAction.UP:
-                    _keyStatus = KeyStatus.HOVER;
+                    keyStatus = KeyStatus.HOVER;
                     StopNote();
                     break;
                 default:
@@ -244,20 +341,19 @@ internal partial class Piano
         }
 
         /// <summary>
-        ///  Performs audiovisual output of key/note, from keyboard input. 
+        ///  Handles user input made via hotkey events.
         /// </summary>
         private void KeyboardInput(in KeyAction keyAction)
         {
             switch (keyAction)
             {
                 case KeyAction.DOWN:
-                    _keyStatus = KeyStatus.PRESS;
+                    keyStatus = KeyStatus.PRESS;
                     PlayNote();
                     break;
                 case KeyAction.UP:
-                    if (!Gamemaster.isPlayMode)
-                        _gamemasterRef.SetNoteDisplayText("");
-                    _keyStatus = KeyStatus.IDLE;
+                    _gamemasterRef.UpdateNoteDisplay();
+                    keyStatus = KeyStatus.IDLE;
                     StopNote();
                     break;
                 default:
@@ -268,71 +364,82 @@ internal partial class Piano
         }
 
         /// <summary>
-        ///  Updates the displayed image of the associated key based on its '_keyStatus'.
+        ///  Updates the displayed image of the associated key based on its 'keyStatus'.
         /// </summary>
         private void UpdateKeyImage()
         {
-            if (_isNoteActive)
+            if (isNoteActive)
             {
+                // if (note has note been answered as a question)
                 if (questionStatus == QuestionStatus.STANDBY)
                 {
-                    switch (_keyStatus)
+                    switch (keyStatus)
                     {
                         case KeyStatus.IDLE:
-                            _associatedKey.Image = _isBlack ? s_keyImages["idle_black"] : s_keyImages["idle_white"];
+                            associatedKey.Image = isBlack ? Piano.keyImages["idle_black"] : Piano.keyImages["idle_white"];
                             break;
                         case KeyStatus.HOVER:
-                            _associatedKey.Image = _isBlack ? s_keyImages["hover_black"] : s_keyImages["hover_white"];
+                            associatedKey.Image = isBlack ? Piano.keyImages["hover_black"] : Piano.keyImages["hover_white"];
                             break;
                         case KeyStatus.PRESS:
-                            _associatedKey.Image = _isBlack ? s_keyImages["press_black"] : s_keyImages["press_white"];
+                            associatedKey.Image = isBlack ? Piano.keyImages["press_black"] : Piano.keyImages["press_white"];
                             break;
                         case KeyStatus.WRONG:
-                            _associatedKey.Image = _isBlack ? s_keyImages["red_black"] : s_keyImages["red_white"];
+                            associatedKey.Image = isBlack ? Piano.keyImages["red_black"] : Piano.keyImages["red_white"];
                             questionStatus = QuestionStatus.RED;
                             break;
                         case KeyStatus.CORRECT:
-                            _associatedKey.Image = _isBlack ? s_keyImages["green_black"] : s_keyImages["green_white"];
+                            associatedKey.Image = isBlack ? Piano.keyImages["green_black"] : Piano.keyImages["green_white"];
                             questionStatus = QuestionStatus.GREEN;
                             break;
                         case KeyStatus.DISABLED:
-                            _associatedKey.Image = _isBlack ? s_keyImages["disabled_black"] : s_keyImages["disabled_white"];
+                            associatedKey.Image = isBlack ? Piano.keyImages["disabled_black"] : Piano.keyImages["disabled_white"];
                             break;
                         default:
-                            throw new ArgumentOutOfRangeException($"Enum KeyStatus '{_keyStatus}' is not accounted for.");
+                            throw new ArgumentOutOfRangeException($"Enum KeyStatus '{keyStatus}' is not accounted for.");
                     }
                 }
             }
         }
 
+        /// <summary>
+        ///  Enables this note and reset
+        ///  it to its default values
+        /// </summary>
         public void EnableNote()
         {
-            _isNoteActive = true;
+            isNoteActive = true;
 
             ResetStatus();
             UpdateKeyImage();
-
             StopNote(true);
         }
 
+        /// <summary>
+        ///  Disables this note and
+        ///  make it uninteractable.
+        /// </summary>
         public void DisableNote()
         {
-            _keyStatus = KeyStatus.DISABLED;
+            keyStatus = KeyStatus.DISABLED;
+
             UpdateKeyImage();
             StopNote(true);
-
-            _isNoteActive = false;
+            isNoteActive = false;
         }
 
+        /// <summary>
+        ///  Reset this note's 'questionStatus'
+        ///  and 'keyStatus' to default values.
+        /// </summary>
         private void ResetStatus()
         {
             questionStatus = QuestionStatus.STANDBY;
-            _keyStatus = KeyStatus.IDLE;
+            keyStatus = KeyStatus.IDLE;
         }
 
-
         /// <summary>
-        ///  Calculates and returns a midi message note index based on 'Note._name'.
+        ///  Calculates and returns a midi message note index based on 'Note.name'.
         /// </summary>
         private byte GetMidiIndex()
         {
@@ -342,7 +449,7 @@ internal partial class Piano
             /// - Lowest note  (21 = A0)
             /// - Highest note (108 = C8)
             /// 
-            ///  Return: 12 + (sum of each char in 'this._name'), where their values are the following:
+            ///  Return: 12 + (sum of each char in 'this.name'), where their values are the following:
             ///  '0' = 0     'C' = 0    
             ///  '1' = 12    'D' = 2    
             ///  '2' = 24    'E' = 4    
@@ -352,80 +459,74 @@ internal partial class Piano
             ///  '6' = 72    'B' = 11   
             ///  '7' = 84    'b' = -1
             ///  '8' = 96
-            ///  Example: _name = "Eb4" would be equal to (12 + 4 + (-1) + 48) = 63
+            ///  Example: name = "Eb4" would be equal to (12 + 4 + (-1) + 48) = 63
             /// </Summary>
 
-            if (_name != null)
-            {
-                byte calculatedIndex = 12;
+            if (name == null) throw new NullReferenceException($"{this}.name = null");
 
-                for (int i = 0; i < _name.Length; i++)
+            byte calculatedIndex = 12;
+
+            for (int i = 0; i < name.Length; i++)
+            {
+                switch (name[i])
                 {
-                    switch (_name[i])
-                    {
-                        case 'C':
-                            calculatedIndex += 0;
-                            break;
-                        case 'D':
-                            calculatedIndex += 2;
-                            break;
-                        case 'E':
-                            calculatedIndex += 4;
-                            break;
-                        case 'F':
-                            calculatedIndex += 5;
-                            break;
-                        case 'G':
-                            calculatedIndex += 7;
-                            break;
-                        case 'A':
-                            calculatedIndex += 9;
-                            break;
-                        case 'B':
-                            calculatedIndex += 11;
-                            break;
-                        case 'b':
-                            calculatedIndex -= 1;
-                            break;
-                        case '0':
-                            calculatedIndex += 0;
-                            break;
-                        case '1':
-                            calculatedIndex += 12;
-                            break;
-                        case '2':
-                            calculatedIndex += 24;
-                            break;
-                        case '3':
-                            calculatedIndex += 36;
-                            break;
-                        case '4':
-                            calculatedIndex += 48;
-                            break;
-                        case '5':
-                            calculatedIndex += 60;
-                            break;
-                        case '6':
-                            calculatedIndex += 72;
-                            break;
-                        case '7':
-                            calculatedIndex += 84;
-                            break;
-                        case '8':
-                            calculatedIndex += 96;
-                            break;
-                        default:
-                            throw new ArgumentOutOfRangeException($"Char '{_name[i]}' is not accounted for.");
-                    }
+                    case 'C':
+                        calculatedIndex += 0;
+                        break;
+                    case 'D':
+                        calculatedIndex += 2;
+                        break;
+                    case 'E':
+                        calculatedIndex += 4;
+                        break;
+                    case 'F':
+                        calculatedIndex += 5;
+                        break;
+                    case 'G':
+                        calculatedIndex += 7;
+                        break;
+                    case 'A':
+                        calculatedIndex += 9;
+                        break;
+                    case 'B':
+                        calculatedIndex += 11;
+                        break;
+                    case 'b':
+                        calculatedIndex -= 1;
+                        break;
+                    case '0':
+                        calculatedIndex += 0;
+                        break;
+                    case '1':
+                        calculatedIndex += 12;
+                        break;
+                    case '2':
+                        calculatedIndex += 24;
+                        break;
+                    case '3':
+                        calculatedIndex += 36;
+                        break;
+                    case '4':
+                        calculatedIndex += 48;
+                        break;
+                    case '5':
+                        calculatedIndex += 60;
+                        break;
+                    case '6':
+                        calculatedIndex += 72;
+                        break;
+                    case '7':
+                        calculatedIndex += 84;
+                        break;
+                    case '8':
+                        calculatedIndex += 96;
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException($"Char '{name[i]}' is not accounted for.");
                 }
-
-                return calculatedIndex;
-            } 
-            else
-            {
-                throw new NullReferenceException($"{this}._name = null");
             }
+
+            return calculatedIndex;
         }
     }
-
 }
