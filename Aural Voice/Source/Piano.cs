@@ -209,8 +209,6 @@ internal partial class Piano
     /// </summary>
     private async void AssignMidiDeviceAsync()
     {
-        if (midiDevice == null) throw new NullReferenceException($"{this}.midiDevice = null");
-
         // midiDevice = "Microsoft GS Wavetable Synth".
         midiDevice = await MidiSynthesizer.CreateAsync();
 
