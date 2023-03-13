@@ -3,12 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32811.315
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aural Voice", "Aural Voice\Aural Voice.csproj", "{20EBB086-B492-4F5F-ACE1-CAD56E2745AA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aural Voice Development", "Aural Voice\Aural Voice Development.csproj", "{20EBB086-B492-4F5F-ACE1-CAD56E2745AA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3EB8AC43-7D43-45CB-B56C-F6EAA6268598}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 	EndProjectSection
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Aural-Voice", "Aural-Voice\Aural-Voice.vdproj", "{42CA8927-7CAA-483C-9A5D-D2DEFBC38029}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,6 +22,8 @@ Global
 		{20EBB086-B492-4F5F-ACE1-CAD56E2745AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{20EBB086-B492-4F5F-ACE1-CAD56E2745AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{20EBB086-B492-4F5F-ACE1-CAD56E2745AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42CA8927-7CAA-483C-9A5D-D2DEFBC38029}.Debug|Any CPU.ActiveCfg = Debug
+		{42CA8927-7CAA-483C-9A5D-D2DEFBC38029}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
